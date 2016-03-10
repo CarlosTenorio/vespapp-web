@@ -10,3 +10,6 @@ COPY ./requirements.txt $APP_HOME
 
 RUN pip3 install -r requirements.txt
 
+COPY . $APP_HOME
+
+ENTRYPOINT ["python", "manage.py"]
