@@ -4,11 +4,11 @@ MAINTAINER Miguel Ángel Durán <hi@mangel.me>
 
 ENV APP_HOME /opt/app/
 
+ADD . /opt/app/
+
 WORKDIR $APP_HOME
 
 RUN apk --update add postgresql-client
-
-COPY ./requirements.txt $APP_HOME
 
 RUN apk --update add --virtual build-dependencies \
     build-base \
@@ -17,7 +17,5 @@ RUN apk --update add --virtual build-dependencies \
     pip3 install -r requirements.txt && \
     apk del build-dependencies && \
     rm -f /var/cache/apk/*
-
-COPY . $APP_HOME
 
 ENTRYPOINT ["python", "manage.py"]
