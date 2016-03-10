@@ -12,6 +12,8 @@ dev:
 db:
   expose:
     - "5432"
+  volumes:
+    - "/opt/vespapp_web/postgresql:/var/lib/postgresql/data"
   environment:
     - "POSTGRES_PASSWORD=supersecret"
     - "POSTGRES_USER=vespapp-web"

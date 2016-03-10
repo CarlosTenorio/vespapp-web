@@ -8,16 +8,15 @@ WORKDIR $APP_HOME
 
 RUN apk --update add postgresql-client
 
+COPY ./requirements.txt $APP_HOME
+
 RUN apk --update add --virtual build-dependencies \
     build-base \
     python3-dev \
     postgresql-dev && \
+    pip3 install -r requirements.txt && \
     apk del build-dependencies && \
     rm -f /var/cache/apk/*
-    
-COPY ./requirements.txt $APP_HOME
-
-RUN pip3 install -r requirements.txt
 
 COPY . $APP_HOME
 
