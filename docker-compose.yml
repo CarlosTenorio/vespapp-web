@@ -12,5 +12,9 @@ dev:
 db:
   expose:
     - "5432"
+  environment:
+    - "POSTGRES_PASSWORD=supersecret"
+    - "POSTGRES_USER=vespapp-web"
+    - "POSTGRES_DB=vespapp-web"
   image: postgres:9.5.1
 
