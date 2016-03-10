@@ -1,5 +1,7 @@
 web: &web
   build: .
+  volumes:
+    - ".:/opt/app/"
   links:
     - "db"
   ports:
