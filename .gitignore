@@ -64,3 +64,4 @@ target/
 
 # Specific IDE files
 .idea
+*.sqlite3
