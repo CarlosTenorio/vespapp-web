@@ -1,5 +1,11 @@
 web: &web
   build: .
+  environment:
+    - "DB_HOST=db"
+    - "DB_PORT=5432"
+    - "DB_PASSWORD=supersecret"
+    - "DB_USER=vespapp-web"
+    - "DB_NAME=vespapp-web"
   volumes:
     - ".:/opt/app/"
   links:
