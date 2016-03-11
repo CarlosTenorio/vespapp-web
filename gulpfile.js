@@ -10,9 +10,9 @@ var autoprefix= new lessPluginAutoPrefix({ browsers: ["last 2 versions"] });
 // Watching paths
 var paths = {
   scripts: ['src/js/**/*.js'],
-  images: ['src/img/**/*'],
+  images: ['staticfiles/img/**/*'],
   less: ['src/less/**/*.less'],
-  dist: 'web/static/'
+  dist: 'vespapp/staticfiles/'
 };
 
 gulp.task('default', function() {
@@ -46,5 +46,5 @@ gulp.task('less', function() {
   }))
   .pipe(minifyCSS())
   .pipe(concat('main.min.css'))
-  .pipe(gulp.dest('./web/static/css'));
+  .pipe(gulp.dest('./vespapp/staticfiles/css'));
 });
