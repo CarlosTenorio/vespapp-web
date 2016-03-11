@@ -20,6 +20,7 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "less": "^2.6.1"
+    "less": "^2.6.1",
+    "jquery": "^2.2.1"
   }
 }
