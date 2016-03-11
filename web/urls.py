@@ -5,6 +5,7 @@ from web.views import FAQView
 from web.views import SightingExpertCommentsView
 from web.views import SightingView
 from web.views import SightingsView
+from web.views import SightQuestionView
 
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     	SightingExpertCommentsView.as_view(), name='sighting_expert_comments'),
     url(r'^sighting/(?P<sighting_id>[0-9]+)/$', SightingView.as_view(), name="sighting_id"),
     url(r'^sightings/$', SightingsView.as_view(), name='sightings'),
+    url(r'^sight_question/(?P<sighting_id>[0-9]+)/$', SightQuestionView.as_view(), name='sight_question'),
 #    url(r'^sightings/$', views.sightings),
 
 ##    url(r'^sightings/(?P<sighting_id>[0-9]+)/$',
