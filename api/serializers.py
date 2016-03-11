@@ -11,7 +11,9 @@ class SightingSerializer(serializers.ModelSerializer):
 class PictureSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
-        validated_data['sighting'] = 1
+        sighting_id = self.kwargs.get('sighting_id')
+        sighting = Sighting.objects.get(pk=sighting_id)
+        validated_data['sighting'] = sighting
         return super().create(validated_data)
 
     class Meta:
