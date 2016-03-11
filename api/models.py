@@ -38,6 +38,7 @@ class Sighting(models.Model):
     STATUS_PENDING = 0
     STATUS_PROCESSING = 1
     STATUS_PROCESSED = 2
+    STATUS_DENIED = 3
 
     TYPE_WASP = 1
     TYPE_NEST = 2
