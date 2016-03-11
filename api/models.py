@@ -39,8 +39,8 @@ class Sighting(models.Model):
     STATUS_PROCESSING = 1
     STATUS_PROCESSED = 2
 
-    TYPE_WASP = 0
-    TYPE_NEST = 1
+    TYPE_WASP = 1
+    TYPE_NEST = 2
 
     lat = models.FloatField(null=False, blank=False, verbose_name='Latitud')
     lng = models.FloatField(null=False, blank=False, verbose_name='Longitud')

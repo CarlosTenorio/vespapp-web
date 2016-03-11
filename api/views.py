@@ -24,3 +24,8 @@ class SightingPictureCreateView(ListCreateAPIView):
     def get_queryset(self):
         sighting_id = self.kwargs.get('sighting_id')
         return Picture.objects.filter(sighting__pk=sighting_id)
+    
+    def create(self, request, *args, **kwargs):
+        sighting_id = self.kwargs.get('sighting_id')
+        request.data['sighting'] = Sighting.objects.get(pk=sighting_id)
+        return super(SightingPictureCreateView, self).create(request, *args, **kwargs)
