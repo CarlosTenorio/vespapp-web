@@ -2,10 +2,8 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 
 from api.models import Picture
 from api.serializers import PictureSerializer
-from api.models import UserComment
-from api.serializers import UserCommentSerializer
-from api.models import Sighting
-from api.serializers import SightingSerializer
+from api.models import Sighting, UserComment
+from api.serializers import SightingSerializer, UserCommentSerializer
 
 
 class SightingListCreateView(ListCreateAPIView):
