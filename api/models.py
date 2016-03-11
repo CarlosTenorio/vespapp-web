@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Location(models.Model):
-    name = models.CharField(max_lengthField=128, null=False, blank=False, verbose_name='Nombre')
+    name = models.CharField(max_length=128, null=False, blank=False, verbose_name='Nombre')
 
     lat = models.DecimalField(null=False, blank=False, verbose_name='Latitud')
     lng = models.DecimalField(null=False, blank=False, verbose_name='Longitud')
@@ -16,7 +16,7 @@ class Question(models.Model):
     TYPE_RADIO = 1
     TYPE_CHECKBOX = 2
 
-    title = models.CharField(max_lengthField=128, null=False, blank=False, verbose_name='Título')
+    title = models.CharField(max_length=128, null=False, blank=False, verbose_name='Título')
     question_type = models.IntegerField(verbose_name="Tipo de pregunta")
 
     is_active = models.BooleanField(default=True, null=False, blank=False, verbose_name="Activa")
@@ -28,7 +28,7 @@ class Question(models.Model):
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name="default_answer")
 
-    value = models.CharField(max_lengthField=128, null=False, blank=False, verbose_name='Título')
+    value = models.CharField(max_length=128, null=False, blank=False, verbose_name='Título')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
