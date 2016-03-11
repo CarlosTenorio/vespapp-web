@@ -1,4 +1,5 @@
 {% load template %}
+{% load staticfiles %}
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -8,7 +9,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Avispissimo</a>
+      <a class="navbar-brand" href="#"><img src="{% static "img/avispa_logo.png" %}" width="45" height="45" alt="My image"/>Avispissimo</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
