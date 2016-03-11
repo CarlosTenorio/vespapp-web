@@ -72,6 +72,7 @@ vespapp/media/*
 vespapp/static/*
 !vespapp/static/.gitkeep
 # Node modules
-node_modules/
+/node_modules/
+/node_modules/**/*.json
 
 bower_components/
