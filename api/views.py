@@ -14,10 +14,10 @@ class SightingListCreateView(ListCreateAPIView):
 
 
 class SightingRetrieveUpdateView(RetrieveUpdateAPIView):
-    serializer_class = SightingListCreateView
-    lookup_url_kwarg = 'sighting_id'
-    lookup_field = 'id'
+    serializer_class = SightingSerializer
     queryset = Sighting.objects.all()
+    lookup_field = 'id'
+    lookup_url_kwarg = 'sighting_id'
 
 
 class SightingPictureCreateView(ListCreateAPIView):
