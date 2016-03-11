@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,7 +9,8 @@
   <meta name="description" content="{% block description %}Caza la avispa asiática{% endblock %}">
   <meta name="description" content="Avispamiento de abejas en las Baleares">
   <meta name="keywords" content="Avispas, avistamiento, china">
-  <title>Avispamiento</title>
+  <link rel="stylesheet" href="{% static "css/main.min.css" %}">
+  <script src="{% static "js/main.min.js" %}"></script>
 </head>
 <body>
   {% include "components/navbar.html"%}
