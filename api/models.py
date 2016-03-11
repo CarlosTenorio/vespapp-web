@@ -73,7 +73,9 @@ class Picture(models.Model):
 
 
 class ExpertComment(models.Model):
-    user = models.ForeignKey(User, related_name="expert_comments")
+    user = models.ForeignKey(User, related_name="expert_comments", null=True)
+    sighting = models.ForeignKey(Sighting, related_name="expert_comments")
+
     body = models.CharField(null=False, blank=False, max_length=512, verbose_name='Comentario')
 
     is_valid = models.NullBooleanField(verbose_name="Avistamiento válido")
@@ -84,9 +86,10 @@ class ExpertComment(models.Model):
 
 class UserComment(models.Model):
     user = models.ForeignKey(User, related_name="user_comments")
+    sighting = models.ForeignKey(Sighting, related_name="user_comments")
     body = models.CharField(null=False, blank=False, max_length=512, verbose_name='Comentario')
 
-    moderated = models.BooleanField(verbose_name="Moderado")
+    moderated = models.BooleanField(verbose_name="Moderado", default=False)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
