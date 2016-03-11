@@ -19,8 +19,22 @@ dev:
 
 node: &node
   image: "node:5.8"
+  working_dir: "/opt/node"
   volumes:
-    - ".:/opt/app"
+    - ".:/opt/node"
+  entrypoint: ["node"]
+
+npm:
+  <<: *node
+  entrypoint: ["npm"]
+
+bower:
+  <<: *node
+  entrypoint: ["node", "node_modules/bower/bin/bower", "--allow-root"]
+
+gulp:
+  <<: *node
+  entrypoint: ["node", "node_modules/gulp/bin/gulp.js"]
 
 db:
   image: "postgres:9.5.1"
