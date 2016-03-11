@@ -1,8 +1,6 @@
 from rest_framework import serializers
 
-
-class Sighting:
-    pass
+from api.models import Sighting
 
 
 class SightingSerializer(serializers.ModelSerializer):

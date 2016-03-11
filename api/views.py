@@ -7,7 +7,7 @@ class SightingListCreateView(ListCreateAPIView):
     serializer_class = SightingSerializer
 
     def get_queryset(self):
-        return None
+        return
 
 
 class SightingRetrieveUpdateView(RetrieveUpdateAPIView):
