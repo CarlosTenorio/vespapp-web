@@ -73,6 +73,7 @@ vespapp/static/*
 !vespapp/static/.gitkeep
 # Node modules
 node_modules/
+web/static/
 
 
 bower_components/
