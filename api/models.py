@@ -5,8 +5,8 @@ from django.contrib.auth.models import User
 class Location(models.Model):
     name = models.CharField(max_length=128, null=False, blank=False, verbose_name='Nombre')
 
-    lat = models.DecimalField(null=False, blank=False, verbose_name='Latitud')
-    lng = models.DecimalField(null=False, blank=False, verbose_name='Longitud')
+    lat = models.FloatField(null=False, blank=False, verbose_name='Latitud')
+    lng = models.FloatField(null=False, blank=False, verbose_name='Longitud')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
@@ -42,8 +42,8 @@ class Sighting(models.Model):
     TYPE_WASP = 0
     TYPE_NEST = 1
 
-    lat = models.DecimalField(null=False, blank=False, verbose_name='Latitud')
-    lng = models.DecimalField(null=False, blank=False, verbose_name='Longitud')
+    lat = models.FloatField(null=False, blank=False, verbose_name='Latitud')
+    lng = models.FloatField(null=False, blank=False, verbose_name='Longitud')
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, related_name="sightings",
                                  verbose_name='Localización')
 
