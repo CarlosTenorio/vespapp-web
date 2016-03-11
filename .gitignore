@@ -66,11 +66,8 @@ target/
 .idea
 *.sqlite3
 
-vespapp/media
+vespapp/media/*
 !vespapp/media/.gitkeep
 
-vespapp/static
+vespapp/static/*
 !vespapp/static/.gitkeep
-
-vespapp/staticfiles
-!vespapp/staticfiles/.gitkeep
