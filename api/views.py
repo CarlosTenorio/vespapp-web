@@ -1,7 +1,7 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView
 
-from api.models import Sighting
-from api.serializers import SightingSerializer
+from api.models import Sighting, Picture
+from api.serializers import SightingSerializer, PictureSerializer
 
 
 class SightingListCreateView(ListCreateAPIView):
@@ -16,3 +16,11 @@ class SightingRetrieveUpdateView(RetrieveUpdateAPIView):
     lookup_url_kwarg = 'sighting_id'
     lookup_field = 'id'
     queryset = Sighting.objects.all()
+
+
+class SightingPictureCreateView(ListCreateAPIView):
+    serializer_class = PictureSerializer
+
+    def get_queryset(self):
+        sighting_id = self.kwargs.get('sighting_id')
+        return Picture.objects.filter(sighting__pk=sighting_id)
