@@ -77,3 +77,5 @@ web/static/
 
 
 bower_components/
+vespapp/staticfiles/css/
+vespapp/staticfiles/js/
