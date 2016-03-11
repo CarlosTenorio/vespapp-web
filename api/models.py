@@ -51,12 +51,14 @@ class Sighting(models.Model):
     free_text = models.CharField(null=False, blank=False, max_length=512, verbose_name='Texto sobre localización')
 
     type = models.IntegerField(null=False, blank=False, verbose_name="Tipo de avistamiento")
-    public = models.BooleanField(null=False, blank=False, default=False, verbose_name='Publicado')
+    public = models.BooleanField(null=False, blank=False, default=False, verbose_name='Publico')
 
-    reported_by = models.ForeignKey(User, related_name="reported_sightings", verbose_name='Reportado por')
-    moderator = models.ForeignKey(User, related_name="moderated_sightings", verbose_name='Moderador')
+    reported_by = models.ForeignKey(User, related_name="reported_sightings", verbose_name='Reportado por', null=True,
+                                    blank=True)
+    moderator = models.ForeignKey(User, related_name="moderated_sightings", verbose_name='Moderador', null=True,
+                                  blank=True)
 
-    answers = models.ManyToManyField(Answer, related_name="sightings")
+    answers = models.ManyToManyField(Answer, related_name="sightings", null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
