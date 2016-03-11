@@ -45,7 +45,7 @@ class Sighting(models.Model):
     lat = models.FloatField(null=False, blank=False, verbose_name='Latitud')
     lng = models.FloatField(null=False, blank=False, verbose_name='Longitud')
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, related_name="sightings",
-                                 verbose_name='Localización')
+                                 verbose_name='Localización', null=True)
 
     status = models.IntegerField(null=False, blank=False, verbose_name="Estado", default=STATUS_PENDING)
     free_text = models.CharField(null=False, blank=False, max_length=512, verbose_name='Texto sobre localización')
@@ -53,8 +53,8 @@ class Sighting(models.Model):
     type = models.IntegerField(null=False, blank=False, verbose_name="Tipo de avistamiento")
     public = models.BooleanField(null=False, blank=False, default=False, verbose_name='Publicado')
 
-    reported_by = models.ForeignKey(User, related_name="Usuario reportador")
-    moderator = models.ForeignKey(User, related_name="Experto moderador")
+    reported_by = models.ForeignKey(User, related_name="Usuario_reportador")
+    moderator = models.ForeignKey(User, related_name="Experto_moderador")
 
     answers = models.ManyToManyField(Answer, related_name="sightings")
 
