@@ -10,12 +10,26 @@ web: &web
     - ".:/opt/app/"
   links:
     - "db"
-  ports:
-    - "80:8000"
+
+gunicorn:
+  <<: *web
+  entrypoint: ["gunicorn"]
+  expose: ["8888"]
+  command:
+    - "vespapp.wsgi:application"
+    - "-w"
+    - "4"
+    - "--bind"
+    - "0.0.0.0:8888"
 
 dev:
   <<: *web
   command: ["runserver", "0.0.0.0:8000"]
+  ports:
+    - "80:8000"
+
+nginx:
+  image: "nginx:1.9"
 
 node: &node
   image: "node:5.8"
