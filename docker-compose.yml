@@ -17,8 +17,8 @@ dev:
   <<: *web
   command: ["runserver", "0.0.0.0:8000"]
 
-node:
-  build: "dockerfiles/node"
+node: &node
+  image: "node:5.8"
   volumes:
     - ".:/opt/app"
 
