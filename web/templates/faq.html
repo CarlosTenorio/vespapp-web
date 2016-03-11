@@ -6,21 +6,16 @@
 {% block description %}Preguntas más frecuentes{% endblock %}
 
 {% block body %}
+<div class="container">
 <div class="row">
   <div class="col-xs-12">
     <h1 class="text-center"><i class="fa fa-question-circle"></i>Preguntas frecuentes</h1>
   </div>
   <div class="col-xs-12">
-    <h2 class="faq-title">¿Qué es la avispa asiática?</h2>
-    <p class="faq-content">
-    La avispa asiática (<i>Vespa velutina</i>) es una especie de avispa de la familia de los véspidos originaria de China.
-
-
-<h1>Preguntas frecuentes</h1>
 
 {% for faq in object_list %}
     <h2>{{ faq.title }}</h2>
-    <p>{{ faq.body }} </h2>
+    <p>{{ faq.body }} </p>
     {% if faq.image %}
       <img src="{{ faq.image.url }}"/>
     {% endif %}
@@ -28,4 +23,7 @@
     <li>No articles yet.</li>
 {% endfor %}
 
+</div>
+</div>
+</div>
 {% endblock %}
