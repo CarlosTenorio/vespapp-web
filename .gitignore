@@ -71,3 +71,7 @@ vespapp/media/*
 
 vespapp/static/*
 !vespapp/static/.gitkeep
+# Node modules
+node_modules/
+
+bower_components/
