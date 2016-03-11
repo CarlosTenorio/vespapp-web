@@ -30,6 +30,12 @@ dev:
 
 nginx:
   image: "nginx:1.9"
+  volumes:
+    - "./nginx.conf:/etc/nginx/nginx.conf"
+  links:
+    - "gunicorn"
+  ports:
+    - "80:80"
 
 node: &node
   image: "node:5.8"
