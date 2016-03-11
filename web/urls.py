@@ -7,6 +7,8 @@ from web.views import SightingView
 from web.views import SightingsView
 from web.views import SightQuestionView
 from web.views import LocationsPageView
+from web.views import SightingCommentsView
+from web.views import SightExpertCommentView
 
 
 urlpatterns = [
@@ -18,9 +20,21 @@ urlpatterns = [
     url(r'^sightings/$', SightingsView.as_view(), name='sightings'),
     url(r'^sight_question/(?P<sighting_id>[0-9]+)/$', SightQuestionView.as_view(), name='sight_question'),
     url(r'^locations/$', LocationsPageView.as_view(), name='locations'),
+
+    url(r'^sightings/$', SightingsView.as_view(), name='sightings'),
+
+    url(r'^sight_question/(?P<sighting_id>[0-9]+)/$', SightQuestionView.as_view(),
+     name='sight_question'),
+
+    url(r'^sighting/(?P<sighting_id>[0-9]+)/expert_comments/$',
+     SightingCommentsView.as_view(), name='sighting_comments'),
+
+    url(r'^sighting/(?P<sighting_id>[0-9]+)/expert_comments/(?P<expert_comment_id>[0-9]+)$',
+     SightExpertCommentView.as_view(), name='sight_expert_comment'),
+
 #    url(r'^sightings/$', views.sightings),
 
-##    url(r'^sightings/(?P<sighting_id>[0-9]+)/$',
+#    url(r'^sightings/(?P<sighting_id>[0-9]+)/$',
 #        views.sighting),
 #    url(r'^sightings/(?P<sighting_id>[0-9]+)/photos/$',
 #        views.sighting_photos),

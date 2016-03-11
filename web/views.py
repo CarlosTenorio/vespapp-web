@@ -22,3 +22,9 @@ class SightQuestionView(TemplateView):
 
 class LocationsPageView(TemplateView):
     template_name = "locations.html"
+
+class SightingCommentsView(TemplateView):
+	template_name = "sighting_comments.html"
+
+class SightExpertCommentView(TemplateView):
+	template_name = "sight_expert_comment.html"
