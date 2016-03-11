@@ -17,6 +17,9 @@ dev:
   <<: *web
   command: ["runserver", "0.0.0.0:8000"]
 
+node:
+  image: "node:5.8"
+
 db:
   image: "postgres:9.5.1"
   expose:
