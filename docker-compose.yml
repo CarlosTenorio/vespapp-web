@@ -18,7 +18,9 @@ dev:
   command: ["runserver", "0.0.0.0:8000"]
 
 node:
-  image: "node:5.8"
+  build: "dockerfiles/node"
+  volumes:
+    - ".:/opt/app"
 
 db:
   image: "postgres:9.5.1"
