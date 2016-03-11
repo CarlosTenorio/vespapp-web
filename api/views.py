@@ -6,6 +6,7 @@ from api.models import Sighting, UserComment
 from api.serializers import SightingSerializer, UserCommentSerializer
 
 
+
 class SightingListCreateView(ListCreateAPIView):
     serializer_class = SightingSerializer
 
