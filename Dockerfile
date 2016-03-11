@@ -1,4 +1,4 @@
-FROM python:3.5.1-alpine
+FROM python:3.4
 
 MAINTAINER Miguel Ángel Durán <hi@mangel.me>
 
@@ -8,15 +8,12 @@ ADD . /opt/app/
 
 WORKDIR $APP_HOME
 
-RUN apk --update add postgresql-client
-
-RUN apk --update add --virtual build-dependencies \
-    build-base \
-    python3-dev \
-    postgresql-dev \
-    zlib zlib-dev curl jpeg jpeg-dev libpng libpng-dev && \
-    pip3 install -r requirements.txt && \
-    apk del build-dependencies && \
-    rm -f /var/cache/apk/*
+RUN apt-get update && \
+    apt-get install -y postgresql-client && \
+    apt-get clean && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/* && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install -r requirements.txt
 
 ENTRYPOINT ["python", "manage.py"]
