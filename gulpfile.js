@@ -15,9 +15,9 @@ var paths = {
   dist: 'vespapp/staticfiles/'
 };
 
-gulp.task('default', function() {
-  // main task
-});
+gulp.task('default', ['less', 'scripts']);
+
+gulp.task('develop', ['default', 'watch']);
 
 gulp.task('scripts', function() {
   // scripts task
