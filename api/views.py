@@ -12,7 +12,7 @@ class SightingListCreateView(ListCreateAPIView):
 
 
 class SightingRetrieveUpdateView(RetrieveUpdateAPIView):
-
     serializer_class = SightingListCreateView
     lookup_url_kwarg = 'sighting_id'
     lookup_field = 'id'
+    queryset = Sighting.objects.all()
