@@ -1,7 +1,56 @@
 {% extends "layout.html" %}
 {% block description %}Nuevo avistamiento{% endblock %}
 {% block body %}
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <h1>Envía tu avispamiento</h1>
+      <form id="new_sighting" class="" action="index.html" method="post">
+        <div class="col-xs-12 add-picture">
+          <button type="button" class="btn btn-primary" name="button">
+            <i class="fa fa-camera"></i>
+          </button>
+        </div>
 
+        <div class="col-xs-6 text-center">
+          <label class="round-label text-center">
+            <input type="checkbox" name="type" class="hidden" value="0">
+            <span>
+              Avispa
+            </span>
+          </label>
+        </div>
+        <div class="col-lg-6 text-center">
+          <label class="round-label text-center">
+            <input type="checkbox" class="hidden" name="type" value="1">
+            <span>
+              Nido
+            </span>
+          </label>
+        </div>
+        <div class="col-xs-12 form-group location">
+          <div class="col-xs-6">
+            <select class="form-control" name="">
+              <option value="">Selecciona provincia</option>
+              <option value="1">Mallorca</option>
+              <option value="2">Menorca</option>
+            </select>
+          </div>
+          <div class="col-xs-6 form-contol">
+            <select class="form-control" name="">
+              <option value="">Selecciona población</option>
+              <option value="2">Palma</option>
+              <option value="3">Alaró</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-12 text-center">
+          <input type="button" class="btn btn-primary" name="name" value="Enviar avistamiento">
+        </div>
+       </form>
+    </div>
+  </div>
+</div>
 
 
 {% endblock %}
