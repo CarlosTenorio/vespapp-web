@@ -34,7 +34,8 @@ nginx:
   image: "nginx:1.9"
   volumes:
     - "./dockerfile_nginx/nginx.conf:/etc/nginx/nginx.conf"
-    - ".:/opt/app"
+  volumes_from:
+    - "gunicorn"
   links:
     - "gunicorn"
   ports:

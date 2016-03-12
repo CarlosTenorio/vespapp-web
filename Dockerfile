@@ -16,4 +16,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     pip install -r requirements.txt
 
+RUN python manage.py collectstatic --noinput
+
 ENTRYPOINT ["python", "manage.py"]
