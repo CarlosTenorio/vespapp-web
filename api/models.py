@@ -58,7 +58,9 @@ class Sighting(models.Model):
                                  verbose_name='Localización', null=True, blank=True)
 
     status = models.IntegerField(null=False, blank=False, verbose_name="Estado", default=STATUS_PENDING)
-    free_text = models.CharField(null=False, blank=False, max_length=512, verbose_name='Texto sobre localización')
+    free_text = models.CharField(null=True, blank=True, max_length=512, verbose_name='Texto sobre localización')
+
+    contact = models.CharField(null=True, blank=True, max_length=128, verbose_name='Contacto')
 
     type = models.IntegerField(null=False, blank=False, verbose_name="Tipo de avistamiento")
     public = models.BooleanField(null=False, blank=False, default=False, verbose_name='Publico')
