@@ -111,7 +111,6 @@ class SightingQuestionsCreateView(ListCreateAPIView):
         request.data['sighting'] = kwargs.get('sighting_id')
         return super().create(request, *args, **kwargs)
 
-
 class SightingUserCommentView(ListCreateAPIView):
     serializer_class = UserCommentSerializer
 
