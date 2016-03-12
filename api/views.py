@@ -81,7 +81,6 @@ class SightingQuestionsListView(APIView):
 
         questions = Question.objects.filter(sighting_type=sighting.type)
 
-<<<<<<< HEAD
         for question in questions:
             question_answers = sighting.answers.filter(question_id=question.id)
             question.answers = question_answers
@@ -111,8 +110,6 @@ class SightingQuestionsCreateView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         request.data['sighting'] = kwargs.get('sighting_id')
         return super().create(request, *args, **kwargs)
-=======
-        return new_comment
 
 
 class SightingUserCommentView(ListCreateAPIView):
@@ -139,4 +136,3 @@ class SightingUserCommentView(ListCreateAPIView):
         new_comment.save()
 
         return new_comment
->>>>>>> 08f1338... User sighting comments are visualized. URLs changedgit status !
