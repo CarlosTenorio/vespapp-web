@@ -2,7 +2,15 @@ from rest_framework import serializers
 from api.models import Sighting, Picture, UserComment, ExpertComment, Question, Answer, Location, SightingFAQ
 
 
+class PictureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Picture
+
+
 class SightingSerializer(serializers.ModelSerializer):
+
+    pictures = PictureSerializer(many=True)
+
     class Meta:
         model = Sighting
 
@@ -15,11 +23,6 @@ class UserCommentSerializer(serializers.ModelSerializer):
 class ExpertCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExpertComment
-
-
-class PictureSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Picture
 
 
 class AnswerSerializer(serializers.ModelSerializer):
