@@ -9,8 +9,6 @@ class PictureSerializer(serializers.ModelSerializer):
 
 class SightingSerializer(serializers.ModelSerializer):
 
-    pictures = PictureSerializer(many=True)
-
     class Meta:
         model = Sighting
 
