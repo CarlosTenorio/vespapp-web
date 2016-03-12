@@ -4,50 +4,150 @@
 {% block description %}Avistamiento en concreto{% endblock %}
 
 {% block body %}
-<div class="container">
+<div class="container sighting-page">
   <div class="row">
     <div class="col-xs-12">
-      <h1>Avistamiento</h1>
+      {% if object.type == 1 %}
+      <h1>Avistamiento avispa</h1>
+      {% elif object.type == 0%}
+      <h1>Avistamiento nido</h1>
+      {% else %}
+      <h1>Avistamiento</h1>      
+      {% endif %}          
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6">
-      <p>id: {{ object.id }}</p>
-      <p>latitud: {{ object.lat }}</p>
-      <p>lng: {{ object.lng }}</p>
-      <p>location: {{ object.location }}</p>
-      <p>status: {{ object.status }}</p>
-      <p>free_text: {{ object.free_text }}</p>
-      <p>type: {{ object.type }}</p>
-      <p>public: {{ object.public }}</p>
-      <p>reported_by: {{ object.reported_by }}</p>
-      <p>moderator: {{ moderator.free_text }}</p>
-      <p>is_valid: {{ object.is_valid }}</p>
-      <p>answers: {{ object.answers }}</p>
-      <p>created_at: {{ object.created_at }}</p>
-      <p>updated_at: {{ moderator.updated_at }}</p>
-      <hr>
-      <br>
-      <p>Los comentarios:</p>
-      {% if object.user_comments %}
-      <ul>
-        {% for x in object.user_comments.all %}
-          {% if x.moderated %}
-            <li> <strong>Fecha: </strong>{{x.created_at}}<br>{{ x.body }}</li>
-            <br>
-          {% endif %}
-        {% endfor %}
-      </ul>
-      {% else %}
-        <p>No hay comentarios.</p>
+
+      <div class="info-group source">
+        <span class="sighting-label">Notificado por:</span>
+        {% if object.source == "twitter" %}
+        <i class="fa fa-twitter-square"></i><span class="sighting-type">Notificado por Twitter</span>
+        {% elif object.source == "telegram"%}
+        <i class="fa fa-weixin"></i><span class="sighting-type">Notificado por Telegram</span>
+        {% elif object.source == "web"%}
+        <i class="fa fa-envelope-square"></i><span class="sighting-type">Notificado por Web</span>
+        {% elif object.source == "app"%}
+        <i class="fa fa-mobile-phone"></i><span class="sighting-type">Notificado por App</span>
+        {% endif %}
+      </div>
+
+      <div class="info-group position">
+        <span class="sighting-label">Latitud:</span>
+        <span>{{ object.lat }}</span>
+      </div>
+      <div class="info-group position">
+        <span class="sighting-label">Longitud:</span>
+        <span>{{ object.lng }}</span>
+      </div>
+
+      {% if object.location %}
+      <div class="info-group position">
+        <span class="sighting-label">Localización:</span>
+        <span>{{ object.location.name }}</span>
+      </div>
+      {% endif %}
+
+      <div class="info-group position">
+        <span class="sighting-label">Tipo:</span>
+        {% if object.type == 1 %}
+        <i class="fa fa-bug"></i><span>Avispa</span>
+        {% elif object.type == 0%}
+        <i class="fa fa-fort-awesome"></i><span>Nido</span>
+        {% endif %}
+      </div>    
+
+      <div class="info-group position">
+        <span class="sighting-label">Estado:</span>
+        {% if object.status == 0 %}
+        <span class="label label-danger">Pendiente</span>
+        {% elif object.status == 1%}
+        <span class="label label-warning">Procesando</span>
+        {% elif object.status == 2%}
+        <span class="label label-success">Procesado</span>
+        {% endif %} 
+      </div>  
+
+      <div class="info-group position">
+        <span class="sighting-label">Fecha:</span>
+        <span>{{ object.created_at }}</span>
+      </div>  
+
+      <div class="info-group position">
+        <span class="sighting-label">Tipo:</span>
+        <span>{{ object.free_text }}</span>
+      </div>  
+
+
+
+    </div>
+
+    <div class="col-xs-12 col-sm-6 col-md-6">
+
+
+      {% if object.pictures.count < 2 %}
+      <div class="info-group position">
+        
+        <img src="{{ object.first_picture.file.url }}" class="img-responsive sighting-image"/>
+         
+      </div>      
+      {% else %}   
+
+      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          {% for picture in object.pictures.all %}
+          <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+          {% endfor %}
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+          {% for picture in object.pictures.all %}
+          <div class="item {% if forloop.counter0 == 0 %}active{% endif %}">
+            <img src="{{ picture.file.url }}" class="img-responsive sighting-image">
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+          <span class="fa fa-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+          <span class="fa fa-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
       {% endif %}
 
     </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-6">
+    <div class="col-xs-12">
       <div id="map_wrapper">
         <div id="map_canvas" class="mapping">
           
         </div>
       </div>
+    </div>
+
+    <div class="col-xs-12 comment-container">
+      {% if object.user_comments.count %}
+        <h2>{{object.user_comments.count}} Comentarios:</h2>
+        {% for x in object.user_comments.all %}
+          {% if x.moderated %}
+            <div class="well">
+            <span> <strong>Fecha: </strong>{{x.created_at}}</span>
+            <p>
+            {{ x.body }}
+            </p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      
+      {% else %}
+        <h2>Comentarios:</h2>
+        <p>No hay comentarios.</p>
+      {% endif %}
     </div>
   </div>
 </div>

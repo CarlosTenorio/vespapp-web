@@ -65,9 +65,9 @@ function initialize() {
       {% if sighting.status == 0 %}
       '<span class="label-status">Validación:</span><span class="label label-danger">Pendiente</span>' +
       {% elif sighting.status == 1%}
-      '<span class="label-status">Validación:</span><span class="label label-warning">Pendiente</span>' +
+      '<span class="label-status">Validación:</span><span class="label label-warning">Procesando</span>' +
       {% elif sighting.status == 2%}
-      '<span class="label-status">Validación:</span><span class="label label-success">Pendiente</span>' +
+      '<span class="label-status">Validación:</span><span class="label label-success">Procesado</span>' +
       {% endif %}    
       '<div class="details {% if sighting.first_picture %}details-with-photo{% endif %}  ">' +
       '<div class="image">' +
@@ -128,16 +128,4 @@ function initialize() {
 </div>
 
 {% endif %}
-
-{% if object_list %}
-    <ul>
-    {% for sighting in object_list %}
-        <li><a href="/polls/{{ question.id }}/">{{ sighting.question_text }}</a></li>
-        <p>{{ sighting.lat }}</p>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
-
 {% endblock %}
