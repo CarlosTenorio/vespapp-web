@@ -1,20 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from api.models import Sighting
 
-<<<<<<< HEAD
-
 from api.models import SightingFAQ
 
-
-=======
->>>>>>> 5c1b1ab... sightin view with data
 class HomePageView(TemplateView):
     template_name = "home.html"
-
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context['new_sighting'] = reverse('new_sighting')
+        return context
 
 class FAQView(ListView):
     template_name = "faq.html"
@@ -56,4 +55,4 @@ class SightExpertCommentView(DetailView):
     template_name = "sight_expert_comment.html"
 
 class NewSightingView(TemplateView):
-	template_name = "new_sighting.html"
+    template_name = "new_sighting.html"
