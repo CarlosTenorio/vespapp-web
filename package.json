@@ -22,12 +22,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Habitissimo/vespapp-web.git"
+    "url": "git+https://github.com/CarlosTenorio/vespapp-web"
   },
   "author": "habitissimo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Habitissimo/vespapp-web/issues"
+    "url": "https://github.com/CarlosTenorio/vespapp-web/issues"
   },
-  "homepage": "https://github.com/Habitissimo/vespapp-web#readme"
+  "homepage": "https://github.com/CarlosTenorio/vespapp-web#readme"
 }
