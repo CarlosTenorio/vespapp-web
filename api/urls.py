@@ -6,6 +6,7 @@ urlpatterns = [
 
     url(r'^sightings/(?P<sighting_id>[0-9]+)/$',
         api_views.SightingRetrieveUpdateView.as_view(), name='sightings_retrieve_update'),
+    
     url(r'^sightings/(?P<sighting_id>[0-9]+)/photos/$',
         api_views.SightingPictureCreateView.as_view()),
 

@@ -1,9 +1,18 @@
 from django import forms
-
 from api.models import Sighting
+from api.models import Picture
 
-class MyCreateSightningForm(forms.ModelForm):
 
+class SightingForm(forms.ModelForm):
+    
     class Meta:
         model = Sighting
-        fields = ('type', 'location', 'free_text', 'contact', )
+        fields = ('type', 'free_text')
+        #fields = '__all__' # Or a list of the fields that you want to include in your form
+
+
+class PictureForm(forms.ModelForm):
+    
+    class Meta:
+        model = Picture
+        fields = ('file', )

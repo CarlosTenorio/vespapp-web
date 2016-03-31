@@ -8,7 +8,6 @@ class PictureSerializer(serializers.ModelSerializer):
 
 
 class SightingSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Sighting
 
@@ -29,7 +28,6 @@ class AnswerSerializer(serializers.ModelSerializer):
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-
     available_answers = AnswerSerializer(source='default_answer', many=True)
 
     class Meta:

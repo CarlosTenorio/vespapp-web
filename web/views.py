@@ -1,15 +1,20 @@
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.core.context_processors import csrf
+
 from api.models import Sighting
-
 from api.models import SightingFAQ
-
 from api.models import Sighting
 from api.models import UserComment
+
+from web.forms import SightingForm
+from web.forms import PictureForm
 
 
 class HomePageView(TemplateView):
@@ -62,7 +67,39 @@ class SightExpertCommentView(DetailView):
 
 
 class NewSightingView(TemplateView):
-    template_name = "new_sighting.html"
+    #template_name = "new_sighting.html"
+
+    def new_sighting(request):
+        if request.POST:
+            form_sighting = SightingForm(request.POST)
+            form_picture = PictureForm(request.POST, request.FILES)
+            print(form_sighting)
+            print(request.POST)
+            print(form_picture)
+            print(request.FILES)
+
+            if form_sighting.is_valid() and form_picture.is_valid():
+                sighting_id = form_sighting.save()
+                picture_id = form_picture.save(commit=False)
+                picture_id.sighting = sighting_id
+                picture_id.save()
+
+                """free_text = form.cleaned_data['free_text']
+
+                sighting_obj = Sighting(type=type, free_text=free_text)
+                sighting_obj.save()"""
+
+                return HttpResponseRedirect('')
+        else:
+            form_sighting = SightingForm()
+
+        args = {}
+        args.update(csrf(request))
+
+        args['form'] = form_sighting
+
+        return render_to_response('new_sighting.html', args)
+
 
 
 class SightingCommentView(DetailView):
