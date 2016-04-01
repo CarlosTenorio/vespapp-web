@@ -7,10 +7,11 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.core.context_processors import csrf
+from django.views.decorators.csrf import csrf_exempt
 
 from api.models import Sighting
+from api.models import Picture
 from api.models import SightingFAQ
-from api.models import Sighting
 from api.models import UserComment
 
 from web.forms import SightingForm
@@ -69,25 +70,37 @@ class SightExpertCommentView(DetailView):
 class NewSightingView(TemplateView):
     #template_name = "new_sighting.html"
 
+    @csrf_exempt
     def new_sighting(request):
         if request.POST:
             form_sighting = SightingForm(request.POST)
-            form_picture = PictureForm(request.POST, request.FILES)
+            #form_picture = PictureForm(request.POST, request.FILES)
+            print("")
             print(form_sighting)
+            print("")
             print(request.POST)
-            print(form_picture)
+            print("")
             print(request.FILES)
+            print("")
+            print(form_sighting.is_valid())
+            print("")
 
-            if form_sighting.is_valid() and form_picture.is_valid():
-                sighting_id = form_sighting.save()
-                picture_id = form_picture.save(commit=False)
-                picture_id.sighting = sighting_id
-                picture_id.save()
+            if form_sighting.is_valid():
+                if request.FILES == None:
+                    raise Http404("No objects uploaded")
 
-                """free_text = form.cleaned_data['free_text']
+                sighting_id = form_sighting.save(commit=False)
+                sighting_id.source = 'Web'
+                sighting_id.save()
 
-                sighting_obj = Sighting(type=type, free_text=free_text)
-                sighting_obj.save()"""
+                uploaded_files = [request.FILES.get('file[%d]' % i)
+                    for i in range(0, len(request.FILES))]
+
+                for f in uploaded_files:
+                    picture_id = Picture()
+                    picture_id.sighting = sighting_id
+                    picture_id.file.save(f.name, f)
+                    picture_id.save()              
 
                 return HttpResponseRedirect('')
         else:
@@ -96,10 +109,9 @@ class NewSightingView(TemplateView):
         args = {}
         args.update(csrf(request))
 
-        args['form'] = form_sighting
+        args['form_sighting'] = form_sighting
 
         return render_to_response('new_sighting.html', args)
-
 
 
 class SightingCommentView(DetailView):

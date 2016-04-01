@@ -3,56 +3,54 @@
 {% block body %}
   
 <script>
-    window.addEventListener('load', init, false);
+    $(document).ready(function() {
+      Dropzone.autoDiscover = false;
 
-    function init() {
-      console.log("init");
-      document.getElementById('dnd-box').addEventListener('dragover', allowDrop, false);    
-      document.getElementById('dnd-box').addEventListener('drop', drop, false);
-    }
-    
-    function drop(ev) {
-      console.log("drop");
-      ev.preventDefault();
-      var arch = new FileReader();
-      arch.addEventListener('load', read, false);
-      //arch.readAsBinaryString(ev.dataTransfer.files[0]); 
-      arch.readAsDataURL(ev.dataTransfer.files[0]);        
-    }      
-    
-    function allowDrop(ev) {
-      console.log("allowDrop");
-      ev.preventDefault();
-    }    
-    
-    function read(ev) {
-      //document.getElementById('dnd-box').style.backgroundImage="url('" + ev.target.result + "')";
-      //$.post('http://localhost/api/sightings/1/photos/', {'file': ev.target.result});
-       $('<img src=' + ev.target.result + ' alt="Smiley face" height="42" width="42">' +
-        '<input type="submit" src=' + ev.target.result + ' name="file" class="hidden">').appendTo("#dnd-box");
-    }
+      var myDropzone = new Dropzone("div#mydz", { 
+        url: "/new_sighting/",
+        method: "post",
+        paramName: "file",
+        addRemoveLinks: true, 
+        uploadMultiple: true, 
+        autoProcessQueue: false,
+        acceptedFiles: "image/*",
+        renameFilename: "file", // does not work
+        maxFiles: 20,
+        parallelUploads : 20,
+        dictDefaultMessage: "Drop files here to upload",
+        dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
+        dictInvalidFileType: "You can't upload files of this type.",
+        dictRemoveFile: 'Borrar'
+      });
+
+      var submitButton = document.getElementById("submit-all");
+
+      submitButton.addEventListener("click", function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        myDropzone.processQueue();
+      });                                    
+
+      myDropzone.on('addedfile', function(file){ 
+        /*if(myDropzone.files.length > 5) { 
+          myDropzone.removeFile(myDropzone.files[0]); 
+        } */
+      });
+
+      myDropzone.on("sending", function(file, xhr, formData) {
+        formData.append("type", $("input:radio[name=type]:checked").val()); 
+        formData.append("free_text", $('input:text[name=free_text]').val());
+      });
+    });
 </script>
 
 <div class="container">
   <div class="row">
     <div class="col-xs-12 text-center">
       <h1>Envía tu avispamiento</h1>
-      <form id="new_sighting"  action="/new_sighting/" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="col-xs-12 add-picture">
-          <button type="button" class="btn btn-primary" name="button">
-            <i class="fa fa-camera"></i>
-          </button>
-        </div>
 
-
-        <label for="file-input" class="col-xs-12">
-          <div id="dnd-box">
-            Drop files here
-            <img src="/media/sightings/file" alt="Smiley face" height="42" width="42">
-            <input id="file-input" type="file" src="/media/sightings/file" name="file" class="hidden">
-          </div>
-        </label>
+      <form id="new_sighting" enctype="multipart/form-data">
+        <div class="dropzone" id="mydz"></div>
 
         <div class="col-xs-6 text-center">
           <label class="round-label text-center">
@@ -92,11 +90,10 @@
           <input maxlength="512" name="free_text" type="text" />
         </div>
 
-        <button type="submit" class="btn btn-primary">Registrar</button>
+        <button type="submit" id="submit-all" class="btn btn-primary">Registrar</button>
        </form>
     </div>
   </div>
 </div>
-
 
 {% endblock %}

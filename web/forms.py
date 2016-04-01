@@ -8,7 +8,6 @@ class SightingForm(forms.ModelForm):
     class Meta:
         model = Sighting
         fields = ('type', 'free_text')
-        #fields = '__all__' # Or a list of the fields that you want to include in your form
 
 
 class PictureForm(forms.ModelForm):
