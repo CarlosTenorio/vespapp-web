@@ -1,6 +1,92 @@
+/*
 h2 {
   text-align: left;
   padding-bottom: 20px;
   padding-top: 20px;
   margin: 0;
+}
+*/
+
+.fontTitle{
+  color: #FFFFFF;
+  font-weight: bold;
+  text-align: center;
+}
+
+.fontHelp{
+  font-size: 22px;
+  color: black;
+}
+
+.boxFaq{
+  background-color: rgba(0, 0, 0, 0.3);
+	/*background-color: @black-base;*/
+  height: 200px;
+  box-shadow: 0 10px 6px -6px #777;
+  margin-bottom: 70px;
+
+}
+
+.boxFaq img {
+  height: 100%;
+  width: 100%;
+  &:hover {      
+    cursor: pointer;
+    }
+}
+
+.titleFront{
+  /*background-color: @brand-primary;*/
+  background-color: rgba(253, 150, 39, 0.7);
+  box-sizing: border-box;
+  color: white;
+  display: block;
+  font-weight: bold;
+  padding: 10px;
+  position: absolute;
+  text-align: center;
+  top: 50px;
+  width: 100%;
+}
+
+//CardFlip
+
+#f1_container{
+  width: 100%;
+  height: 100%;  
+  cursor: pointer;
+}
+
+#f1_card {
+  transform-style: preserve-3d;
+  transition: all 1.0s linear;
+  width: 100%;
+  height: 100%;
+}
+#f1_container:hover #f1_card {
+  transform: rotateY(180deg);
+  box-shadow: -5px 5px 5px #aaa;
+}
+.face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+.face.back {
+  display: block;
+  transform: rotateY(180deg);
+  box-sizing: border-box;
+  padding: 10px;
+  color: white;
+  text-align: center;
+  background-color: @brand-primary;
+}
+
+.modalTitle{
+  background-color: @brand-primary;
+}
+
+.modalFont{
+  color: white;
 }

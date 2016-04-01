@@ -127,7 +127,8 @@ class UserComment(models.Model):
 
 class SightingFAQ(models.Model):
     title = models.CharField(null=False, blank=False, max_length=128, verbose_name='Título')
-    body = models.TextField()
+    body = models.TextField(verbose_name='Explicación más detallada')
+    quickBody = models.TextField(null=False, blank=False, default="Clic para más información", max_length=128, verbose_name='Breve explicación')
     image = models.ImageField(upload_to="faq_images/", blank=True, null=True)
 
     def __str__(self):
