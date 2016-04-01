@@ -4,6 +4,8 @@
 {% block description %}Avistamiento en concreto{% endblock %}
 
 {% block body %}
+
+{% if object.public %}
 <div class="container sighting-page">
   <div class="row">
     <div class="col-xs-12">
@@ -61,7 +63,7 @@
         <span class="sighting-label">Tipo:</span>
         {% if object.type == 1 %}
         <i class="fa fa-bug"></i><span>Avispa</span>
-        {% elif object.type == 0%}
+        {% elif object.type == 2 %}
         <i class="fa fa-fort-awesome"></i><span>Nido</span>
         {% endif %}
       </div>    
@@ -83,7 +85,7 @@
       </div>  
 
       <div class="info-group position">
-        <span class="sighting-label">Tipo:</span>
+        <span class="sighting-label">Descripción:</span>
         <span>{{ object.free_text }}</span>
       </div>  
 
@@ -237,5 +239,11 @@ function initialize() {
     
 }
 </script>
+
+{% else %}
+
+  <p>Este avistamiento no existe.</p>
+     
+{% endif %} 
 
 {% endblock %}
