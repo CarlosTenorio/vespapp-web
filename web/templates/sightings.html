@@ -32,10 +32,10 @@ function initialize() {
   // Multiple Markers
   var markers = [
       {% for sighting in sightings_list %}
-      ['{{ sighting.location }}', parseFloat('{{sighting.lat}}'.replace(',','.')), parseFloat('{{sighting.lng}}'.replace(',', '.'))],
+      ['{{ sighting.location }}', parseFloat('{{sighting.location.lat}}'.replace(',','.')), parseFloat('{{sighting.location.lng}}'.replace(',','.')), parseFloat('{{sighting.lat}}'.replace(',','.')), parseFloat('{{sighting.lng}}'.replace(',', '.'))],
       {% endfor %}
   ];
-                      
+          
   // Info Window Content
   var infoWindowContent = [
       {% for sighting in sightings_list %}
@@ -90,24 +90,32 @@ function initialize() {
   
   // Loop through our array of markers & place each one on the map  
   for( i = 0; i < markers.length; i++ ) {
-      var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-      bounds.extend(position);
-      marker = new google.maps.Marker({
-          position: position,
-          map: map,
-          title: markers[i][0]
-      });
-      
-      // Allow each marker to have an info window    
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-          return function() {
-              infoWindow.setContent(infoWindowContent[i][0]);
-              infoWindow.open(map, marker);
-          }
-      })(marker, i));
+      var lat = markers[i][3];
+      var lng = markers[i][4];
+      if (!lat || !lng) {
+          lat = markers[i][1];
+          lng = markers[i][2];
+      }
+      if (lat && lng) {
+        var position = new google.maps.LatLng(lat, lng);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: markers[i][0]
+        });
+        
+        // Allow each marker to have an info window    
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.open(map, marker);
+            }
+        })(marker, i));
 
-      // Automatically center the map fitting all markers on the screen
-      map.fitBounds(bounds);
+        // Automatically center the map fitting all markers on the screen
+        map.fitBounds(bounds);
+      }
   }
   // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
   var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {

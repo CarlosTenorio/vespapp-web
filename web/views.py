@@ -10,12 +10,12 @@ from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 
 from api.models import Sighting
+from api.models import Location
 from api.models import Picture
 from api.models import SightingFAQ
 from api.models import UserComment
 
 from web.forms import SightingForm
-from web.forms import PictureForm
 
 
 class HomePageView(TemplateView):
@@ -72,6 +72,10 @@ class NewSightingView(TemplateView):
 
     @csrf_exempt
     def new_sighting(request):
+        context = {
+            'locations': Location.objects.all()
+        }
+
         if request.POST:
             form_sighting = SightingForm(request.POST)
             #form_picture = PictureForm(request.POST, request.FILES)
@@ -106,12 +110,7 @@ class NewSightingView(TemplateView):
         else:
             form_sighting = SightingForm()
 
-        args = {}
-        args.update(csrf(request))
-
-        args['form_sighting'] = form_sighting
-
-        return render_to_response('new_sighting.html', args)
+        return render_to_response('new_sighting.html', context=context)
 
 
 class SightingCommentView(DetailView):

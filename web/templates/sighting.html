@@ -30,14 +30,25 @@
         {% endif %}
       </div>
 
+
+      {% if object.lat or object.location.lat %}
       <div class="info-group position">
         <span class="sighting-label">Latitud:</span>
+        {% if object.lat %}
         <span>{{ object.lat }}</span>
+        {% elif object.location.lat %}
+        <span>{{ object.location.lat }}</span>
+        {% endif %}        
       </div>
       <div class="info-group position">
         <span class="sighting-label">Longitud:</span>
+        {% if object.lng %}
         <span>{{ object.lng }}</span>
+        {% elif object.location.lng %}
+        <span>{{ object.location.lng }}</span>
+        {% endif %}  
       </div>
+      {% endif %}  
 
       {% if object.location %}
       <div class="info-group position">
@@ -119,9 +130,9 @@
         </a>
       </div>
       {% endif %}
-
     </div>
 
+    {% if object.lat or object.location.lat %}
     <div class="col-xs-12">
       <div id="map_wrapper">
         <div id="map_canvas" class="mapping">
@@ -129,6 +140,7 @@
         </div>
       </div>
     </div>
+    {% endif %}
 
     <div class="col-xs-12 comment-container">
       {% if object.user_comments.count %}
@@ -173,9 +185,7 @@ function initialize() {
       
   // Multiple Markers
   var markers = [
-      
-      ['{{ object.location }}', parseFloat('{{object.lat}}'.replace(',','.')), parseFloat('{{object.lng}}'.replace(',', '.'))],
-      
+      ['{{ object.location }}', parseFloat('{{object.location.lat}}'.replace(',','.')), parseFloat('{{object.location.lng}}'.replace(',','.')), parseFloat('{{object.lat}}'.replace(',','.')), parseFloat('{{object.lng}}'.replace(',', '.'))],
   ];
                       
   // Info Window Content
@@ -192,24 +202,32 @@ function initialize() {
   
   // Loop through our array of markers & place each one on the map  
   for( i = 0; i < markers.length; i++ ) {
-      var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-      bounds.extend(position);
-      marker = new google.maps.Marker({
-          position: position,
-          map: map,
-          title: markers[i][0]
-      });
-      
-      // Allow each marker to have an info window    
-      google.maps.event.addListener(marker, 'click', (function(marker, i) {
-          return function() {
-              infoWindow.setContent(infoWindowContent[i][0]);
-              infoWindow.open(map, marker);
-          }
-      })(marker, i));
+      var lat = markers[i][3];
+      var lng = markers[i][4];
+      if (!lat || !lng) {
+          lat = markers[i][1];
+          lng = markers[i][2];
+      }
+      if (lat && lng) {
+        var position = new google.maps.LatLng(lat, lng);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: markers[i][0]
+        });
+        
+        // Allow each marker to have an info window    
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+            return function() {
+                infoWindow.setContent(infoWindowContent[i][0]);
+                infoWindow.open(map, marker);
+            }
+        })(marker, i));
 
-      // Automatically center the map fitting all markers on the screen
-      map.fitBounds(bounds);
+        // Automatically center the map fitting all markers on the screen
+        map.fitBounds(bounds);
+      }
   }
   // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
   var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {

@@ -19,6 +19,8 @@ urlpatterns = [
     url(r'^sightings/(?P<sighting_id>[0-9]+)/expert_comments/$', api_views.SightingExpertCommentsListView.as_view(),
         name='sightings_expert_comments'),
 
-    url(r'locations/', api_views.LocationsList.as_view(), name='location_list')
+    url(r'locations/', api_views.LocationsList.as_view(), name='location_list'),
+
+    url(r'provinces/', api_views.ProvincesList.as_view(), name='province_list')
 
 ]

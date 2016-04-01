@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
 {% block description %}Nuevo avistamiento{% endblock %}
 {% block body %}
   
@@ -15,8 +16,8 @@
         autoProcessQueue: false,
         acceptedFiles: "image/*",
         renameFilename: "file", // does not work
-        maxFiles: 20,
-        parallelUploads : 20,
+        maxFiles: 10,
+        parallelUploads : 10,
         dictDefaultMessage: "Drop files here to upload",
         dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
         dictInvalidFileType: "You can't upload files of this type.",
@@ -39,6 +40,7 @@
 
       myDropzone.on("sending", function(file, xhr, formData) {
         formData.append("type", $("input:radio[name=type]:checked").val()); 
+        formData.append("location", $("select[name=location] option:selected").val()); 
         formData.append("free_text", $('input:text[name=free_text]').val());
       });
     });
@@ -50,7 +52,9 @@
       <h1>Envía tu avispamiento</h1>
 
       <form id="new_sighting" enctype="multipart/form-data">
-        <div class="dropzone" id="mydz"></div>
+        <div id="mydz" class="dropzone">
+          <img src="{% static "img/camera.png" %}" alt="" height="42" width="42"> 
+        </div>
 
         <div class="col-xs-6 text-center">
           <label class="round-label text-center">
@@ -70,27 +74,19 @@
         </div>
 
         <div class="col-xs-12 form-group location">
-          <div class="col-xs-6">
-            <select class="form-control" name="">
-              <option value="">Selecciona provincia</option>
-              <option value="1">Mallorca</option>
-              <option value="2">Menorca</option>
-            </select>
-          </div>
-          <div class="col-xs-6 form-contol">
-            <select class="form-control" name="location">
-              <option value="">Selecciona población</option>
-              <option value="2">Palma</option>
-              <option value="3">Alaró</option>
-            </select>
-          </div>
+          <select class="form-control" name="location">
+            <option value="">Selecciona población</option>
+            {% for location in locations %}
+                <option value="{{location.id}}">{{location.name}}</option>
+            {% endfor %}
+          </select>
         </div>
 
         <div class="col-xs-12">
           <input maxlength="512" name="free_text" type="text" />
         </div>
 
-        <button type="submit" id="submit-all" class="btn btn-primary">Registrar</button>
+        <button type="submit" id="submit-all" class="btn btn-primary">Enviar avistamiento</button>
        </form>
     </div>
   </div>

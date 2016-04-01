@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.models import Sighting, Picture, Location, Question, Answer
-from api.serializers import SightingSerializer, PictureSerializer, LocationSerializer, QuestionSerializer, \
+from api.serializers import SightingSerializer, PictureSerializer, LocationSerializer, ProvinceSerializer, QuestionSerializer, \
     AnswerSerializer, MyQuestionSerializer
 from api.models import Sighting, UserComment, ExpertComment
 from api.serializers import SightingSerializer, UserCommentSerializer, ExpertCommentSerializer
@@ -69,6 +69,14 @@ class LocationsList(ListAPIView):
 
     def get_queryset(self):
         return Location.objects.all()
+
+
+# Provinces
+class ProvincesList(ListAPIView):
+    serializer_class = ProvinceSerializer
+
+    def get_queryset(self):
+        return Provinces.objects.all()
 
 
 # Questions&Answers

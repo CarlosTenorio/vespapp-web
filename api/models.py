@@ -2,11 +2,24 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Province(models.Model):
+    name = models.CharField(max_length=128, null=False, blank=False, verbose_name='Nombre')
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
+
+    def __str__(self):
+        return self.name
+
+
 class Location(models.Model):
     name = models.CharField(max_length=128, null=False, blank=False, verbose_name='Nombre')
 
     lat = models.FloatField(null=False, blank=False, verbose_name='Latitud')
     lng = models.FloatField(null=False, blank=False, verbose_name='Longitud')
+
+    province = models.ForeignKey(Province, on_delete=models.SET_NULL, related_name="provinces",
+                                 verbose_name='Provincia', null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
