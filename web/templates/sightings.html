@@ -32,9 +32,13 @@ function initialize() {
   // Multiple Markers
   var markers = [
       {% for sighting in sightings_list %}
-      ['{{ sighting.location }}', parseFloat('{{sighting.lat}}'.replace(',','.')), parseFloat('{{sighting.lng}}'.replace(',', '.'))],
+      // Check if the sighting is public
+        {% if sighting.public %}
+        ['{{ sighting.location }}', parseFloat('{{sighting.lat}}'.replace(',','.')), parseFloat('{{sighting.lng}}'.replace(',', '.'))],      
+        {% endif %}      
       {% endfor %}
   ];
+
                       
   // Info Window Content
   var infoWindowContent = [
