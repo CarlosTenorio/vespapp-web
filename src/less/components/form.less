@@ -18,7 +18,7 @@ form {
 
 #mydz {      
   background: radial-gradient(ellipse at center,rgba(253, 150, 39, 0.5) 0,#FD9627 100%);
-  height:50%;  
+  height: 300px;
   border:5px dashed white;
   text-align:center;
   color: #656565;
@@ -50,6 +50,14 @@ form {
 #mydz .dz-preview.dz-image-preview {
    background-color: transparent;
 }
+#mydz.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}
 
   .round-label {
     background-color: @brand-primary;
@@ -63,6 +71,27 @@ form {
     }
 
   }
+
+  .lab{
+    border-style: solid;
+    border-width: 3px;
+    border-color: white; 
+  }
+
+  .lab:hover{
+    cursor: pointer;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #656565; 
+ }
+
+ input[type="radio"]:checked+label{
+    cursor: pointer;
+    border-style: solid;
+    border-width: 3px;
+    border-color: #656565; 
+ }
+
 }
 
 

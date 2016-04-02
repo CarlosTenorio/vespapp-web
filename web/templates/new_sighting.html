@@ -52,39 +52,43 @@
       <h1>Envía tu avispamiento</h1>
 
       <form id="new_sighting" enctype="multipart/form-data">
-        <div id="mydz" class="dropzone">
+        <div class="col-xs-12 col-md-6">
+          <div id="mydz" class="dropzone"></div>
+        </div>
           <!--<img src="{% static "img/camera.png" %}" alt="" height="42" width="42">
           <i class="fa fa-cloud-upload"></i>-->
-        </div>
+        
 
-        <div class="col-xs-6 text-center">
-          <label class="round-label text-center">
-            <input type="radio" name="type" class="hidden" value="1">
-            <span>
-              Avispa
-            </span>
-          </label>
-        </div>
-        <div class="col-lg-6 text-center">
-          <label class="round-label text-center">
-            <input type="radio" name="type" class="hidden" value="2">
-            <span>
-              Nido
-            </span>
-          </label>
-        </div>
+        <div class="col-xs-12 col-md-6">
+          <div class="col-xs-12 col-sm-6 text-center">
+            <label class="round-label text-center lab">
+              <input type="radio" name="type" class="hidden" value="1">
+              <span>
+                Avispa
+              </span>
+            </label>
+          </div>
+          <div class="col-xs-12 col-sm-6 text-center">
+            <label class="round-label text-center lab">
+              <input type="radio" name="type" class="hidden" value="2">
+              <span>
+                Nido
+              </span>
+            </label>
+          </div>
 
-        <div class="col-xs-12 form-group location">
-          <select class="form-control" name="location">
-            <option value="">Selecciona población</option>
-            {% for location in locations %}
-                <option value="{{location.id}}">{{location.name}}</option>
-            {% endfor %}
-          </select>
-        </div>
+          <div class="col-xs-12 form-group location">
+            <select class="form-control" name="location">
+              <option value="">Selecciona población</option>
+              {% for location in locations %}
+                  <option value="{{location.id}}">{{location.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
 
-        <div class="col-xs-12">
-          <input maxlength="512" name="free_text" type="text" />
+          <div class="col-xs-12">
+            <input maxlength="512" name="free_text" type="text" />
+          </div>
         </div>
 
         <button type="submit" id="submit-all" class="btn btn-primary">Enviar avistamiento</button>
