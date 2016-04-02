@@ -14,6 +14,7 @@ from api.models import Location
 from api.models import Picture
 from api.models import SightingFAQ
 from api.models import UserComment
+from api.models import Question
 
 from web.forms import SightingForm
 
@@ -57,6 +58,11 @@ class SightingView(DetailView):
 
 class SightQuestionView(DetailView):
     template_name = "sight_question.html"
+    pk_url_kwarg = 'sighting_id'
+    model = Question
+
+    def get_queryset(self, **kwargs):
+        return Question.objects.all()
 
 
 class LocationsPageView(TemplateView):
