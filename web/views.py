@@ -56,21 +56,24 @@ class SightingView(DetailView):
         return Sighting.objects.all()
 
 
-class SightQuestionView(DetailView):
-    template_name = "sight_question.html"
-    pk_url_kwarg = 'sighting_id'
-    model = Question
-
-    def get_queryset(self, **kwargs):
-        return Question.objects.all()
-
-
 class LocationsPageView(TemplateView):
     template_name = "locations.html"
 
 
 class SightExpertCommentView(DetailView):
     template_name = "sight_expert_comment.html"
+
+
+class SightQuestionView(DetailView):
+    template_name = "sight_question.html"
+    pk_url_kwarg = 'sighting_id'
+    model = Sighting
+
+    def get_context_data(self, **kwargs):
+        ctx = super(SightQuestionView, self).get_context_data(**kwargs) #add Question model to get all info of object
+        ctx['question'] = Question.objects.all()
+        return ctx
+
 
 
 class NewSightingView(TemplateView):
