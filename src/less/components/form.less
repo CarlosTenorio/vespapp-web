@@ -16,6 +16,41 @@ form {
     }
   }
 
+#mydz {      
+  background: radial-gradient(ellipse at center,rgba(253, 150, 39, 0.5) 0,#FD9627 100%);
+  height:50%;  
+  border:5px dashed white;
+  text-align:center;
+  color: #656565;
+  z-index: 20;
+  transition: all 0.3s ease-out;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.05),inset 0 0 .25em 0 rgba(0,0,0,.25);
+  margin-bottom: 30px;
+  i {
+    text-align: center;
+    font-size: 10em;  
+    color:#fff;
+    margin-top: 50px;
+  }
+}
+
+#mydz.in {
+  color:#656565;
+  border-color:white;
+  background: radial-gradient(ellipse at center,#EB6A5A 0,#c9402f 100%);
+  margin-bottom: 30px;
+  i {          
+    color:#fff;
+  }
+  label {
+    background: #fff;
+    color:#EB6A5A;
+  }
+}
+#mydz .dz-preview.dz-image-preview {
+   background-color: transparent;
+}
+
   .round-label {
     background-color: @brand-primary;
     color: #FFF;
@@ -29,3 +64,5 @@ form {
 
   }
 }
+
+

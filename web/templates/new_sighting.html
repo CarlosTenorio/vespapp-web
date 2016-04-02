@@ -16,11 +16,11 @@
         autoProcessQueue: false,
         acceptedFiles: "image/*",
         renameFilename: "file", // does not work
-        maxFiles: 10,
-        parallelUploads : 10,
-        dictDefaultMessage: "Drop files here to upload",
+        maxFiles: 5,
+        parallelUploads : 5,
+        dictDefaultMessage: "Arrastra tus fotos o haz clic aquí",
         dictFallbackMessage: "Your browser does not support drag and drop file uploads.",
-        dictInvalidFileType: "You can't upload files of this type.",
+        dictInvalidFileType: "No puedes subir archivos de este tipo",
         dictRemoveFile: 'Borrar'
       });
 
@@ -33,9 +33,9 @@
       });                                    
 
       myDropzone.on('addedfile', function(file){ 
-        /*if(myDropzone.files.length > 5) { 
-          myDropzone.removeFile(myDropzone.files[0]); 
-        } */
+        if(myDropzone.files.length > 5) { 
+          myDropzone.removeFile(myDropzone.files[5]); 
+        } 
       });
 
       myDropzone.on("sending", function(file, xhr, formData) {
@@ -53,7 +53,8 @@
 
       <form id="new_sighting" enctype="multipart/form-data">
         <div id="mydz" class="dropzone">
-          <img src="{% static "img/camera.png" %}" alt="" height="42" width="42"> 
+          <!--<img src="{% static "img/camera.png" %}" alt="" height="42" width="42">
+          <i class="fa fa-cloud-upload"></i>-->
         </div>
 
         <div class="col-xs-6 text-center">
