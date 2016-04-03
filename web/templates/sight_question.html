@@ -3,4 +3,12 @@
 {% block title %}Preguntas{% endblock %}
 {% block description %}Preguntas sobre el avistamiento{% endblock %}
 
-{% block body %}<p>sight_question id: {{sight_question}}</p>{% endblock %}
+{% block body %}
+
+<p>Tipo de avistamiento: {{object.type}}</p>
+	{% for q in question %}
+		{% if q.sighting_type == object.type and q.is_active %} {# WASP #}
+			<p>title: {{q.title}}</p>		   
+		{% endif %}          	
+	{% endfor %}
+{% endblock %}
