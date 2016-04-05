@@ -77,8 +77,6 @@ class SightQuestionView(DetailView):
 
 
 class NewSightingView(TemplateView):
-    #template_name = "new_sighting.html"
-
     @csrf_exempt
     def new_sighting(request):
         context = {
@@ -87,16 +85,6 @@ class NewSightingView(TemplateView):
 
         if request.POST:
             form_sighting = SightingForm(request.POST)
-            #form_picture = PictureForm(request.POST, request.FILES)
-            print("")
-            print(form_sighting)
-            print("")
-            print(request.POST)
-            print("")
-            print(request.FILES)
-            print("")
-            print(form_sighting.is_valid())
-            print("")
 
             if form_sighting.is_valid():
                 if request.FILES == None:
@@ -115,7 +103,7 @@ class NewSightingView(TemplateView):
                     picture_id.file.save(f.name, f)
                     picture_id.save()              
 
-                return HttpResponseRedirect('')
+                return HttpResponseRedirect(reverse(''))
         else:
             form_sighting = SightingForm()
 
