@@ -2,7 +2,14 @@ form {
   margin: 30px auto;
 
   .location{
-    margin-top: 30px;
+    margin-top: 10px;
+    width: 80%;
+    margin-left: 10%
+  }
+
+  .freetext{
+    width: 79%;
+    height: 150px;
   }
 
   .add-picture {
@@ -16,9 +23,17 @@ form {
     }
   }
 
+  .radiobut input[type="radio"]:checked + label{
+      cursor: pointer;
+      border-style: solid;
+      border-width: 3px;
+      border-color: #656565; 
+    }
+ 
+
 #mydz {      
   background: radial-gradient(ellipse at center,rgba(253, 150, 39, 0.5) 0,#FD9627 100%);
-  height: 300px;
+  height: 352px;
   border:5px dashed white;
   text-align:center;
   color: #656565;
@@ -64,32 +79,39 @@ form {
     color: #FFF;
     width: 10em;
     height: 10em;
-    span {
-      padding-top: 4em;
-      display: block;
-      border-radius: 50%;
-    }
-
-  }
-
-  .lab{
     border-style: solid;
     border-width: 3px;
     border-color: white; 
+    span {
+      display: block;
+      border-radius: 10%;
+    }
+
+
+
   }
 
-  .lab:hover{
+  .round-label:hover{
     cursor: pointer;
     border-style: solid;
     border-width: 3px;
     border-color: #656565; 
  }
 
- input[type="radio"]:checked+label{
-    cursor: pointer;
-    border-style: solid;
-    border-width: 3px;
-    border-color: #656565; 
+
+
+ 
+
+ .iconradio{
+    height: 65px;
+    width: 65px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+ }
+
+ #submit-all{
+  margin-bottom: 30px;
+  margin-top: 20px;
  }
 
 }
