@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
 {% block title %}Avistamientos{% endblock %}
 {% block description %}Lista de avistamientos{% endblock %}
 
@@ -28,6 +29,9 @@ function initialize() {
   // Display a map on the page
   map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
   map.setTilt(45);
+
+  // Spider effect
+  //var oms = new OverlappingMarkerSpiderfier(map);
       
   // Multiple Markers
   var markers = [
@@ -91,7 +95,8 @@ function initialize() {
       
   // Display multiple markers on a map
   var infoWindow = new google.maps.InfoWindow(), marker, i;
-  
+
+
   // Loop through our array of markers & place each one on the map  
   for( i = 0; i < markers.length; i++ ) {
     console.log(markers[i]);
@@ -103,20 +108,43 @@ function initialize() {
       }
       if (lat && lng) {
         var position = new google.maps.LatLng(lat, lng);
+
+        // Control of markets in same spot
+        if (markers.length != 0) {
+          for (j=0; j < markers.length; j++) {
+              //if a marker already exists in the same position as this marker
+              if (markers[i][0]==markers[j][0]) {
+                  //update the position of the coincident marker by applying a small multipler to its coordinates
+                  var newLat = lat + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
+                  var newLng = lng + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
+                  position = new google.maps.LatLng(newLat,newLng);
+              }
+          }
+        }
+
+
         bounds.extend(position);
         marker = new google.maps.Marker({
             position: position,
             map: map,
             title: markers[i][0]
         });
+
+        /*oms.addMarker(marker);*/
         
-        // Allow each marker to have an info window    
+        //Allow each marker to have an info window    
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
             return function() {
                 infoWindow.setContent(infoWindowContent[i][0]);
                 infoWindow.open(map, marker);
             }
         })(marker, i));
+
+        /*var iw = new gm.InfoWindow();
+        oms.addListener('click', function(marker, event) {
+          iw.setContent(marker.desc);
+          iw.open(map, marker);
+        });*/
 
         // Automatically center the map fitting all markers on the screen
         map.fitBounds(bounds);
@@ -127,6 +155,8 @@ function initialize() {
       this.setZoom(8);
       google.maps.event.removeListener(boundsListener);
   });
+
+
     
 }
 </script>
