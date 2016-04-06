@@ -115,8 +115,8 @@ function initialize() {
               //if a marker already exists in the same position as this marker
               if (markers[i][0]==markers[j][0]) {
                   //update the position of the coincident marker by applying a small multipler to its coordinates
-                  var newLat = lat + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
-                  var newLng = lng + (Math.random() -.5) / 1500;// * (Math.random() * (max - min) + min);
+                  var newLat = lat + (Math.random() -.5) / 300;// * (Math.random() * (max - min) + min);
+                  var newLng = lng + (Math.random() -.5) / 300;// * (Math.random() * (max - min) + min);
                   position = new google.maps.LatLng(newLat,newLng);
               }
           }
@@ -129,8 +129,6 @@ function initialize() {
             map: map,
             title: markers[i][0]
         });
-
-        /*oms.addMarker(marker);*/
         
         //Allow each marker to have an info window    
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
@@ -139,12 +137,6 @@ function initialize() {
                 infoWindow.open(map, marker);
             }
         })(marker, i));
-
-        /*var iw = new gm.InfoWindow();
-        oms.addListener('click', function(marker, event) {
-          iw.setContent(marker.desc);
-          iw.open(map, marker);
-        });*/
 
         // Automatically center the map fitting all markers on the screen
         map.fitBounds(bounds);
