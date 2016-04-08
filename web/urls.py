@@ -10,6 +10,9 @@ from web.views import SightingCommentView
 from web.views import SightingCommentsView
 from web.views import SightExpertCommentView
 from web.views import NewSightingView
+#from web.views import NewUserRegistration
+
+from . import views
 
 urlpatterns = [
     url(r'^$', HomePageView.as_view(), name='home'),
@@ -27,4 +30,12 @@ urlpatterns = [
 
     url(r'^sighting/(?P<sighting_id>[0-9]+)/user_comments/$', SightingCommentsView.as_view(), name='sighting_comments'),
     url(r'^sighting/(?P<sighting_id>[0-9]+)/user_comment/(?P<comment_id>[0-9]+)/$', SightingCommentView.as_view(), name='sighting_comment'),
+
+
+    url(r'^registro/$', views.registro_usuario_view, name='new_user'),
+    url(r'gracias/(?P<username>[\w]+)/$',views.gracias_view,name='gracias'),
+   
+
+
+
 ]
