@@ -10,6 +10,12 @@ from web.views import SightingCommentView
 from web.views import SightingCommentsView
 from web.views import SightExpertCommentView
 from web.views import NewSightingView
+from web.views import UserSignupView
+from web.views import UserLoginView
+from web.views import UserLogoutView
+from web.views import UserProfileView
+
+from . import views
 
 urlpatterns = [
     url(r'^$', HomePageView.as_view(), name='home'),
@@ -27,4 +33,11 @@ urlpatterns = [
 
     url(r'^sighting/(?P<sighting_id>[0-9]+)/user_comments/$', SightingCommentsView.as_view(), name='sighting_comments'),
     url(r'^sighting/(?P<sighting_id>[0-9]+)/user_comment/(?P<comment_id>[0-9]+)/$', SightingCommentView.as_view(), name='sighting_comment'),
+
+    url(r'^signup/$', UserSignupView.signup_user_view, name='signup'),
+    url(r'^login/$', UserLoginView.login_view, name='login'),
+    url(r'^logout/$', UserLogoutView.logout_view, name='logout'),
+
+    url(r'^user_profile/$', UserProfileView.edit_profile, name='user_profile'),
+
 ]

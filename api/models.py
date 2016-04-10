@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 
 class Province(models.Model):
@@ -74,6 +75,8 @@ class Sighting(models.Model):
     free_text = models.CharField(null=True, blank=True, max_length=512, verbose_name='Texto sobre localización')
 
     contact = models.CharField(null=True, blank=True, max_length=128, verbose_name='Contacto')
+    user = models.ForeignKey(User, related_name="user_sighthing", verbose_name='Avispamiento de', null=True,
+                                    blank=True)
 
     type = models.IntegerField(null=False, blank=False, verbose_name="Tipo de avistamiento")
     public = models.BooleanField(null=False, blank=False, default=False, verbose_name='Publico')
@@ -147,3 +150,16 @@ class SightingFAQ(models.Model):
 
     def __str__(self):
         return self.title
+
+
+
+
+
+#REGISTRATION
+class UserProfile(models.Model):
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    photo = models.ImageField(upload_to='profiles', blank=True, null=True)
+
+    def __str__(self):
+        return self.user.username
