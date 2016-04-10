@@ -68,15 +68,6 @@ class SightingView(DetailView):
         return Sighting.objects.all()
 
 
-class SightQuestionView(DetailView):
-    template_name = "sight_question.html"
-    pk_url_kwarg = 'sighting_id'
-    model = Question
-
-    def get_queryset(self, **kwargs):
-        return Question.objects.all()
-
-
 class LocationsPageView(TemplateView):
     template_name = "locations.html"
 
@@ -85,26 +76,23 @@ class SightExpertCommentView(DetailView):
     template_name = "sight_expert_comment.html"
 
 
+class SightQuestionView(DetailView):
+    template_name = "sight_question.html"
+    pk_url_kwarg = 'sighting_id'
+    model = Sighting
+
+    def get_context_data(self, **kwargs):
+        ctx = super(SightQuestionView, self).get_context_data(**kwargs) #add Question model to get all info of object
+        ctx['question'] = Question.objects.all()
+        return ctx
+
+
 class NewSightingView(TemplateView):
 
     @csrf_exempt
     def new_sighting(request):
-        context = {
-            'locations': Location.objects.all()
-        }
-
         if request.POST:
             form_sighting = SightingForm(request.POST)
-            #form_picture = PictureForm(request.POST, request.FILES)
-            print("")
-            print(form_sighting)
-            print("")
-            print(request.POST)
-            print("")
-            print(request.FILES)
-            print("")
-            print(form_sighting.is_valid())
-            print("")
 
             if form_sighting.is_valid():
                 if request.FILES == None:
@@ -112,6 +100,8 @@ class NewSightingView(TemplateView):
 
                 sighting_id = form_sighting.save(commit=False)
                 sighting_id.source = 'Web'
+                if request.user.is_authenticated():
+                    sighting_id.contact = request.user.email
                 sighting_id.save()
 
                 uploaded_files = [request.FILES.get('file[%d]' % i)
@@ -123,9 +113,13 @@ class NewSightingView(TemplateView):
                     picture_id.file.save(f.name, f)
                     picture_id.save()              
 
-                return HttpResponseRedirect('')
+                return redirect(reverse('home'))
         else:
             form_sighting = SightingForm()
+
+        context = {
+            'locations': Location.objects.all()
+        }
 
         return render(request, 'new_sighting.html', context=context)
 
@@ -206,8 +200,10 @@ class UserSignupView(TemplateView):
         else:
             # Si el mthod es GET, instanciamos un objeto RegistroUserForm vacio
             form = SignupUserForm()
+
         # Creamos el contexto
         context = {'form': form}
+
         # Y mostramos los datos
         return render(request, 'signup.html', context)
 
