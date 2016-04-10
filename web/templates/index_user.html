@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block description %}Perfil de usuario{% endblock %}
+{% block body %}
+
+<div class="page-header"><h2><h2>Perfil de usuario</h2></div>
+    Hola de nuevo {{ user.username }}<br>
+    <div>
+        <img src="{{ MEDIA_URL }}{{ user.userprofile.photo }}" alt="Imagen de {{ user.username }}" />
+    </div>
+{% endblock %}

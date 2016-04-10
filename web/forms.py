@@ -3,18 +3,18 @@ from api.models import Sighting
 from django.contrib.auth.models import User
 
 username = forms.CharField(
-    min_length=5,
+    min_length=4,
     widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 email = forms.EmailField(
     widget=forms.EmailInput(attrs={'class': 'form-control'}))
 
 password = forms.CharField(
-    min_length=5,
+    min_length=4,
     widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 password2 = forms.CharField(
-    min_length=5,
+    min_length=4,
     widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 photo = forms.ImageField(required=False)
@@ -27,11 +27,11 @@ class SightingForm(forms.ModelForm):
         fields = ('type', 'free_text', 'location')
 
 
-class RegistroUserForm(forms.Form):
+class SignupUserForm(forms.Form):
 
-    username = forms.CharField(min_length=5)
+    username = forms.CharField(min_length=4)
     email = forms.EmailField()
-    password = forms.CharField(min_length=5, widget=forms.PasswordInput())
+    password = forms.CharField(min_length=4, widget=forms.PasswordInput())
     password2 = forms.CharField(widget=forms.PasswordInput())
     photo = forms.ImageField(required=False)
 
