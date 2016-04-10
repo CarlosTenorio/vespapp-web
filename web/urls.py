@@ -13,6 +13,7 @@ from web.views import NewSightingView
 from web.views import UserSignupView
 from web.views import UserLoginView
 from web.views import UserLogoutView
+from web.views import UserProfileView
 
 from . import views
 
@@ -37,5 +38,6 @@ urlpatterns = [
     url(r'^login/$', UserLoginView.login_view, name='login'),
     url(r'^logout/$', UserLogoutView.logout_view, name='logout'),
 
+    url(r'^user_profile/$', UserProfileView.edit_profile, name='user_profile'),
 
 ]

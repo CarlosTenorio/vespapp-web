@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}Perfil de usuario{% endblock %}
+{% block body %}
+    <h2 class="page-header">Editar Email</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ aform.as_p }}
+        <button class="btn btn-primary" name='UserProfile' type="submit">Actualizar Email</button>
+        <a href="{% url 'home' %}" class="btn btn-warning" type="submit">Cancelar</a>
+    </form>
+
+    <h2 class="page-header">Editar contraseña</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        {{ bform.as_p }}
+        <button class="btn btn-primary" name="PasswordProfile" type="submit">Actualizar contraseña</button>
+        <a href="{% url 'home' %}" class="btn btn-warning" type="submit">Cancelar</a>
+    </form>
+
+    <h2 class="page-header">Editar foto de perfil</h2>
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ cform.as_p }}
+        <button class="btn btn-primary" name="PhotoProfile" type="submit">Actualizar foto</button>
+        <a href="{% url 'home' %}" class="btn btn-warning" type="submit">Cancelar</a>
+    </form>
+{% endblock %}

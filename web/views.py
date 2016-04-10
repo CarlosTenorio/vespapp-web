@@ -18,6 +18,9 @@ from api.models import UserProfile
 
 from web.forms import SightingForm
 from web.forms import SignupUserForm
+from web.forms import UserProfileForm
+from web.forms import PasswordProfileForm
+from web.forms import PhotoProfileForm
 
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -27,6 +30,8 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+
+from django.contrib.auth.hashers import make_password
 
 
 
@@ -183,6 +188,7 @@ class UserSignupView(TemplateView):
                 # Al campo user le asignamos el objeto user_model
                 user_profile.user = user_model
                 # y le asignamos la photo (el campo, permite datos null)
+                print(photo)
                 user_profile.photo = photo
                 # Por ultimo, guardamos tambien el objeto UserProfile
                 user_profile.save()
@@ -240,3 +246,51 @@ class UserLogoutView(TemplateView):
         logout(request)
         messages.success(request, 'Has cerrado sesión con éxito. ¡Vuelve pronto!')
         return redirect(reverse('home'))
+
+
+class UserProfileView(TemplateView):
+    
+    @login_required
+    def edit_profile(request):
+        if request.method == 'POST':
+            if 'UserProfile' in request.POST:
+                form = UserProfileForm(request.POST, request=request)
+                if form.is_valid():
+                    request.user.username = form.cleaned_data['username']
+                    request.user.email = form.cleaned_data['email']
+                    request.user.save()
+                    messages.success(request, '¡Tu perfil ha sido cambiado con éxito!')
+
+            elif 'PasswordProfile' in request.POST:
+                form = PasswordProfileForm(request.POST)
+                if form.is_valid():
+                    request.user.password = make_password(form.cleaned_data['password'])
+                    request.user.save()
+                    messages.success(request, 'La contraseña ha sido cambiado con exito!.')
+                    messages.success(request, 'Es necesario introducir los datos para entrar.')
+
+            elif 'PhotoProfile' in request.POST:
+                form = PhotoProfileForm(request.POST, request.FILES)
+
+                if form.is_valid():
+                    cleaned_data = form.cleaned_data
+                    photo = cleaned_data.get('photo')
+
+                    user = User.objects.get(username=request.user.username)
+                    user_profile = UserProfile.objects.get(user=user)
+                    print(photo)
+                    user_profile.photo = photo
+                    user_profile.save()
+
+                    messages.success(request, 'La foto ha sido cambiado con exito!.')
+
+            return redirect(reverse('user_profile'))
+
+        else:
+            userForm = UserProfileForm(
+                request=request, 
+                initial={'email': request.user.email, 'username': request.user.username})
+            passwordForm = PasswordProfileForm()
+            photoForm = PhotoProfileForm()
+
+        return render(request, 'user_profile.html', {'aform': userForm, 'bform': passwordForm, 'cform': photoForm})
