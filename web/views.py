@@ -102,6 +102,8 @@ class NewSightingView(TemplateView):
                 sighting_id.source = 'Web'
                 if request.user.is_authenticated():
                     sighting_id.contact = request.user.email
+                    user = User.objects.get(username=request.user.username)
+                    sighting_id.user = user
                 sighting_id.save()
 
                 uploaded_files = [request.FILES.get('file[%d]' % i)

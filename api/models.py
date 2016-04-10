@@ -75,6 +75,8 @@ class Sighting(models.Model):
     free_text = models.CharField(null=True, blank=True, max_length=512, verbose_name='Texto sobre localización')
 
     contact = models.CharField(null=True, blank=True, max_length=128, verbose_name='Contacto')
+    user = models.ForeignKey(User, related_name="user_sighthing", verbose_name='Avispamiento de', null=True,
+                                    blank=True)
 
     type = models.IntegerField(null=False, blank=False, verbose_name="Tipo de avistamiento")
     public = models.BooleanField(null=False, blank=False, default=False, verbose_name='Publico')
