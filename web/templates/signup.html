@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% block description %}Registro de usuario{% endblock %}
 {% block body %}
-    <div class="container">
+<!--     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="panel panel-default">
@@ -55,4 +55,41 @@
             </div>
         </div>
     </div> 
+ -->
+
+<div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-3">
+
+<div id="formSignup" class="animated">
+  <div class="left-col">
+    <h2 id="tittleformsignup">¡Gracias por enviar tu avispamiento!</h2>
+    <hr/>
+    <p>Si quieres conocer el estado de tu avispamiento REGÍSTRATE para dar comentarios y visualizar todas las fotos que nos has mandado y su resolución.</p>
+  </div>
+  <div class="right-col">
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if form.username.errors %}
+            
+            <div class="alertForm">
+  <strong>¡Cuidado!</strong> {{ form.username.errors }}</div>
+
+
+        {% endif %}
+      <input type="text" id="first-name" name="username"/>
+      <label for="first-name"><span class="fa fa-user"></span> Nombre de usuario</label>
+      <input type="text" id="email" name="email"/>
+      <label for="email"><span class="fa fa-envelope"></span> Correo electrónico</label>
+      <input type="password" id="password" name="password"/>
+      <label for="password"><span class="fa fa-lock"></span> Contraseña</label>
+      <input type="password" id="password2" name="password2"/>
+      <label for="password2"><span class="fa fa-lock"></span> Repita la contraseña</label>
+      <input type="submit" id="submit" value="REGISTRARSE"/>
+    </form>
+  </div>
+</div>
+  </div>
+  </div>
+</div>
 {% endblock %}
