@@ -293,4 +293,4 @@ class UserProfileView(TemplateView):
             passwordForm = PasswordProfileForm()
             photoForm = PhotoProfileForm()
 
-        return render(request, 'user_profile.html', {'aform': userForm, 'bform': passwordForm, 'cform': photoForm})
+        return render(request, 'user_profile.html', {'userForm': userForm, 'passwordForm': passwordForm, 'photoForm': photoForm})
