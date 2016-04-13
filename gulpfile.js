@@ -27,6 +27,7 @@ gulp.task('scripts', function() {
   return gulp.src([
     'bower_components/jquery/dist/jquery.min.js',
     'bower_components/bootstrap/dist/js/bootstrap.min.js',
+    'bower_components/sweetalert/dist/sweetalert.min.js',
     'src/**/*.js'
   ])
     .pipe(sourcemaps.init())

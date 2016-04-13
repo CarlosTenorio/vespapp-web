@@ -1,13 +1,5 @@
 
-
-// #formSignup{
-//   margin-left: auto;
-//   margin-right: auto;
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-// }
+//Sign up form
 
 .label-active, #formSignup .right-col input:focus + label {
   font-weight: 600;
@@ -20,12 +12,14 @@
   font-size: 3.0rem;
   margin-top: -5px;
   font-weight: 600;
-  color: #ffffff;
+  color: white;
 }
 
 #formSignup {
   margin-top: 50px;
   margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
   width: 630px;
   height: 440px;
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
@@ -37,22 +31,22 @@
 }
 #formSignup .left-col {
   text-align: center;
-  color: #66be44;
+  color: black;
   padding: 5rem 2.14rem;
-  background: #66be44;
+  background: #FD9627;
   background-size: cover;
   font-size: 1.875rem;
 }
 #formSignup .left-col p {
   line-height: 3.5rem;
   margin-top: 2.5rem;
-  color: #ffffff;
+  color: white;
 }
 #formSignup .left-col hr {
   height: 3px;
   width: 23.86rem;
   border: none;
-  background-color: #f3e942;
+  background-color: yellow;
 }
 #formSignup .right-col {
   padding: 2.7rem 1.875rem;
@@ -85,7 +79,7 @@
   font-weight: 600;
   border: none;
   border-radius: 1rem;
-  background-color: #66be44;
+  background-color: #F78102;
   color: #ffffff;
   transition: all .5s;
 }
@@ -93,26 +87,121 @@
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
+@media (max-width: 630px) {
+  #formSignup {
+    width: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+  }
+  #formSignup .left-col, #formSignup .right-col {
+    width: 100%;
+    height: auto;
+  }
+  #formSignup .right-col input {
+    width: 100%;
+  }
+  #formSignup .right-col input[type='submit'] {
+    width: 100%;
+  }
+}
 
 
-.alertForm {
-padding: 8px 35px 8px 14px;
-margin-bottom: 18px;
-color: #c09853;
-text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-background-color: #fcf8e3;
-border: 1px solid #fbeed5;
--webkit-border-radius: 4px;
--moz-border-radius: 4px;
-border-radius: 4px;
-z-index: 999;
+
+
+
+// Log in form
+
+.login-box {
+  position: relative;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 320px;
+  background: rgba(255,255,255,0.8);
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.15);
+  overflow: hidden;
+  //transition: 0.5s all;
 }
-.alertForm-heading {
-color: inherit;
+.login-box * {
+  box-sizing: border-box;
 }
-.alertForm .close {
-position: relative;
-top: -2px;
-right: -21px;
-line-height: 18px;
+.login-header {
+  background: #01b3eb;
+  background-image: linear-gradient(to bottom, #FD9627, rgba(255,255,12,0.9));
+  padding: 5px;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 2px 2px rgba(0,0,0,0.2);
+  box-shadow: inset 0 -1px rgba(255,255,255,0.8), 0 4px rgba(0,0,0,0.06), inset 0 4px rgba(255,255,255,0.2), inset 0 2px 2px rgba(255,255,255,0.2);
+}
+.login-header h1 {
+  font-size: 2em;
+  margin-bottom: 0em;
+}
+.login-header h2 {
+  font-size: 1.2em;
+  margin-bottom: 0.5em;
+}
+.login-icon {
+  width: 50px;
+  fill: #fff;
+  -webkit-filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+}
+.login-sign {
+  text-decoration: none;
+  color: #a8ff67;
+}
+.login-content { 
+  padding: 5px 20px;
+  font-size: 1.875rem;
+}
+
+.login-content button,
+.login-content a {
+  width: 100%;
+  display: inline-block;
+}
+.label-active, .login-content input:focus + label {
+  font-weight: 600;
+  font-size: 1.5rem;
+  transform: translate(0, -5rem);
+  color: #888;
+}
+.login-content label {
+  display: block;
+  transform: translate(0px, -5.0rem);
+  line-height: 1.8rem;
+  transition: all .3s;
+}
+.login-content input {
+  font-family: "Titillium Web", sans-serif;
+  font-size: 1.875rem;
+  width: 100%;
+  height: 2.125rem;
+  line-height: 2.125rem;
+  margin-top: 25px;
+  border: none;
+  border-bottom: 1px solid #aaaaaa;
+}
+
+.login-content input[type="submit"] {
+  width: 100%;
+  padding: 0.25 1.25rem;
+  height: 3.4rem;
+  line-height: 2.125rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 1rem;
+  background-color: #F78102;
+  color: #ffffff;
+  transition: all .5s;
+
+}
+.login-content input[type="submit"]:hover {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }

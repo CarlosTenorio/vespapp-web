@@ -2,37 +2,20 @@
 {% load staticfiles %}
 {% block description %}Registro{% endblock %}
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <h5 class="text-center">INICIAR SESIÓN</h5>
-                        {% if mensaje %}
-                            <div class="alert alert-danger">
-                                {{ mensaje }}
-                            </div>
-                        {% endif %}
-                        <form class="form form-signup" role="form" method="post" action="" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-user"></span></span>
-                                    <input type="text" name="username" class="form-control" placeholder="Nombre de usuario" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><span class="fa fa-lock"></span></span>
-                                    <input type="password" name="password" class="form-control" placeholder="Contraseña" />
-                                </div>
-                            </div>
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary btn-block">INICIAR SESIÓN</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> 
+<section class="login-box">
+  <header class="login-header">
+    <h1>Log In</h1>
+    <h2>Don't have an account? <a href="" class="login-sign">Sign up</a></h2>
+  </header>
+  <div class="login-content">
+    <form method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" id="first-name" name="username"/>
+      <label for="first-name"><span class="fa fa-user"></span> Nombre de usuario</label>
+      <input type="password" id="password" name="password"/>
+      <label for="password"><span class="fa fa-lock"></span> Contraseña</label>
+      <input type="submit" id="submit" value="ENTRAR"/>
+    </form>
+  </div>
+</section>
 {% endblock %}
