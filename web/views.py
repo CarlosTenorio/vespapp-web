@@ -254,26 +254,47 @@ class UserProfileView(TemplateView):
     def edit_profile(request):
         if request.method == 'POST':
             if 'UserProfile' in request.POST:
-                form = UserProfileForm(request.POST, request=request)
-                if form.is_valid():
-                    request.user.username = form.cleaned_data['username']
-                    request.user.email = form.cleaned_data['email']
+                userForm = UserProfileForm(request.POST, request=request)
+                if userForm.is_valid():
+                    request.user.username = userForm.cleaned_data['username']
+                    request.user.email = userForm.cleaned_data['email']
                     request.user.save()
                     messages.success(request, '¡Tu perfil ha sido cambiado con éxito!')
 
+                    return redirect(reverse('user_profile'))
+                else:
+                    passwordForm = PasswordProfileForm()
+                    photoForm = PhotoProfileForm()
+
             elif 'PasswordProfile' in request.POST:
-                form = PasswordProfileForm(request.POST)
-                if form.is_valid():
-                    request.user.password = make_password(form.cleaned_data['password'])
+                passwordForm = PasswordProfileForm(request.POST, user=request.user)
+                if passwordForm.is_valid():
+                    password = passwordForm.cleaned_data['password']
+                    request.user.password = make_password(password)
                     request.user.save()
                     messages.success(request, 'La contraseña ha sido cambiado con exito!.')
-                    messages.success(request, 'Es necesario introducir los datos para entrar.')
+
+                    user = authenticate(username=request.user.username, password=password)
+                    if user is not None:
+                        if user.is_active:
+                            login(request, user)
+                        else:
+                            # Redireccionar informando que la cuenta esta inactiva
+                            # Lo dejo como ejercicio al lector :)
+                            pass
+
+                    return redirect(reverse('user_profile'))
+                else:
+                    userForm = UserProfileForm(
+                        request=request, 
+                        initial={'email': request.user.email, 'username': request.user.username})
+                    photoForm = PhotoProfileForm()
 
             elif 'PhotoProfile' in request.POST:
-                form = PhotoProfileForm(request.POST, request.FILES)
+                photoForm = PhotoProfileForm(request.POST, request.FILES)
 
-                if form.is_valid():
-                    cleaned_data = form.cleaned_data
+                if photoForm.is_valid():
+                    cleaned_data = photoForm.cleaned_data
                     photo = cleaned_data.get('photo')
 
                     user = User.objects.get(username=request.user.username)
@@ -284,13 +305,25 @@ class UserProfileView(TemplateView):
 
                     messages.success(request, 'La foto ha sido cambiado con exito!.')
 
-            return redirect(reverse('user_profile'))
+                    return redirect(reverse('user_profile'))  
+                else:
+                    userForm = UserProfileForm(
+                        request=request, 
+                        initial={'email': request.user.email, 'username': request.user.username})
+                    passwordForm = PasswordProfileForm()
 
         else:
             userForm = UserProfileForm(
                 request=request, 
                 initial={'email': request.user.email, 'username': request.user.username})
-            passwordForm = PasswordProfileForm()
+            passwordForm = PasswordProfileForm(user=request.user)
             photoForm = PhotoProfileForm()
 
-        return render(request, 'user_profile.html', {'userForm': userForm, 'passwordForm': passwordForm, 'photoForm': photoForm})
+        user = User.objects.get(username=request.user.username)
+        user_profile = UserProfile.objects.get(user=user)
+        context = {'userForm': userForm, 
+            'passwordForm': passwordForm, 
+            'photoForm': photoForm,
+            'user_profile': user_profile}    
+
+        return render(request, 'user_profile.html', context)

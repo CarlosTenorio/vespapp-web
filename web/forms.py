@@ -110,6 +110,18 @@ class PasswordProfileForm(forms.Form):
         min_length=5,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
+    def __init__(self, *args, **kwargs):
+        """Obtener user"""
+        self.user = kwargs.pop('user')
+        return super().__init__(*args, **kwargs)
+
+    def clean_actual_password(self):
+        """Comprueba que actual_password sean la correcta."""
+        actual_password = self.cleaned_data['actual_password']
+        if not self.user.check_password(actual_password):
+            raise forms.ValidationError('Invalid password')
+        return actual_password
+
     def clean_password2(self):
         """Comprueba que password y password2 sean iguales."""
         password = self.cleaned_data['password']

@@ -22,7 +22,7 @@
           <li class="{% active 'home' %}"><a href="{% url 'home' %}">Home</a></li>
           <li class="{% active 'sightings' %}"><a href="{% url 'sightings' %}">Avistamientos</a></li>
           <li class="{% active 'faq' %}"><a href="{% url 'faq' %}">FAQ</a></li>
-          <li class="{% active 'locations' %}"><a href="{% url 'new_sighting' %}">Nuevo avistamiento</a></li>
+          <li class="{% active 'new_sighting' %}"><a href="{% url 'new_sighting' %}">Nuevo avistamiento</a></li>
 
           {% if user.is_authenticated %}
           <li class="{% active 'logout' %}"><a href="{% url 'logout' %}">Cerrar sesión</a></li>  

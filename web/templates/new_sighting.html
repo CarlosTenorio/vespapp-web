@@ -2,7 +2,60 @@
 {% load staticfiles %}
 {% block description %}Nuevo avistamiento{% endblock %}
 {% block body %}
-  
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <h1>Envía tu avispamiento</h1>
+
+      <form id="new_sighting" enctype="multipart/form-data">
+        <div class="col-xs-12 col-md-6">
+          <div id="mydz" class="dropzone"></div>
+        </div>        
+
+        <div class="radio-type col-xs-12 col-md-6">
+          <div class="col-xs-6 col-sm-6 text-center">
+            <input id="radio-avispa" type="radio" name="type" class="hidden" value="1">
+            <label for="radio-avispa" class="text-center lab">
+              <img src="{% static "img/vespaicon.png" %}" class="iconradio">
+              <span>
+                Avispa
+              </span>
+            </label>
+          </div>
+          <div class="col-xs-6 col-sm-6 text-center">
+            <input id="radio-nido" type="radio" name="type" class="hidden" value="2">
+            <label for="radio-nido" class="text-center lab">
+              <img src="{% static "img/nidoicon.png" %}" class="iconradio">
+              <span>
+                Nido
+              </span>
+            </label>
+          </div>
+
+          <div class="col-xs-12 form-group location">
+            <select class="form-control" name="location">
+              <option value="">Selecciona población</option>
+              {% for location in locations %}
+                  <option value="{{location.id}}">{{location.name}}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-xs-12">
+            <textarea name="free_text" class="freetext" placeholder="Escribe aquí si deseas detallar la zona del avispamiento o si tienes algún dato que pueda sernos útil"></textarea>
+          </div>
+        </div>
+
+        <div class="col-xs-12">
+          <button type="submit" id="submit-all" class="btn btn-primary">Enviar avistamiento</button>
+        </div>
+        
+       </form>
+    </div>
+  </div>
+</div>
+
+
 <script>
   $(document).ready(function() { 
       Dropzone.autoDiscover = false;
@@ -77,57 +130,5 @@
     });
 </script>
 
-<div class="container">
-  <div class="row">
-    <div class="col-xs-12 text-center">
-      <h1>Envía tu avispamiento</h1>
-
-      <form id="new_sighting" enctype="multipart/form-data">
-        <div class="col-xs-12 col-md-6">
-          <div id="mydz" class="dropzone"></div>
-        </div>        
-
-        <div class="radio-type col-xs-12 col-md-6">
-          <div class="col-xs-6 col-sm-6 text-center">
-            <input id="radio-avispa" type="radio" name="type" class="hidden" value="1">
-            <label for="radio-avispa" class="text-center lab">
-              <img src="{% static "img/vespaicon.png" %}" class="iconradio">
-              <span>
-                Avispa
-              </span>
-            </label>
-          </div>
-          <div class="col-xs-6 col-sm-6 text-center">
-            <input id="radio-nido" type="radio" name="type" class="hidden" value="2">
-            <label for="radio-nido" class="text-center lab">
-              <img src="{% static "img/nidoicon.png" %}" class="iconradio">
-              <span>
-                Nido
-              </span>
-            </label>
-          </div>
-
-          <div class="col-xs-12 form-group location">
-            <select class="form-control" name="location">
-              <option value="">Selecciona población</option>
-              {% for location in locations %}
-                  <option value="{{location.id}}">{{location.name}}</option>
-              {% endfor %}
-            </select>
-          </div>
-
-          <div class="col-xs-12">
-            <textarea name="free_text" class="freetext" placeholder="Escribe aquí si deseas detallar la zona del avispamiento o si tienes algún dato que pueda sernos útil"></textarea>
-          </div>
-        </div>
-
-        <div class="col-xs-12">
-          <button type="submit" id="submit-all" class="btn btn-primary">Enviar avistamiento</button>
-        </div>
-        
-       </form>
-    </div>
-  </div>
-</div>
 
 {% endblock %}
