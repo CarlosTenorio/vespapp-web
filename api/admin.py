@@ -17,3 +17,5 @@ admin.site.register(ExpertComment)
 admin.site.register(SightingFAQ)
 admin.site.register(Location)
 admin.site.register(Province)
+admin.site.register(UserProfile)
+

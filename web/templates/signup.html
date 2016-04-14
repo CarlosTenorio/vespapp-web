@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block description %}Registro de usuario{% endblock %}
+{% block body %}
+<div id="formSignup" class="animated">
+  <div class="left-col">
+    <h2 id="tittleformsignup">¡Gracias por enviar tu avispamiento!</h2>
+    <hr/>
+    <p>Si quieres conocer el estado de tu avispamiento REGÍSTRATE para dar comentarios y visualizar todas las fotos que nos has mandado y su resolución.</p>
+  </div>
+  <div class="right-col">
+    <form method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" id="first-name" name="username"/>
+      <label for="first-name"><span class="fa fa-user"></span> Nombre de usuario</label>
+      <input type="text" id="email" name="email"/>
+      <label for="email"><span class="fa fa-envelope"></span> Correo electrónico</label>
+      <input type="password" id="password" name="password"/>
+      <label for="password"><span class="fa fa-lock"></span> Contraseña</label>
+      <input type="password" id="password2" name="password2"/>
+      <label for="password2"><span class="fa fa-lock"></span> Repita la contraseña</label>
+      <input type="submit" id="submit" value="REGISTRARSE"/>
+    </form>
+  </div>
+</div>
+  </div>
+  </div>
+</div>
+
+<script>
+  var error;
+  {% if form.username.errors %}
+    error = 'Nombre de usuario: '+'{{form.username.errors|striptags}}';
+  {% endif %}
+  {% if form.email.errors %}
+    error = error+'\nCorreo electrónico: '+'{{form.email.errors|striptags}}';
+  {% endif %}
+  {% if form.password.errors %}
+    error = error+'\nContraseña: '+'{{form.password.errors|striptags}}';
+  {% endif %}
+  {% if form.password2.errors %}
+    error = error+'\nRepita la contraseña: '+'{{form.password2.errors|striptags}}';
+  {% endif %}
+  if(error){
+    errorForm(error);
+  }
+</script>
+
+{% endblock %}

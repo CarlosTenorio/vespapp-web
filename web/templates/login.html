@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block description %}Registro{% endblock %}
+{% block body %}
+<section class="login-box">
+  <header class="login-header">
+    <h1>Log In</h1>
+    <h2>¿Aún no tienes cuenta? <a href="{% url 'signup' %}" class="login-sign">Regístrate ya</a></h2>
+  </header>
+  <div class="login-content">
+    <form method="post" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="text" id="first-name" name="username"/>
+      <label for="first-name"><span class="fa fa-user"></span> Nombre de usuario</label>
+      <input type="password" id="password" name="password"/>
+      <label for="password"><span class="fa fa-lock"></span> Contraseña</label>
+      <input type="submit" id="submit" value="ENTRAR"/>
+    </form>
+  </div>
+</section>
+
+<script>
+  {% if mensaje %}
+    //var error = '{{form.errors|striptags}}';
+    errorForm('{{mensaje|striptags}}');
+  {% endif %}
+</script>
+{% endblock %}
