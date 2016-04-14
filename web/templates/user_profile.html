@@ -1,28 +1,50 @@
 {% extends "layout.html" %}
+{% load staticfiles %}
 
 {% block title %}Perfil de usuario{% endblock %}
 {% block body %}
-    <h2 class="page-header">Editar Email</h2>
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ aform.as_p }}
-        <button class="btn btn-primary" name='UserProfile' type="submit">Actualizar Email</button>
-        <a href="{% url 'home' %}" class="btn btn-warning" type="submit">Cancelar</a>
-    </form>
-
-    <h2 class="page-header">Editar contraseña</h2>
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ bform.as_p }}
-        <button class="btn btn-primary" name="PasswordProfile" type="submit">Actualizar contraseña</button>
-        <a href="{% url 'home' %}" class="btn btn-warning" type="submit">Cancelar</a>
-    </form>
-
-    <h2 class="page-header">Editar foto de perfil</h2>
-    <form method="post" action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ cform.as_p }}
-        <button class="btn btn-primary" name="PhotoProfile" type="submit">Actualizar foto</button>
-        <a href="{% url 'home' %}" class="btn btn-warning" type="submit">Cancelar</a>
-    </form>
+    <div class="container">
+        <section>
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="{% static "img/avispa_logo.png" %}" class="img-rounded img-responsive" />
+                    <!--<form method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ photoForm.as_p }}
+                        <button class="btn btn-primary" name="PhotoProfile" type="submit">Actualizar foto</button>
+                    </form>-->
+                </div>                    
+                <div class="col-md-5">
+                    <h3>Datos de tu perfil</h3>
+                    <form method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label>Nombre de usuario</label>
+                        <div id="divUsername">{{request.user.username}}</div>
+                        <input type="text" name="username" class="form-control" value="{{request.user.username}}" style="display: none;" readonly>
+                        <label>Correo electrónico</label>
+                        <!--<div id="divEmail">{{request.user.email}}</div>-->
+                        <input type="text" name="email" class="form-control" value="{{request.user.email}}" style="background: transparent;" disabled>
+                        <br>
+                        <a id="modifyProfile" class="btn btn-primary" onclick="edit()">Modificar perfil</a>
+                        <button class="btn btn-primary" name="UserProfile" type="submit" style="display: none;">Actualizar perfil</button>
+                        <a id="cancelModify" class="btn btn-primary" onclick="cancel()" style="display: none;">Cancelar</a>
+                    </form>
+                </div>
+                <div class="col-md-5">
+                    <h3>Cambiar tu contraseña</h3>
+                    <form method="post" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label>Contraseña actual</label>
+                        <input type="password" name="actual_password" class="form-control">
+                        <label>Nueva contraseña</label>
+                        <input type="password" name="password" class="form-control">
+                        <label>Repita la contraseña</label>
+                        <input type="password" name="password2" class="form-control" />
+                        <br>
+                        <button class="btn btn-primary" name="PasswordProfile" type="submit">Actualizar contraseña</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
 {% endblock %}
