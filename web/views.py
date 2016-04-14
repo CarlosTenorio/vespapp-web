@@ -15,8 +15,10 @@ from api.models import Picture
 from api.models import SightingFAQ
 from api.models import UserComment
 from api.models import Question
+from api.models import Answer
 
 from web.forms import SightingForm
+from web.forms import QuestionForm
 
 
 class HomePageView(TemplateView):
@@ -64,15 +66,57 @@ class SightExpertCommentView(DetailView):
     template_name = "sight_expert_comment.html"
 
 
-class SightQuestionView(DetailView):
-    template_name = "sight_question.html"
-    pk_url_kwarg = 'sighting_id'
-    model = Sighting
+class SightQuestionView(TemplateView):
+    @csrf_exempt
+    def sight_question(request, sighting_id, question_order):
 
-    def get_context_data(self, **kwargs):
-        ctx = super(SightQuestionView, self).get_context_data(**kwargs) #add Question model to get all info of object
-        ctx['question'] = Question.objects.all()
-        return ctx
+        s = Sighting.objects.get(id=sighting_id)   
+
+        if request.POST:
+            form_question = QuestionForm(request.POST)    
+            # print("FORM_QUESTION")
+            # print("")
+            # print(form_question) 
+            # print("")
+            # print("REQUEST.POST")
+            # print(request.POST)
+            # print("")
+            # print("REQUEST.FILES")
+            # print(request.FILES)
+            # print("")
+            # print("Es valido?")
+            # print(form_question.is_valid())  
+            # print("");
+
+            if form_question.is_valid():
+                if request.FILES == None:
+                    raise Http404("No objects uploaded")    
+
+                myArray = request.POST.pop('value')
+
+                for x in myArray:
+                    s.answers.add(x)
+
+                q = Question.objects.filter(order=int(question_order)+1, sighting_type=s.type)
+                if q.exists():
+                    print("")
+                    print("EXISTE")
+                    url = reverse('sight_question', kwargs={'sighting_id': sighting_id, 'question_order': int(question_order)+1})
+                    return HttpResponseRedirect(url)
+                else:
+                    return HttpResponseRedirect('')
+                    
+                # return redirect(reverse('home'))
+
+        else:
+            form_question = QuestionForm()
+
+        context = {
+            'sighting': Sighting.objects.get(id=sighting_id),
+            'question': Question.objects.get(order=question_order, sighting_type=s.type),
+            'answer': Answer.objects.all()
+        }
+        return render_to_response('sight_question.html', context=context)
 
 
 

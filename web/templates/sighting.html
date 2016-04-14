@@ -244,6 +244,11 @@ function initialize() {
 
   <p>Este avistamiento no existe.</p>
      
-{% endif %} 
+{% endif %}
+
+
+{% for a in object.answers.all %}
+        <li>{{ a }}</li>
+{% endfor %}
 
 {% endblock %}
