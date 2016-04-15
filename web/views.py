@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import render_to_response
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -116,8 +117,6 @@ class SightQuestionView(TemplateView):
 
                 q = Question.objects.filter(order=int(question_order)+1, sighting_type=s.type)
                 if q.exists():
-                    print("")
-                    print("EXISTE")
                     url = reverse('sight_question', kwargs={'sighting_id': sighting_id, 'question_order': int(question_order)+1})
                     return HttpResponseRedirect(url)
                 else:
@@ -140,6 +139,7 @@ class NewSightingView(TemplateView):
 
     @csrf_exempt
     def new_sighting(request):
+
         if request.POST:
             form_sighting = SightingForm(request.POST)
 
@@ -162,17 +162,29 @@ class NewSightingView(TemplateView):
                     picture_id = Picture()
                     picture_id.sighting = sighting_id
                     picture_id.file.save(f.name, f)
-                    picture_id.save()              
+                    picture_id.save()
 
-                return redirect(reverse('home'))
+
+            print("REQUEST.POST")
+            print(request.POST)
+            request.POST.pop('type')
+            request.POST.pop('location')
+            request.POST.pop('free_text')
+            print("REQUEST.POST")
+            print(request.POST)
+
+            url = reverse('faq')
+            return HttpResponseRedirect(url)           
         else:
+
             form_sighting = SightingForm()
 
-        context = {
-            'locations': Location.objects.all()
-        }
+            context = {
+                'locations': Location.objects.all()
+            }
 
-        return render(request, 'new_sighting.html', context=context)
+            return render(request, 'new_sighting.html', context=context)
+
 
 
 class SightingCommentView(DetailView):
