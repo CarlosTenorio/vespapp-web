@@ -8,6 +8,8 @@ from django.views.generic.detail import DetailView
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 
+import json
+
 from api.models import Sighting
 from api.models import Location
 from api.models import Picture
@@ -120,7 +122,7 @@ class NewSightingView(TemplateView):
                     picture_id.file.save(f.name, f)
                     picture_id.save()              
 
-                return redirect(reverse('home'))
+                return HttpResponse(sighting_id.pk)
         else:
             form_sighting = SightingForm()
 
