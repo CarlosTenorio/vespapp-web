@@ -91,20 +91,7 @@ class SightQuestionView(TemplateView):
         s = Sighting.objects.get(id=sighting_id)   
 
         if request.POST:
-            form_question = QuestionForm(request.POST)    
-            # print("FORM_QUESTION")
-            # print("")
-            # print(form_question) 
-            # print("")
-            # print("REQUEST.POST")
-            # print(request.POST)
-            # print("")
-            # print("REQUEST.FILES")
-            # print(request.FILES)
-            # print("")
-            # print("Es valido?")
-            # print(form_question.is_valid())  
-            # print("");
+            form_question = QuestionForm(request.POST)   
 
             if form_question.is_valid():
                 if request.FILES == None:
@@ -120,10 +107,8 @@ class SightQuestionView(TemplateView):
                     url = reverse('sight_question', kwargs={'sighting_id': sighting_id, 'question_order': int(question_order)+1})
                     return HttpResponseRedirect(url)
                 else:
-                    return HttpResponseRedirect('')
-                    
-                # return redirect(reverse('home'))
-
+                    mensaje='Registrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
+                    return render(request, 'home.html', {'mensaje': mensaje})                    
         else:
             form_question = QuestionForm()
 
@@ -141,8 +126,6 @@ class NewSightingView(TemplateView):
     def new_sighting(request):
 
         if request.POST:
-
-            # print ("entra")
 
             form_sighting = SightingForm(request.POST)
 
@@ -167,7 +150,6 @@ class NewSightingView(TemplateView):
                     picture_id.file.save(f.name, f)
                     picture_id.save()              
 
-                print("ID: " + str(sighting_id.id))
                 return HttpResponse(sighting_id.pk)
         else:
 
