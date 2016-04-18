@@ -1,5 +1,5 @@
 .searchable-container{margin:10px 0 0 0}
-.searchable-container label.btn-default.active{background-color:#007ba7;color:#FFF}
+.searchable-container label.btn-default.active{background-color:@brand-secondary;color:#FFF}
 .searchable-container label.btn-default{width:90%;border:1px solid #efefef;margin:5px; box-shadow:5px 8px 8px 0 #ccc;}
 .searchable-container label .bizcontent{width:100%;}
 .searchable-container .btn-group{width:90%}
@@ -14,20 +14,8 @@
 }
 
 .backgroundQuestions{
-	// background-image: url("../img/wasp1.jpg");
 	background-color: @brand-bg-color;
-	/*background-size:100% auto;*/
-	/*background-repeat: no-repeat;*/
-	// height: 800px;
 }
-
-// .questionRadio span.fa {         
-//   opacity: 0;       
-// }
-
-// .questionRadio.active span.fa {        
-//   opacity: 1;       
-// }
 
 .questionRadio {
   h4 {
@@ -43,20 +31,17 @@
   }
   &:hover {
     h4 {
-      background-color: darken(#009fff, 20%);
+      background-color: darken(@brand-secondary, 20%);
       transform: scale(1.1);
     }
   }
 }
 
-.active{
-  h4 {
-    background-color: darken(@brand-camera-color, 10%);
-    transform: scale(1.1);
-  }
-  &:hover {
-    h4 {      
-      background-color: darken(@brand-camera-color, 10%);
+.questionRadio{
+  &.active{
+    h4 {
+      background-color: darken(@brand-secondary, 10%);
+      transform: scale(1.1);
     }
   }
 }
