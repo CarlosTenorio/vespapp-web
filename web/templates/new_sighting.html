@@ -50,11 +50,11 @@
           <button type="submit" id="submit-all">Enviar avispamiento</button>
         </div>
         
-       </form>
+      </form>
+
     </div>
   </div>
 </div>
-
 
 <script>
   $(document).ready(function() { 
@@ -99,6 +99,7 @@
         if ($('select[name=location] option:selected').val() != "" && $('textarea[name=free_text]').val() != ""
           && $('input:radio[name=type]').is(':checked')) {
           myDropzone.processQueue();
+
         }
       });                                    
 
@@ -113,6 +114,16 @@
         formData.append("type", $("input:radio[name=type]:checked").val()); 
         formData.append("location", $("select[name=location] option:selected").val()); 
         formData.append("free_text", $('textarea[name=free_text]').val());
+
+      });
+
+      myDropzone.on("success", function (file, responseText) {
+        // var args = Array.prototype.slice.call(arguments);
+
+        window.location.href = responseText;   
+        console.log(file);
+        console.log(response);
+
       });
 
       $('#new_sighting').change(function(){

@@ -5,46 +5,73 @@
 {% block body %}
     <div class="container">
         <section>
-            <div class="row">
-                <div class="col-md-2">
-                    <img src="{% static "img/avispa_logo.png" %}" class="img-rounded img-responsive" />
-                    <!--<form method="post" action="" enctype="multipart/form-data">
+            <div class="row">      
+                <div class="col-xs-12">
+                    <h1 class="text-center">Mi perfil</h1>
+                </div>
+                <div class="col-md-3 profile-content">
+                    <img src="{{ user_profile.photo.url }}" class="img-rounded img-responsive" />
+                    <form method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
                         {{ photoForm.as_p }}
-                        <button class="btn btn-primary" name="PhotoProfile" type="submit">Actualizar foto</button>
-                    </form>-->
+                        <input type="submit" name="PhotoProfile" id="submit" value="Actualizar foto"/>
+                    </form>
                 </div>                    
                 <div class="col-md-5">
                     <h3>Datos de tu perfil</h3>
-                    <form method="post" action="" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <label>Nombre de usuario</label>
-                        <div id="divUsername">{{request.user.username}}</div>
-                        <input type="text" name="username" class="form-control" value="{{request.user.username}}" style="display: none;" readonly>
-                        <label>Correo electrónico</label>
-                        <!--<div id="divEmail">{{request.user.email}}</div>-->
-                        <input type="text" name="email" class="form-control" value="{{request.user.email}}" style="background: transparent;" disabled>
-                        <br>
-                        <a id="modifyProfile" class="btn btn-primary" onclick="edit()">Modificar perfil</a>
-                        <button class="btn btn-primary" name="UserProfile" type="submit" style="display: none;">Actualizar perfil</button>
-                        <a id="cancelModify" class="btn btn-primary" onclick="cancel()" style="display: none;">Cancelar</a>
-                    </form>
+                    <div class="profile-content">
+                        <form method="post" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="text" id="username" name="username" value="{{request.user.username}}" />
+                            <label for="username"><span class="fa fa-user"></span> Nombre de usuario</label>
+                            <input type="text" id="email" name="email" value="{{request.user.email}}" />
+                            <label for="email"><span class="fa fa-envelope"></span> Correo electrónico</label>
+                            <br>
+                            <input type="submit" name="UserProfile" id="submit" value="Actualizar perfil"/>
+                        </form>
+                    </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-4">
                     <h3>Cambiar tu contraseña</h3>
-                    <form method="post" action="" enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <label>Contraseña actual</label>
-                        <input type="password" name="actual_password" class="form-control">
-                        <label>Nueva contraseña</label>
-                        <input type="password" name="password" class="form-control">
-                        <label>Repita la contraseña</label>
-                        <input type="password" name="password2" class="form-control" />
-                        <br>
-                        <button class="btn btn-primary" name="PasswordProfile" type="submit">Actualizar contraseña</button>
-                    </form>
+                    <div class="profile-content">
+                        <form method="post" action="" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="password" id="actual_password" name="actual_password"/>
+                            <label for="actual_password"><span class="fa fa-lock"></span> Contraseña actual</label>
+                            <input type="password" id="password" name="password"/>
+                            <label for="password"><span class="fa fa-lock"></span> Nueva contraseña</label>
+                            <input type="password" id="password2" name="password2"/>
+                            <label for="password2"><span class="fa fa-lock"></span> Repita la contraseña</label>
+                            <br>
+                            <input type="submit" name="PasswordProfile" id="submit" value="Actualizar contraseña"/>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
     </div>
+
+    <script>
+        var error = "";
+        {% if userForm.username.errors %}
+            console.log("hola");
+            error = 'Nombre de usuario: ' + '{{userForm.username.errors|striptags}}';
+        {% endif %}
+        {% if userForm.email.errors %}
+            error = error + '\nCorreo electrónico: ' + '{{userForm.email.errors|striptags}}';
+        {% endif %}
+
+        {% if passwordForm.actual_password.errors %}
+            error = error + 'Contraseña actual: ' + '{{passwordForm.actual_password.errors|striptags}}';
+        {% endif %}
+        {% if passwordForm.password.errors %}
+            error = error + '\nContraseña: ' + '{{passwordForm.password.errors|striptags}}';
+        {% endif %}
+        {% if passwordForm.password2.errors %}
+            error = error + '\nRepita la contraseña: ' + '{{passwordForm.password2.errors|striptags}}';
+        {% endif %}
+        if(error){
+            errorForm(error);
+        }
+    </script>
 {% endblock %}

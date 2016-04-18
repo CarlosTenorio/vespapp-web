@@ -82,6 +82,7 @@
   background-color: #F78102;
   color: #ffffff;
   transition: all .5s;
+  text-transform: uppercase;
 }
 #formSignup .right-col input[type="submit"]:hover {
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
@@ -161,7 +162,6 @@
   padding: 5px 20px;
   font-size: 1.875rem;
 }
-
 .login-content button,
 .login-content a {
   width: 100%;
@@ -201,8 +201,73 @@
   background-color: #F78102;
   color: #ffffff;
   transition: all .5s;
-
+  text-transform: uppercase;
 }
 .login-content input[type="submit"]:hover {
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
+
+
+
+
+
+// User profile form
+.profile-content { 
+  padding: 5px 20px;
+  font-size: 1.875rem;
+}
+.profile-content img {
+  height: 100%;
+  width: 100%;
+}
+.profile-content input:focus + label {
+  font-weight: 600;
+  font-size: 1.5rem;
+  transform: translate(0, -5rem);
+  color: #888;
+}
+.profile-content label {
+  display: block;
+  transform: translate(0px, -5.0rem);
+  line-height: 1.8rem;
+  transition: all .3s;
+}
+.profile-content input, .profile-content a {
+  font-family: "Titillium Web", sans-serif;
+  font-size: 1.875rem;
+  width: 100%;
+  height: 2.125rem;
+  line-height: 2.125rem;
+  margin-top: 25px;
+  border: none;
+  border-bottom: 1px solid #aaaaaa;
+}
+.profile-content input[type="image"] {
+  width: auto;
+  height: auto;
+  margin-top: 0px;
+  font-size: 0rem;
+  border: none;
+  border-bottom: none;
+  background-color: #F78102;
+  color: #ffffff;
+  transition: all .5s;
+}
+.profile-content input[type="submit"], .profile-content a {
+  width: auto;
+  height: 3.4rem;
+  margin-top: 0px;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  background-color: #F78102;
+  color: #ffffff;
+  transition: all .5s;
+}
+.profile-content input[type="submit"]:hover, .profile-content a:hover {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/*input[name=UserProfile], #cancelModify {
+  display: none;
+}*/

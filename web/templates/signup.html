@@ -23,23 +23,20 @@
     </form>
   </div>
 </div>
-  </div>
-  </div>
-</div>
 
 <script>
-  var error;
+  var error = "";
   {% if form.username.errors %}
-    error = 'Nombre de usuario: '+'{{form.username.errors|striptags}}';
+    error = 'Nombre de usuario: ' + '{{form.username.errors|striptags}}';
   {% endif %}
   {% if form.email.errors %}
-    error = error+'\nCorreo electrónico: '+'{{form.email.errors|striptags}}';
+    error = error + '\nCorreo electrónico: ' + '{{form.email.errors|striptags}}';
   {% endif %}
   {% if form.password.errors %}
-    error = error+'\nContraseña: '+'{{form.password.errors|striptags}}';
+    error = error + '\nContraseña: ' + '{{form.password.errors|striptags}}';
   {% endif %}
   {% if form.password2.errors %}
-    error = error+'\nRepita la contraseña: '+'{{form.password2.errors|striptags}}';
+    error = error + '\nRepita la contraseña: ' + '{{form.password2.errors|striptags}}';
   {% endif %}
   if(error){
     errorForm(error);
