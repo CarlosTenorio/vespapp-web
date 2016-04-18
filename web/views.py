@@ -9,6 +9,8 @@ from django.views.generic.detail import DetailView
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 
+import json
+
 from api.models import Sighting
 from api.models import Location
 from api.models import Picture
@@ -163,19 +165,10 @@ class NewSightingView(TemplateView):
                     picture_id = Picture()
                     picture_id.sighting = sighting_id
                     picture_id.file.save(f.name, f)
-                    picture_id.save()
+                    picture_id.save()              
 
                 print("ID: " + str(sighting_id.id))
-                # print("REQUEST.POST")
-                # print(request.POST)
-                # request.POST.pop('type')
-                # request.POST.pop('location')
-                # request.POST.pop('free_text')
-                # print("REQUEST.POST")
-                # print(request.POST)
-            url = reverse('sight_question', kwargs={'sighting_id': sighting_id, 'question_order': 1})
-            return HttpResponseRedirect(url)
-         
+                return HttpResponse(sighting_id.pk)
         else:
 
             form_sighting = SightingForm()
