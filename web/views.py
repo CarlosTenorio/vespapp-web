@@ -85,6 +85,7 @@ class SightExpertCommentView(DetailView):
 
 
 class SightQuestionView(TemplateView):
+
     @csrf_exempt
     def sight_question(request, sighting_id, question_order):
 
@@ -160,6 +161,7 @@ class NewSightingView(TemplateView):
             }
 
             return render(request, 'new_sighting.html', context=context)
+
 
 class SightingCommentView(DetailView):
     template_name = "sighting_comment.html"

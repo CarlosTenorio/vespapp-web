@@ -23,9 +23,9 @@ PROJECT_DIR = os.path.dirname(os.path.realpath(__file__))
 SECRET_KEY = '@7xvv!(2p469*!j7d)g^tc-e*$spkkj+g#rly6m+b7%p3hift&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
+DEBUG = False
+TEMPLATE_DEBUG = False
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -162,8 +162,7 @@ REST_FRAMEWORK = {
 }
 
 
-
-#REGISTRATION 
+# Registration form 
 ACCOUNT_ACTIVATION_DAYS = 7
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
