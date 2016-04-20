@@ -5,171 +5,164 @@
 
 {% block body %}
 
-{% if object.public %}
+{% if sighting.public %}
 <div class="container sighting-page">
   <div class="row">
     <div class="col-xs-12">
-      {% if object.type == 1 %}
+      {% if sighting.type == 1 %}
       <h1>Avistamiento avispa</h1>
-      {% elif object.type == 0%}
+      {% elif sighting.type == 0%}
       <h1>Avistamiento nido</h1>
       {% else %}
       <h1>Avistamiento</h1>      
       {% endif %}          
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6">
-
       <div class="info-group source">
         <span class="sighting-label">Notificado por:</span>
-        {% if object.source == "twitter" %}
+        {% if sighting.source == "twitter" %}
         <i class="fa fa-twitter-square"></i><span class="sighting-type">Notificado por Twitter</span>
-        {% elif object.source == "telegram"%}
+        {% elif sighting.source == "telegram"%}
         <i class="fa fa-weixin"></i><span class="sighting-type">Notificado por Telegram</span>
-        {% elif object.source == "web"%}
+        {% elif sighting.source == "web"%}
         <i class="fa fa-envelope-square"></i><span class="sighting-type">Notificado por Web</span>
-        {% elif object.source == "app"%}
+        {% elif sighting.source == "app"%}
         <i class="fa fa-mobile-phone"></i><span class="sighting-type">Notificado por App</span>
         {% endif %}
       </div>
 
       <div class="info-group user">
         <span class="sighting-label">Usuario:</span>
-        {% if object.user %}
-        <span>{{object.user}}</span>
+        {% if sighting.user %}
+        <span>{{sighting.user}}</span>
         {% else %}
         <span>Anónimo</span>
         {% endif %}
       </div>
 
 
-      {% if object.lat or object.location.lat %}
+      {% if sighting.lat or sighting.location.lat %}
       <div class="info-group position">
         <span class="sighting-label">Latitud:</span>
-        {% if object.lat %}
-        <span>{{ object.lat }}</span>
-        {% elif object.location.lat %}
-        <span>{{ object.location.lat }}</span>
+        {% if sighting.lat %}
+        <span>{{ sighting.lat }}</span>
+        {% elif sighting.location.lat %}
+        <span>{{ sighting.location.lat }}</span>
         {% endif %}        
       </div>
       <div class="info-group position">
         <span class="sighting-label">Longitud:</span>
-        {% if object.lng %}
-        <span>{{ object.lng }}</span>
-        {% elif object.location.lng %}
-        <span>{{ object.location.lng }}</span>
+        {% if sighting.lng %}
+        <span>{{ sighting.lng }}</span>
+        {% elif sighting.location.lng %}
+        <span>{{ sighting.location.lng }}</span>
         {% endif %}  
       </div>
       {% endif %}  
 
-      {% if object.location %}
+      {% if sighting.location %}
       <div class="info-group position">
         <span class="sighting-label">Localización:</span>
-        <span>{{ object.location.name }}</span>
+        <span>{{ sighting.location.name }}</span>
       </div>
       {% endif %}
 
       <div class="info-group position">
         <span class="sighting-label">Tipo:</span>
-        {% if object.type == 1 %}
+        {% if sighting.type == 1 %}
         <i class="fa fa-bug"></i><span>Avispa</span>
-        {% elif object.type == 2 %}
+        {% elif sighting.type == 2 %}
         <i class="fa fa-fort-awesome"></i><span>Nido</span>
         {% endif %}
       </div>    
 
       <div class="info-group position">
         <span class="sighting-label">Estado:</span>
-        {% if object.status == 0 %}
+        {% if sighting.status == 0 %}
         <span class="label label-danger">Pendiente</span>
-        {% elif object.status == 1%}
+        {% elif sighting.status == 1%}
         <span class="label label-warning">Procesando</span>
-        {% elif object.status == 2%}
+        {% elif sighting.status == 2%}
         <span class="label label-success">Procesado</span>
         {% endif %} 
       </div>  
 
       <div class="info-group position">
         <span class="sighting-label">Fecha:</span>
-        <span>{{ object.created_at }}</span>
+        <span>{{ sighting.created_at }}</span>
       </div>  
 
       <div class="info-group position">
         <span class="sighting-label">Descripción:</span>
-        <span>{{ object.free_text }}</span>
+        <span>{{ sighting.free_text }}</span>
       </div>  
-
-
-
     </div>
 
     <div class="col-xs-12 col-sm-6 col-md-6">
-
-
-      {% if object.pictures.count < 2 %}
-      <div class="info-group position">
-        
-        <img src="{{ object.first_picture.file.url }}" class="img-responsive sighting-image"/>
-         
-      </div>      
+      {% if sighting.pictures.count < 2 %}
+        <div class="info-group position">     
+          <img src="{{ sighting.first_picture.file.url }}" class="img-responsive sighting-image"/>     
+        </div>      
       {% else %}   
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+          <!-- Indicators -->
+          <ol class="carousel-indicators">
+            {% for picture in sighting.pictures.all %}
+            <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
+            {% endfor %}
+          </ol>
 
-      <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-          {% for picture in object.pictures.all %}
-          <li data-target="#carousel-example-generic" data-slide-to="{{ forloop.counter0 }}" class="active"></li>
-          {% endfor %}
-        </ol>
-
-        <!-- Wrapper for slides -->
-        <div class="carousel-inner" role="listbox">
-          {% for picture in object.pictures.all %}
-          <div class="item {% if forloop.counter0 == 0 %}active{% endif %}">
-            <img src="{{ picture.file.url }}" class="img-responsive sighting-image">
+          <!-- Wrapper for slides -->
+          <div class="carousel-inner" role="listbox">
+            {% for picture in sighting.pictures.all %}
+            <div class="item {% if forloop.counter0 == 0 %}active{% endif %}">
+              <img src="{{ picture.file.url }}" class="img-responsive sighting-image">
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
-        </div>
 
-        <!-- Controls -->
-        <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-          <span class="fa fa-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-          <span class="fa fa-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
+          <!-- Controls -->
+          <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+            <span class="fa fa-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+            <span class="fa fa-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
       {% endif %}
     </div>
 
-    {% if object.lat or object.location.lat %}
-    <div class="col-xs-12">
-      <div id="map_wrapper">
-        <div id="map_canvas" class="mapping">
-          
+    {% if sighting.lat or sighting.location.lat %}
+      <div class="col-xs-12">
+        <div id="map_wrapper">
+          <div id="map_canvas" class="mapping"></div>
         </div>
       </div>
-    </div>
     {% endif %}
 
     <div class="col-xs-12 comment-container">
-      {% if object.user_comments.count %}
-        <h2>{{object.user_comments.count}} Comentarios:</h2>
-        {% for x in object.user_comments.all %}
-          {% if x.moderated %}
+      {% if sighting.user_comments.count %}
+        <h2>{{sighting.user_comments.count}} Comentarios:</h2>
+        {% for x in sighting.user_comments.all %}
             <div class="well">
-            <span> <strong>Fecha: </strong>{{x.created_at}}</span>
-            <p>
-            {{ x.body }}
-            </p>
+              <span> <strong> {{x.user.username}} </strong></span>
+              </br>
+              <span> <strong> {{x.created_at}} </strong></span>
+              <p> {{ x.body }} </p>
             </div>
-          {% endif %}
         {% endfor %}
-      
       {% else %}
         <h2>Comentarios:</h2>
         <p>No hay comentarios.</p>
+      {% endif %}
+      {% if user.is_authenticated %} 
+          <form method="post" action="">
+              {% csrf_token %}
+              <textarea name="body" placeholder="Escribe tu comentario..." maxlength="512"></textarea>
+              <input type="submit" id="submit" value="Enviar comentario"/>
+          </form>
       {% endif %}
     </div>
   </div>
@@ -196,15 +189,15 @@ function initialize() {
       
   // Multiple Markers
   var markers = [
-      ['{{ object.location }}', parseFloat('{{object.location.lat}}'.replace(',','.')), parseFloat('{{object.location.lng}}'.replace(',','.')), parseFloat('{{object.lat}}'.replace(',','.')), parseFloat('{{object.lng}}'.replace(',', '.'))],
+      ['{{ sighting.location }}', parseFloat('{{sighting.location.lat}}'.replace(',','.')), parseFloat('{{sighting.location.lng}}'.replace(',','.')), parseFloat('{{sighting.lat}}'.replace(',','.')), parseFloat('{{sighting.lng}}'.replace(',', '.'))],
   ];
                       
   // Info Window Content
   var infoWindowContent = [
       
       ['<div class="info_content">' +
-      '<h3>{{object.reported_by.username}}</h3>' +
-      '<p>{{object.free_text}}</p>'  +    '</div>'],
+      '<h3>{{sighting.reported_by.username}}</h3>' +
+      '<p>{{sighting.free_text}}</p>'  +    '</div>'],
       
   ];
       
@@ -260,7 +253,7 @@ function initialize() {
     </div>
     <div class="buttom404">
       <div class="seach_bar404">
-        <p>Puedes volver a Inicio clicando <span><a href="{% url 'home' %}">aquí</a></span></p>
+        <p>Puedes volver a Inicio haciendo clic <span><a href="{% url 'home' %}">aquí</a></span></p>
       </div>
     </div>
   </div>

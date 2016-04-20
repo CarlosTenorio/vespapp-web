@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response 
+from django.template import RequestContext
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -22,6 +23,7 @@ from api.models import UserProfile
 
 from web.forms import SightingForm
 from web.forms import QuestionForm
+from web.forms import CommentSightingForm
 
 from web.forms import SightingForm
 from web.forms import SignupUserForm
@@ -66,19 +68,41 @@ class SightingsView(ListView):
         return Sighting.objects.filter(public=True)
 
 
-class SightingView(DetailView):
-    template_name = "sighting.html"
-    template_name_field = 'object'
-    model = Sighting
+class SightingView(TemplateView):
 
-    def get_object(self, queryset=None):
-        sighting_id = self.kwargs.get('sighting_id')
-        
+    def sighting_view(request, sighting_id):
+
+        if request.POST:
+            form_comment = CommentSightingForm(request.POST)
+
+            print("holaaa")
+            print(request.POST)
+            print(form_comment)
+            print(form_comment.is_valid())
+
+            if form_comment.is_valid():   
+                comment_id = form_comment.save(commit=False)
+                sighting = Sighting.objects.get(id=int(sighting_id))
+                comment_id.sighting = sighting
+                user = User.objects.get(username=request.user.username)
+                comment_id.user = user
+                comment_id.save()
+
+                return redirect(reverse('home'))                   
+        else:
+            form_comment = CommentSightingForm()
+
         try:
-            sighting = Sighting.objects.get(pk=sighting_id)
-            return sighting
+            context = {
+                'sighting': Sighting.objects.get(id=int(sighting_id)),
+                'form_comment': form_comment
+            }
         except Sighting.DoesNotExist:
-            return None
+            context = {
+                'sighting': None
+            }
+
+        return render_to_response('sighting.html', context=context, context_instance=RequestContext(request))
 
 
 class LocationsPageView(TemplateView):
@@ -158,14 +182,13 @@ class NewSightingView(TemplateView):
 
                 return HttpResponse(sighting_id.pk)
         else:
-
             form_sighting = SightingForm()
 
-            context = {
-                'locations': Location.objects.all()
-            }
+        context = {
+            'locations': Location.objects.all()
+        }
 
-            return render(request, 'new_sighting.html', context=context)
+        return render(request, 'new_sighting.html', context=context)
 
 
 class SightingCommentView(DetailView):
@@ -197,6 +220,10 @@ class SightingCommentsView(ListView):
 class UserSignupView(TemplateView):
 
     def signup_user_view(request):
+        # Si el usuario esta ya logueado, lo redireccionamos a home
+        if request.user.is_authenticated():
+            return redirect(reverse('home'))
+
         if request.method == 'POST':
             # Si el method es post, obtenemos los datos del formulario
             form = SignupUserForm(request.POST, request.FILES)
@@ -234,8 +261,6 @@ class UserSignupView(TemplateView):
                     if user.is_active:
                         login(request, user)
                     else:
-                        # Redireccionar informando que la cuenta esta inactiva
-                        # Lo dejo como ejercicio al lector :)
                         pass
                 # Ahora, redireccionamos a la pagina home.html
                 # Pero lo hacemos con un redirect.
@@ -268,8 +293,6 @@ class UserLoginView(TemplateView):
                     login(request, user)
                     return redirect(reverse('home'))
                 else:
-                    # Redireccionar informando que la cuenta esta inactiva
-                    # Lo dejo como ejercicio al lector :)
                     pass
             mensaje = 'Nombre de usuario o contraseña no válido'
         return render(request, 'login.html', {'mensaje': mensaje})
@@ -312,8 +335,6 @@ class UserProfileView(TemplateView):
                         if user.is_active:
                             login(request, user)
                         else:
-                            # Redireccionar informando que la cuenta esta inactiva
-                            # Lo dejo como ejercicio al lector :)
                             pass
 
                     return redirect(reverse('user_profile'))
