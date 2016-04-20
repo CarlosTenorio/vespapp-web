@@ -4,15 +4,15 @@ from api.models import *
 
 
 class SightingAdmin(admin.ModelAdmin):
-    model = Answer
 
     list_display = ('id','user', 'location','created_at')
+
     fieldsets = [('Información básica', {'fields': ['id',('created_at', 'source')]}), 
     ('Datos del usuario', {'fields': [('user', 'contact')]}), 
     ('Localización del avispamiento', {'fields': [('location', 'lat', 'lng')]}),
-    ('Datos del avispamiento', {'fields': [('type','glosario_tipos'), 'free_text', 'foto_avispamiento', ('answers')]}),
+    ('Datos del avispamiento', {'fields': [('type','glosario_tipos'), 'free_text', 'foto_avispamiento', ('answers', 'respuestas_preguntas')]}),
     ('Estado del avispamiento', {'fields': [('public'), ('status', 'glosario_estados'), ('is_valid', 'moderator')]}),]
-    readonly_fields = ['id','created_at', 'foto_avispamiento', 'glosario_tipos', 'glosario_estados',]
+    readonly_fields = ['id','created_at', 'foto_avispamiento', 'glosario_tipos', 'glosario_estados','respuestas_preguntas',]
     list_filter = ('created_at','status','type', 'public', 'is_valid', 'source', 'location',)
 
 

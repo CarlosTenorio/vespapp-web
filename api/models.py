@@ -145,6 +145,18 @@ class Sighting(models.Model):
 
     glosario_estados.allow_tags = True
 
+    def respuestas_preguntas(self):
+        answers= self.answers.all()
+        ans=''
+        if self.answers.count():
+            for j in answers:
+                ans= ans + '</br>' + '<p><b>%s</b></p>'%(j.question) + '</br>' + j.value
+            return ans
+        else:
+            return 'No hay respuestas'
+
+    respuestas_preguntas.allow_tags = True
+
     class Meta:
         verbose_name = 'Avispamiento'
         verbose_name_plural = 'Avispamientos'
