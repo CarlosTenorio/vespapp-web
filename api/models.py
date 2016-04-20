@@ -44,6 +44,7 @@ class Question(models.Model):
     question_type = models.IntegerField(verbose_name="Tipo de pregunta")
     sighting_type = models.IntegerField(null=False, blank=False, verbose_name="Tipo de avistamiento")
     is_active = models.BooleanField(default=True, null=False, blank=False, verbose_name="Activa")
+    order = models.IntegerField(default=False, verbose_name="Orden en que aparece")
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
@@ -67,9 +68,9 @@ class Question(models.Model):
 
 
 class Answer(models.Model):
-    question = models.ForeignKey(Question, related_name="default_answer")
+    question = models.ForeignKey(Question, related_name="default_answer", verbose_name='Pregunta')
 
-    value = models.CharField(max_length=128, null=False, blank=False, verbose_name='Título')
+    value = models.CharField(max_length=128, null=False, blank=False, verbose_name='Respuesta')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')

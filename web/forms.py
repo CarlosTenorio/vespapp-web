@@ -1,8 +1,7 @@
 from django import forms
 from api.models import Sighting
+from api.models import Answer
 from django.contrib.auth.models import User
-
-
 
 
 class SightingForm(forms.ModelForm):
@@ -10,6 +9,13 @@ class SightingForm(forms.ModelForm):
     class Meta:
         model = Sighting
         fields = ('type', 'free_text', 'location')
+
+
+class QuestionForm(forms.ModelForm):
+    
+    class Meta:
+        model = Answer
+        fields = ('value',)
 
 
 class SignupUserForm(forms.Form):
@@ -109,6 +115,18 @@ class PasswordProfileForm(forms.Form):
         label='Repetir contraseña',
         min_length=5,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        """Obtener user"""
+        self.user = kwargs.pop('user')
+        return super().__init__(*args, **kwargs)
+
+    def clean_actual_password(self):
+        """Comprueba que actual_password sean la correcta."""
+        actual_password = self.cleaned_data['actual_password']
+        if not self.user.check_password(actual_password):
+            raise forms.ValidationError('Invalid password')
+        return actual_password
 
     def clean_password2(self):
         """Comprueba que password y password2 sean iguales."""

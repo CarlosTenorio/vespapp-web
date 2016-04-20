@@ -83,8 +83,11 @@ function initialize() {
             {% endif %}  
             '</div>' +
             '<div class="text">' +
-            '<p class="text-content"><b>Descripción:</b> {{sighting.free_text}}</p>' + 
-
+            {% if sighting.user %}
+            '<p class="text-content"><b>Usuario:</b> {{sighting.user}}</p>' + 
+            {% else %}
+            '<p class="text-content"><b>Usuario:</b> Anónimo</p>' + 
+            {% endif %} 
             '<p class="created-content"><b>Fecha:</b> {{sighting.created_at}}</p>' +
 
 

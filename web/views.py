@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import render_to_response 
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -8,13 +9,19 @@ from django.views.generic.detail import DetailView
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 
+import json
+
 from api.models import Sighting
 from api.models import Location
 from api.models import Picture
 from api.models import SightingFAQ
 from api.models import UserComment
 from api.models import Question
+from api.models import Answer
 from api.models import UserProfile
+
+from web.forms import SightingForm
+from web.forms import QuestionForm
 
 from web.forms import SightingForm
 from web.forms import SignupUserForm
@@ -22,18 +29,14 @@ from web.forms import UserProfileForm
 from web.forms import PasswordProfileForm
 from web.forms import PhotoProfileForm
 
-from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from django.contrib.auth.hashers import make_password
-
-
 
 
 class HomePageView(TemplateView):
@@ -81,22 +84,49 @@ class SightExpertCommentView(DetailView):
     template_name = "sight_expert_comment.html"
 
 
-class SightQuestionView(DetailView):
-    template_name = "sight_question.html"
-    pk_url_kwarg = 'sighting_id'
-    model = Sighting
+class SightQuestionView(TemplateView):
+    @csrf_exempt
+    def sight_question(request, sighting_id, question_order):
 
-    def get_context_data(self, **kwargs):
-        ctx = super(SightQuestionView, self).get_context_data(**kwargs) #add Question model to get all info of object
-        ctx['question'] = Question.objects.all()
-        return ctx
+        s = Sighting.objects.get(id=sighting_id)   
+
+        if request.POST:
+            form_question = QuestionForm(request.POST)   
+
+            if form_question.is_valid():
+                if request.FILES == None:
+                    raise Http404("No objects uploaded")    
+
+                myArray = request.POST.pop('value')
+
+                for x in myArray:
+                    s.answers.add(x)
+
+                q = Question.objects.filter(order=int(question_order)+1, sighting_type=s.type)
+                if q.exists():           
+                    url = reverse('sight_question', kwargs={'sighting_id': sighting_id, 'question_order': int(question_order)+1})
+                    return HttpResponseRedirect(url)
+                else:
+                    mensaje='Registrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
+                    return render(request, 'home.html', {'mensaje': mensaje})                    
+        else:
+            form_question = QuestionForm()
+
+        context = {
+            'sighting': Sighting.objects.get(id=sighting_id),
+            'question': Question.objects.get(order=question_order, sighting_type=s.type),
+            'answer': Answer.objects.all()
+        }
+        return render_to_response('sight_question.html', context=context)
 
 
 class NewSightingView(TemplateView):
 
     @csrf_exempt
     def new_sighting(request):
+
         if request.POST:
+
             form_sighting = SightingForm(request.POST)
 
             if form_sighting.is_valid():
@@ -104,7 +134,7 @@ class NewSightingView(TemplateView):
                     raise Http404("No objects uploaded")
 
                 sighting_id = form_sighting.save(commit=False)
-                sighting_id.source = 'Web'
+                sighting_id.source = 'web'
                 if request.user.is_authenticated():
                     sighting_id.contact = request.user.email
                     user = User.objects.get(username=request.user.username)
@@ -120,16 +150,16 @@ class NewSightingView(TemplateView):
                     picture_id.file.save(f.name, f)
                     picture_id.save()              
 
-                return redirect(reverse('home'))
+                return HttpResponse(sighting_id.pk)
         else:
+
             form_sighting = SightingForm()
 
-        context = {
-            'locations': Location.objects.all()
-        }
+            context = {
+                'locations': Location.objects.all()
+            }
 
-        return render(request, 'new_sighting.html', context=context)
-
+            return render(request, 'new_sighting.html', context=context)
 
 class SightingCommentView(DetailView):
     template_name = "sighting_comment.html"
@@ -155,7 +185,6 @@ class SightingCommentsView(ListView):
 
     def get_queryset(self, **kwargs):
         return UserComment.objects.all()
-
 
 
 class UserSignupView(TemplateView):
@@ -254,26 +283,47 @@ class UserProfileView(TemplateView):
     def edit_profile(request):
         if request.method == 'POST':
             if 'UserProfile' in request.POST:
-                form = UserProfileForm(request.POST, request=request)
-                if form.is_valid():
-                    request.user.username = form.cleaned_data['username']
-                    request.user.email = form.cleaned_data['email']
+                userForm = UserProfileForm(request.POST, request=request)
+                if userForm.is_valid():
+                    request.user.username = userForm.cleaned_data['username']
+                    request.user.email = userForm.cleaned_data['email']
                     request.user.save()
                     messages.success(request, '¡Tu perfil ha sido cambiado con éxito!')
 
+                    return redirect(reverse('user_profile'))
+                else:
+                    passwordForm = PasswordProfileForm()
+                    photoForm = PhotoProfileForm()
+
             elif 'PasswordProfile' in request.POST:
-                form = PasswordProfileForm(request.POST)
-                if form.is_valid():
-                    request.user.password = make_password(form.cleaned_data['password'])
+                passwordForm = PasswordProfileForm(request.POST, user=request.user)
+                if passwordForm.is_valid():
+                    password = passwordForm.cleaned_data['password']
+                    request.user.password = make_password(password)
                     request.user.save()
                     messages.success(request, 'La contraseña ha sido cambiado con exito!.')
-                    messages.success(request, 'Es necesario introducir los datos para entrar.')
+
+                    user = authenticate(username=request.user.username, password=password)
+                    if user is not None:
+                        if user.is_active:
+                            login(request, user)
+                        else:
+                            # Redireccionar informando que la cuenta esta inactiva
+                            # Lo dejo como ejercicio al lector :)
+                            pass
+
+                    return redirect(reverse('user_profile'))
+                else:
+                    userForm = UserProfileForm(
+                        request=request, 
+                        initial={'email': request.user.email, 'username': request.user.username})
+                    photoForm = PhotoProfileForm()
 
             elif 'PhotoProfile' in request.POST:
-                form = PhotoProfileForm(request.POST, request.FILES)
+                photoForm = PhotoProfileForm(request.POST, request.FILES)
 
-                if form.is_valid():
-                    cleaned_data = form.cleaned_data
+                if photoForm.is_valid():
+                    cleaned_data = photoForm.cleaned_data
                     photo = cleaned_data.get('photo')
 
                     user = User.objects.get(username=request.user.username)
@@ -284,13 +334,25 @@ class UserProfileView(TemplateView):
 
                     messages.success(request, 'La foto ha sido cambiado con exito!.')
 
-            return redirect(reverse('user_profile'))
+                    return redirect(reverse('user_profile'))  
+                else:
+                    userForm = UserProfileForm(
+                        request=request, 
+                        initial={'email': request.user.email, 'username': request.user.username})
+                    passwordForm = PasswordProfileForm()
 
         else:
             userForm = UserProfileForm(
                 request=request, 
                 initial={'email': request.user.email, 'username': request.user.username})
-            passwordForm = PasswordProfileForm()
+            passwordForm = PasswordProfileForm(user=request.user)
             photoForm = PhotoProfileForm()
 
-        return render(request, 'user_profile.html', {'userForm': userForm, 'passwordForm': passwordForm, 'photoForm': photoForm})
+        user = User.objects.get(username=request.user.username)
+        user_profile = UserProfile.objects.get(user=user)
+        context = {'userForm': userForm, 
+            'passwordForm': passwordForm, 
+            'photoForm': photoForm,
+            'user_profile': user_profile}    
+
+        return render(request, 'user_profile.html', context)

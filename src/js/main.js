@@ -19,31 +19,53 @@ function errorForm(msg){
   });
 }
 
-// For user profile
-var color = "#000";
-
-function edit() {
-    $('button[name=UserProfile]').show(); 
-    $('#cancelModify').show();
-    $('#modifyProfile').hide();
-
-    $('input[name=username]').show();
-    $('input[name=email]').show();
-    $('#divUsername').hide();
-    $('#divEmail').hide();
-
-    $('input[name=email]').css("background", "white");
+function successUp(msg){   
+  swal({
+    title: "¡Gracias por enviar tu avispamiento!",
+    text: msg,
+    type: "success",
+    showCancelButton: true,
+    cancelButtonText: "No, gracias",
+    confirmButtonColor: "#DD6B55",
+    confirmButtonText: "¡Registrarme!",
+    closeOnConfirm: false,
+    closeOnCancel: false
+  },
+  function(isConfirm){
+    if (isConfirm) {
+      window.location = '/signup/';
+    }else {  
+      swal({
+        title: "Puedes registrarte en cuelaquier otro momento",
+        text: "Muchas gracias por tu colaboración ;)",
+        type: "info",
+        confirmButtonText: "OK",
+      },
+      function(isConfirm){
+        if (isConfirm) {
+          window.location = '/';
+        }
+      });
+    }    
+  });
 }
 
-function cancel() {
-    $('button[name=UserProfile]').hide();
-    $('#cancelModify').hide(); 
-    $('#modifyProfile').show();
 
-    $('input[name=username]').hide();
-    //$('input[name=email]').hide();
-    $('#divUsername').show();
-    $('#divEmail').show();
-
-    $('input[name=email]').css("background", "transparent");
-}
+swal({
+  title: "Are you sure?",
+  text: "You will not be able to recover this imaginary file!",
+  type: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#DD6B55",
+  confirmButtonText: "Yes, delete it!",
+  cancelButtonText: "No, cancel plx!",
+  closeOnConfirm: false,
+  closeOnCancel: false
+},
+function(isConfirm){
+  if (isConfirm) {
+    swal("Deleted!", "Your imaginary file has been deleted.", "success");
+  } else {
+      swal("Cancelled", "Your imaginary file is safe :)", "error");
+  }
+});

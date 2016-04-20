@@ -32,6 +32,15 @@
         {% endif %}
       </div>
 
+      <div class="info-group user">
+        <span class="sighting-label">Usuario:</span>
+        {% if object.user %}
+        <span>{{object.user}}</span>
+        {% else %}
+        <span>Anónimo</span>
+        {% endif %}
+      </div>
+
 
       {% if object.lat or object.location.lat %}
       <div class="info-group position">
@@ -244,6 +253,6 @@ function initialize() {
 
   <p>Este avistamiento no existe.</p>
      
-{% endif %} 
+{% endif %}
 
 {% endblock %}
