@@ -68,11 +68,17 @@ class SightingsView(ListView):
 
 class SightingView(DetailView):
     template_name = "sighting.html"
-    pk_url_kwarg = 'sighting_id'
+    template_name_field = 'object'
     model = Sighting
 
-    def get_queryset(self, **kwargs):
-        return Sighting.objects.all()
+    def get_object(self, queryset=None):
+        sighting_id = self.kwargs.get('sighting_id')
+        
+        try:
+            sighting = Sighting.objects.get(pk=sighting_id)
+            return sighting
+        except Sighting.DoesNotExist:
+            return None
 
 
 class LocationsPageView(TemplateView):
@@ -134,7 +140,7 @@ class NewSightingView(TemplateView):
                     raise Http404("No objects uploaded")
 
                 sighting_id = form_sighting.save(commit=False)
-                sighting_id.source = 'Web'
+                sighting_id.source = 'web'
                 if request.user.is_authenticated():
                     sighting_id.contact = request.user.email
                     user = User.objects.get(username=request.user.username)
