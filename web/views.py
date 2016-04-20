@@ -126,7 +126,13 @@ class SightQuestionView(TemplateView):
                         return HttpResponseRedirect(url)
                     else:
                         mensaje='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
-                        return render(request, 'home.html', {'mensaje': mensaje})                    
+                        return render(request, 'home.html', {'mensaje': mensaje})      
+                else:
+                    #if click on next button but not select nothing
+                    question_order = request.session['question_order'] - 1                         
+                    request.session['question_order'] = question_order
+                    url = reverse('sight_question')
+                    return HttpResponseRedirect(url)              
             else:
                 form_question = QuestionForm()
 
@@ -141,12 +147,9 @@ class SightQuestionView(TemplateView):
                 else:
                     mensaje='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
                     return render(request, 'home.html', {'mensaje': mensaje})
-                # url = reverse('home')
-                # return HttpResponseRedirect(url)
         else:
-            # url = reverse('404')
-            # return HttpResponseRedirect(url)
             raise Http404
+
 class NewSightingView(TemplateView):
 
     @csrf_exempt
