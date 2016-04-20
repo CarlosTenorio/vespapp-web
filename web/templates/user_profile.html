@@ -7,14 +7,23 @@
         <section>
             <div class="row">      
                 <div class="col-xs-12">
-                    <h1 class="text-center">Mi perfil</h1>
+                    <h1 class="text-center section-tittle">Mi perfil</h1>
                 </div>
                 <div class="col-md-3 profile-content">
-                    <img src="{{ user_profile.photo.url }}" class="img-rounded img-responsive" />
+                    <div class="photo-frame">
+                        {% if user_profile.photo %}
+                        <img src="{{ user_profile.photo.url }}" class="img-rounded img-responsive" />
+                        {% endif %}
+                    </div>
                     <form method="post" action="" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {{ photoForm.as_p }}
-                        <input type="submit" name="PhotoProfile" id="submit" value="Actualizar foto"/>
+                        <input id="hola" type="file" name="photo" class="hidden">
+                        <label for="hola" class="text-center lab">
+                          <span>
+                            Actualizar foto
+                          </span>
+                        </label>
+                        <input type="submit" name="PhotoProfile" id="submit" class="hidden" />
                     </form>
                 </div>                    
                 <div class="col-md-5">
@@ -73,5 +82,14 @@
         if(error){
             errorForm(error);
         }
+
+        {% if message %}
+        console.log('{{message|striptags}}');
+            successProfile('{{message|striptags}}');
+        {% endif %}
+
+        $('input[type=file]').change(function() {
+            $("input[name='PhotoProfile']").click();
+        });
     </script>
 {% endblock %}

@@ -92,12 +92,8 @@
         if ($('select[name=location] option:selected').val() == "") {
           $('select[name=location]').addClass("form-error");
         }
-        if ($('textarea[name=free_text]').val() == "") {
-          $('textarea[name=free_text]').addClass("form-error");
-        }
 
-        if ($('select[name=location] option:selected').val() != "" && $('textarea[name=free_text]').val() != ""
-          && $('input:radio[name=type]').is(':checked')) {
+        if ($('select[name=location] option:selected').val() != "" && $('input:radio[name=type]').is(':checked')) {
           myDropzone.processQueue();
 
         }
@@ -124,13 +120,10 @@
       $('#new_sighting').change(function(){
         if($('input:radio[name=type]').is(':checked')) {
           $('input:radio[name=type]+label').css("border-color", "white");
-          $('input:radio[name=type]:checked+label').css("border-color", "#656565");
+          $('input:radio[name=type]:checked+label').css("border-color", "#8904B1");
         }
         if ($('select[name=location] option:selected').val() != "") {
           $('select[name=location]').removeClass("form-error");
-        }
-        if ($('textarea[name=free_text]').val() != "") {
-          $('textarea[name=free_text]').removeClass("form-error");
         }
       });
     });

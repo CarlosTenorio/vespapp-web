@@ -232,7 +232,12 @@
   line-height: 1.8rem;
   transition: all .3s;
 }
-.profile-content input, .profile-content a {
+.profile-content label[for="hola"] {
+  display: inline;
+  padding: 8px 5px;
+  font-weight: 300;
+}
+.profile-content input, .profile-content a, .profile-content label[for="hola"] {
   font-family: "Titillium Web", sans-serif;
   font-size: 1.875rem;
   width: 100%;
@@ -253,7 +258,7 @@
   color: #ffffff;
   transition: all .5s;
 }
-.profile-content input[type="submit"], .profile-content a {
+.profile-content input[type="submit"], .profile-content a, .profile-content label[for="hola"] {
   width: auto;
   height: 3.4rem;
   margin-top: 0px;
@@ -264,10 +269,13 @@
   color: #ffffff;
   transition: all .5s;
 }
-.profile-content input[type="submit"]:hover, .profile-content a:hover {
+.profile-content input[type="submit"]:hover, .profile-content a:hover, .profile-content label[for="hola"]:hover {
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
-
-/*input[name=UserProfile], #cancelModify {
-  display: none;
-}*/
+.profile-content .photo-frame {
+  padding:8px;
+  background-color: #f5f5f5;
+  height: 225px;
+  width: 225px;
+  box-shadow: 5px 5px 5px #aaa;
+} 

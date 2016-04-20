@@ -34,7 +34,6 @@ from django.shortcuts import redirect
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 
 from django.contrib.auth.hashers import make_password
 
@@ -64,7 +63,7 @@ class SightingsView(ListView):
     paginate_by = 50  # Control de la paginacion
 
     def get_queryset(self, **kwargs):
-        return Sighting.objects.all()
+        return Sighting.objects.filter(public=True)
 
 
 class SightingView(DetailView):
@@ -108,7 +107,7 @@ class SightQuestionView(TemplateView):
                     url = reverse('sight_question', kwargs={'sighting_id': sighting_id, 'question_order': int(question_order)+1})
                     return HttpResponseRedirect(url)
                 else:
-                    mensaje='Registrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
+                    mensaje='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
                     return render(request, 'home.html', {'mensaje': mensaje})                    
         else:
             form_question = QuestionForm()
@@ -224,7 +223,6 @@ class UserSignupView(TemplateView):
                 # Por ultimo, guardamos tambien el objeto UserProfile
                 user_profile.save()
 
-                messages.info(request, "¡Gracias por registrarte " + username + "!")
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     if user.is_active:
@@ -267,7 +265,7 @@ class UserLoginView(TemplateView):
                     # Redireccionar informando que la cuenta esta inactiva
                     # Lo dejo como ejercicio al lector :)
                     pass
-            mensaje = 'Nombre de usuario o contraseña no valido'
+            mensaje = 'Nombre de usuario o contraseña no válido'
         return render(request, 'login.html', {'mensaje': mensaje})
 
 
@@ -275,8 +273,8 @@ class UserLogoutView(TemplateView):
 
     def logout_view(request):
         logout(request)
-        messages.success(request, 'Has cerrado sesión con éxito. ¡Vuelve pronto!')
-        return redirect(reverse('home'))
+        message='Has cerrado sesión. ¡Vuelve pronto!'    
+        return render(request, 'home.html', {'message_logout': message})
 
 
 class UserProfileView(TemplateView):
@@ -290,11 +288,10 @@ class UserProfileView(TemplateView):
                     request.user.username = userForm.cleaned_data['username']
                     request.user.email = userForm.cleaned_data['email']
                     request.user.save()
-                    messages.success(request, '¡Tu perfil ha sido cambiado con éxito!')
 
                     return redirect(reverse('user_profile'))
                 else:
-                    passwordForm = PasswordProfileForm()
+                    passwordForm = PasswordProfileForm(user=request.user)
                     photoForm = PhotoProfileForm()
 
             elif 'PasswordProfile' in request.POST:
@@ -303,7 +300,6 @@ class UserProfileView(TemplateView):
                     password = passwordForm.cleaned_data['password']
                     request.user.password = make_password(password)
                     request.user.save()
-                    messages.success(request, 'La contraseña ha sido cambiado con exito!.')
 
                     user = authenticate(username=request.user.username, password=password)
                     if user is not None:
@@ -333,8 +329,6 @@ class UserProfileView(TemplateView):
                     print(photo)
                     user_profile.photo = photo
                     user_profile.save()
-
-                    messages.success(request, 'La foto ha sido cambiado con exito!.')
 
                     return redirect(reverse('user_profile'))  
                 else:

@@ -19,6 +19,28 @@ function errorForm(msg){
   });
 }
 
+function successProfile(msg){
+  swal({
+      title: "Yuju!",
+      text: msg,
+      type: "success",
+      timer: 4000,
+      animation: "pop",
+      confirmButtonText: "Vale"
+  });
+}
+
+function successUserActions(msg){
+  swal({
+      title: "¡Te echaremos de menos!",
+      text: msg,
+      type: "success",
+      timer: 4000,
+      animation: "pop",
+      confirmButtonText: "Vale"
+  });
+}
+
 function successUp(msg){   
   swal({
     title: "¡Gracias por enviar tu avispamiento!",
@@ -49,23 +71,3 @@ function successUp(msg){
     }    
   });
 }
-
-
-swal({
-  title: "Are you sure?",
-  text: "You will not be able to recover this imaginary file!",
-  type: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#DD6B55",
-  confirmButtonText: "Yes, delete it!",
-  cancelButtonText: "No, cancel plx!",
-  closeOnConfirm: false,
-  closeOnCancel: false
-},
-function(isConfirm){
-  if (isConfirm) {
-    swal("Deleted!", "Your imaginary file has been deleted.", "success");
-  } else {
-      swal("Cancelled", "Your imaginary file is safe :)", "error");
-  }
-});

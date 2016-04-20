@@ -78,24 +78,22 @@ class UserProfileForm(forms.Form):
         email = self.cleaned_data['email']
         # Comprobar si ha cambiado el email
         current_email = self.request.user.email
-        username = self.request.user.username
         if email != current_email:
             # Si lo ha cambiado, comprobar que no exista en la db.
             exists = User.objects.filter(email=email)
             if exists:
-                raise forms.ValidationError('Ya existe un email igual en la db.')
+                raise forms.ValidationError('Ya existe un usuario con este email.')
         return email
 
     def clean_username(self):
         username = self.cleaned_data['username']
         # Comprobar si ha cambiado el username
-        email = self.request.user.email
         current_username = self.request.user.username
         if username != current_username:
             # Si lo ha cambiado, comprobar que no exista en la db.
             exists = User.objects.filter(username=username)
             if exists:
-                raise forms.ValidationError('Ya existe un username igual en la db.')
+                raise forms.ValidationError('Ya existe un usuario con este nombre.')
         return username
 
 
@@ -103,17 +101,17 @@ class PasswordProfileForm(forms.Form):
 
     actual_password = forms.CharField(
         label='Contraseña actual',
-        min_length=5,
+        min_length=4,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     password = forms.CharField(
         label='Nueva contraseña',
-        min_length=5,
+        min_length=4,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     password2 = forms.CharField(
         label='Repetir contraseña',
-        min_length=5,
+        min_length=4,
         widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
@@ -125,7 +123,7 @@ class PasswordProfileForm(forms.Form):
         """Comprueba que actual_password sean la correcta."""
         actual_password = self.cleaned_data['actual_password']
         if not self.user.check_password(actual_password):
-            raise forms.ValidationError('Invalid password')
+            raise forms.ValidationError('Contraseña inválida')
         return actual_password
 
     def clean_password2(self):
