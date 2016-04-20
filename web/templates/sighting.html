@@ -241,14 +241,21 @@ function initialize() {
 </script>
 
 {% else %}
-
-  <p>Este avistamiento no existe.</p>
-     
+<div class="error404Container">
+  <div class="content">
+    <div>
+      <h1><a href="{% url 'home' %}"><img src="/static/img/logo.png"/></a></h1>
+      <h1 class="h1404">¡Shhh! Este avispamiento está durmiendo.</h1>
+      <h2 class="h2404">O puede que no este disponible</h2>
+      <h2 class="h2404">O que lo hayamos retirado. Una de estas será.</h2> 
+    </div>
+    <div class="buttom404">
+      <div class="seach_bar404">
+        <p>Puedes volver a Inicio clicando <span><a href="{% url 'home' %}">aquí</a></span></p>
+      </div>
+    </div>
+  </div>
+</div>     
 {% endif %}
-
-
-{% for a in object.answers.all %}
-        <li>{{ a }}</li>
-{% endfor %}
 
 {% endblock %}
