@@ -703,15 +703,15 @@
 }
 
 .v-t {
-  display: table;
-  vertical-align: middle;
+  // display: table;
+  // vertical-align: middle;
   text-align: center;
   height: 100%;
   width: 100%;
 }
 .v-t .v-tc {
-  display: table-cell;
-  vertical-align: middle;
+  // display: table-cell;
+  // vertical-align: middle;
 }
 
 .bee-panel h1,.bee-panel h2 {
@@ -740,12 +740,57 @@
 }
 
 .bee-panel span {
-  font-size: 92px;
-  font-size: 9.2rem;
-  line-height: 98px;
+  font-size: 20px;
+  line-height: 20px;
   z-index: 100;
   text-shadow: 0.04em 0.04em 0 #fcfade;
 }
+
+/* For large and up */
+@media only screen and (min-width: 768px) {
+    .bee-panel span {
+      top: 35px;
+      margin-bottom: 40px;
+      font-size: 70px;
+      z-index: 100;
+      text-shadow: 0.04em 0.04em 0 #fcfade;
+    }
+}
+
+/* For large and up */
+@media only screen and (min-width: 980px) {
+    .bee-panel span {
+      top: 35px;
+      margin-bottom: 40px;
+      font-size: 92px;
+      z-index: 100;
+      text-shadow: 0.04em 0.04em 0 #fcfade;
+    }
+}
+
+
+/* For md and down */
+@media only screen and (max-width: 768px) {
+    .bee-panel span {
+      top: 35px;
+      margin-bottom: 40px;
+      font-size: 35px;
+      z-index: 100;
+      text-shadow: 0.04em 0.04em 0 #fcfade;
+    }
+}
+
+/* For xs and down */
+@media only screen and (max-width: 400px) {
+    .bee-panel span {
+      top: 35px;
+      margin-bottom: 40px;
+      font-size: 20px;
+      z-index: 100;
+      text-shadow: 0.04em 0.04em 0 #fcfade;
+    }
+}
+
 .bee-panel span, .bee-panel span:after {
   font-weight: 600;
   color: @brand-primary;
