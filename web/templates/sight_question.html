@@ -11,15 +11,18 @@
 
 			<h1>{{ question.title }}</h1> {# Title #}				
         	{% if question.question_type == 1  %} {# Check type question Radio #}
+				<h3 class="text-center">(Escoge solo una de estas opciones)</h3> {# Type Radio message #}	
 				<div class="text-center">
 					<div class="btn-group" data-toggle="buttons">
+			{% else %}
+			    <h3 class="text-center">(Puedes escoger una o varias de estas opciones)</h3> {# Type Checkbox message #}	
 			{% endif %}	
 			{% for a in answer %}
 				{% if question.id == a.question.id %} {# Check foreign key of answer #}					
                 	{% if question.question_type == 1  %} {# Check type question Radio #}
 						<label class="btn questionRadio"> <!--class="questionRadio btn btn-primary" -->
 							<input type="radio" name="value" value="{{a.id}}">
-                            <h4>{{ a.value }}</h4> {# Answer #}
+                            <h4 class="span1">{{ a.value }}</h4> {# Answer #}
 						</label>
     				{% endif %}
                     {% if question.question_type == 2  %} {# Check type question Checkbox #}

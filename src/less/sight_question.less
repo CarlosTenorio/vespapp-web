@@ -1,6 +1,6 @@
 .searchable-container{margin:10px 0 0 0}
 .searchable-container label.btn-default.active{background-color:@brand-secondary;color:#FFF}
-.searchable-container label.btn-default{width:90%;border:1px solid #efefef;margin:5px; box-shadow:5px 8px 8px 0 #ccc;}
+.searchable-container label.btn-default{width:90%;border:1px solid @brand-secondary;margin:5px; box-shadow:5px 8px 8px 0 #858585;}
 .searchable-container label .bizcontent{width:100%;}
 .searchable-container .btn-group{width:90%}
 .searchable-container .btn i.fa{
@@ -19,18 +19,18 @@
 
 .questionRadio {
   h4 {
-    background-color: #009fff;
-    color: #FFF;
-    font-size: 2em;
-    padding: 5%;
-    transition: all .3s linear;
+    background-color: #FFF;
+    font-size: 35px;
+    // padding: 15px;
+    transition: all .3s linear;     
     
-    -webkit-box-shadow: 5px 5px 5px #666;
-    -moz-box-shadow: 5px 5px 5px #666;
-    box-shadow: 5px 5px 5px #666;
+    // -webkit-box-shadow: 5px 5px 5px #666;
+    // -moz-box-shadow: 5px 5px 5px #666;
+    // box-shadow: 5px 5px 5px #666;
   }
   &:hover {
     h4 {
+      color: #FFF;
       background-color: darken(@brand-secondary, 20%);
       transform: scale(1.1);
     }
@@ -40,6 +40,7 @@
 .questionRadio{
   &.active{
     h4 {
+      color: #FFF;
       background-color: darken(@brand-secondary, 10%);
       transform: scale(1.1);
     }

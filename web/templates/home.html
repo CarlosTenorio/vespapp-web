@@ -34,11 +34,13 @@
 </div>
 
 <script>
-  {% if mensaje %}
-    successUp('{{ mensaje|striptags }}');
+  {% if message and user.is_authenticated %}
+    successUpLogged();
+  {% elif message %}
+    successUp('{{ message|striptags }}');
   {% endif %}
   {% if message_logout %}
-    successUserActions('{{ message_logout|striptags }}');
+    successLogOut('{{ message_logout|striptags }}');
   {% endif %}
 </script>
 {% endblock %}

@@ -30,10 +30,21 @@ function successProfile(msg){
   });
 }
 
-function successUserActions(msg){
+function successLogOut(msg){
   swal({
       title: "¡Te echaremos de menos!",
       text: msg,
+      type: "success",
+      timer: 4000,
+      animation: "pop",
+      confirmButtonText: "Vale"
+  });
+}
+
+function successUpLogged(){
+  swal({
+      title: "¡Gracias por enviar tu avispamiento!",
+      text: "Muchas gracias por tu colaboración ;)",
       type: "success",
       timer: 4000,
       animation: "pop",
@@ -45,23 +56,24 @@ function successUp(msg){
   swal({
     title: "¡Gracias por enviar tu avispamiento!",
     text: msg,
-    type: "success",
+    type: "info",
     showCancelButton: true,
     cancelButtonText: "No, gracias",
-    confirmButtonColor: "#DD6B55",
-    confirmButtonText: "¡Registrarme!",
+    confirmButtonColor: "#55dd57",
+    confirmButtonText: "¡Registrarme! o Login",
     closeOnConfirm: false,
     closeOnCancel: false
   },
   function(isConfirm){
     if (isConfirm) {
-      window.location = '/signup/';
+      window.location = '/login/';
     }else {  
       swal({
-        title: "Puedes registrarte en cuelaquier otro momento",
+        title: "Puedes registrarte en cualquier otro momento",
         text: "Muchas gracias por tu colaboración ;)",
-        type: "info",
-        confirmButtonText: "OK",
+        type: "success",
+        timer: 4000,
+        confirmButtonText: "Vale",
       },
       function(isConfirm){
         if (isConfirm) {

@@ -9,6 +9,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
+from django.http import Http404  
 
 import json
 
@@ -74,12 +75,6 @@ class SightingView(TemplateView):
 
         if request.POST:
             form_comment = CommentSightingForm(request.POST)
-
-            print("holaaa")
-            print(request.POST)
-            print(form_comment)
-            print(form_comment.is_valid())
-
             if form_comment.is_valid():   
                 comment_id = form_comment.save(commit=False)
                 sighting = Sighting.objects.get(id=int(sighting_id))
@@ -116,39 +111,61 @@ class SightExpertCommentView(DetailView):
 class SightQuestionView(TemplateView):
 
     @csrf_exempt
-    def sight_question(request, sighting_id, question_order):
+    def sight_question(request):
 
-        s = Sighting.objects.get(id=sighting_id)   
+        if "session_id" in request.session:
+                    
+            sighting_id = request.session['session_id']
+            question_order = request.session['question_order'] + 1 
 
-        if request.POST:
-            form_question = QuestionForm(request.POST)   
+            request.session['question_order'] = question_order
 
-            if form_question.is_valid():
-                if request.FILES == None:
-                    raise Http404("No objects uploaded")    
+            s = Sighting.objects.get(id=sighting_id)   
 
-                myArray = request.POST.pop('value')
+            if request.POST:
+                form_question = QuestionForm(request.POST)   
 
-                for x in myArray:
-                    s.answers.add(x)
+                if form_question.is_valid():
+                    if request.FILES == None:
+                        raise Http404("No objects uploaded")    
 
-                q = Question.objects.filter(order=int(question_order)+1, sighting_type=s.type)
-                if q.exists():           
-                    url = reverse('sight_question', kwargs={'sighting_id': sighting_id, 'question_order': int(question_order)+1})
-                    return HttpResponseRedirect(url)
+                    myArray = request.POST.pop('value')
+
+                    for x in myArray:
+                        s.answers.add(x)
+
+                    q = Question.objects.filter(order=int(question_order), sighting_type=s.type)
+                    if q.exists():           
+                        #Subtracting one so that the next if it comes from one form to add beginning work properly
+                        question_order = request.session['question_order'] - 1                         
+                        request.session['question_order'] = question_order
+                        url = reverse('sight_question')
+                        return HttpResponseRedirect(url)
+                    else:
+                        message='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
+                        return render(request, 'home.html', {'message': message})      
                 else:
-                    mensaje='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
-                    return render(request, 'home.html', {'mensaje': mensaje})                    
+                    #if click on next button but not select nothing
+                    question_order = request.session['question_order'] - 1                         
+                    request.session['question_order'] = question_order
+                    url = reverse('sight_question')
+                    return HttpResponseRedirect(url)              
+            else:
+                form_question = QuestionForm()
+
+                q = Question.objects.filter(order=int(question_order), sighting_type=s.type)
+                if q.exists():
+                    context = {
+                        'sighting': Sighting.objects.get(id=sighting_id),
+                        'question': Question.objects.get(order=question_order, sighting_type=s.type),
+                        'answer': Answer.objects.all()
+                    }
+                    return render_to_response('sight_question.html', context=context, context_instance=RequestContext(request))
+                else:
+                    message='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
+                    return render(request, 'home.html', {'message': message})
         else:
-            form_question = QuestionForm()
-
-        context = {
-            'sighting': Sighting.objects.get(id=sighting_id),
-            'question': Question.objects.get(order=question_order, sighting_type=s.type),
-            'answer': Answer.objects.all()
-        }
-        return render_to_response('sight_question.html', context=context)
-
+            raise Http404
 
 class NewSightingView(TemplateView):
 
@@ -178,7 +195,10 @@ class NewSightingView(TemplateView):
                     picture_id = Picture()
                     picture_id.sighting = sighting_id
                     picture_id.file.save(f.name, f)
-                    picture_id.save()              
+                    picture_id.save()
+
+                request.session['session_id'] = sighting_id.id   
+                request.session['question_order'] = 0  
 
                 return HttpResponse(sighting_id.pk)
         else:
@@ -261,6 +281,13 @@ class UserSignupView(TemplateView):
                         login(request, user)
                     else:
                         pass
+                #if he comes from new_sighting
+                if request.session['session_id']:
+                    sighting_id = request.session['session_id']
+                    s = Sighting.objects.get(id=sighting_id)   
+                    s.user = user
+                    s.save()
+
                 # Ahora, redireccionamos a la pagina home.html
                 # Pero lo hacemos con un redirect.
                 return redirect(reverse('home'))
@@ -282,7 +309,7 @@ class UserLoginView(TemplateView):
         if request.user.is_authenticated():
             return redirect(reverse('home'))
 
-        mensaje = ''
+        message = ''
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -290,11 +317,17 @@ class UserLoginView(TemplateView):
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    #if he comes from new_sighting
+                    if 'session_id' in request.session:
+                        sighting_id = request.session['session_id']
+                        s = Sighting.objects.get(id=sighting_id)   
+                        s.user = user
+                        s.save()
                     return redirect(reverse('home'))
                 else:
                     pass
-            mensaje = 'Nombre de usuario o contraseña no válido'
-        return render(request, 'login.html', {'mensaje': mensaje})
+            message = 'Nombre de usuario o contraseña no válido'
+        return render(request, 'login.html', {'message': message})
 
 
 class UserLogoutView(TemplateView):

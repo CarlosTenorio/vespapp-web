@@ -24,7 +24,7 @@ urlpatterns = [
 
     url(r'^sightings/$', SightingsView.as_view(), name='sightings'),
     url(r'^sighting/(?P<sighting_id>[0-9]+)/$', SightingView.sighting_view, name="sighting_id"),
-    url(r'^sight_question/(?P<sighting_id>[0-9]+)/(?P<question_order>[0-9]+)/$', SightQuestionView.sight_question, name='sight_question'),
+    url(r'^sight_question/$', SightQuestionView.sight_question, name='sight_question'),
 
     url(r'^sighting/(?P<sighting_id>[0-9]+)/expert_comments/$', SightingExpertCommentsView.as_view(), name='sighting_expert_comments'),
     url(r'^sighting/(?P<sighting_id>[0-9]+)/expert_comments/(?P<expert_comment_id>[0-9]+)$', SightExpertCommentView.as_view(), name='sight_expert_comment'),
