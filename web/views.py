@@ -88,7 +88,7 @@ class SightingView(TemplateView):
                 comment_id.user = user
                 comment_id.save()
 
-                return redirect(reverse('home'))                   
+                return HttpResponseRedirect('')                   
         else:
             form_comment = CommentSightingForm()
 
@@ -251,7 +251,6 @@ class UserSignupView(TemplateView):
                 # Al campo user le asignamos el objeto user_model
                 user_profile.user = user_model
                 # y le asignamos la photo (el campo, permite datos null)
-                print(photo)
                 user_profile.photo = photo
                 # Por ultimo, guardamos tambien el objeto UserProfile
                 user_profile.save()
@@ -353,7 +352,6 @@ class UserProfileView(TemplateView):
 
                     user = User.objects.get(username=request.user.username)
                     user_profile = UserProfile.objects.get(user=user)
-                    print(photo)
                     user_profile.photo = photo
                     user_profile.save()
 

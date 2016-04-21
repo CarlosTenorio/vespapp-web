@@ -10,11 +10,11 @@
   <div class="row">
     <div class="col-xs-12">
       {% if sighting.type == 1 %}
-      <h1>Avistamiento avispa</h1>
-      {% elif sighting.type == 0%}
-      <h1>Avistamiento nido</h1>
+      <h1 class="section-tittle">Avistamiento avispa</h1>
+      {% elif sighting.type == 2 %}
+      <h1 class="section-tittle">Avistamiento nido</h1>
       {% else %}
-      <h1>Avistamiento</h1>      
+      <h1 class="section-tittle">Avistamiento</h1>      
       {% endif %}          
     </div>
     <div class="col-xs-12 col-sm-6 col-md-6">
@@ -147,10 +147,21 @@
         <h2>{{sighting.user_comments.count}} Comentarios:</h2>
         {% for x in sighting.user_comments.all %}
             <div class="well">
-              <span> <strong> {{x.user.username}} </strong></span>
-              </br>
-              <span> <strong> {{x.created_at}} </strong></span>
-              <p> {{ x.body }} </p>
+              <div class="row">
+                <div class="col-xs-12 col-md-1">
+                  <img class="img-rounded img-responsive" src="{{ x.user.user_profile.photo.url }}">
+                </div>
+                <div class="col-xs-12 col-md-9">
+                  <span> <strong> {{ x.user.username }} </strong></span>
+                  </br>
+                  <span> <strong> {{ x.created_at }} </strong></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <p> {{ x.body }} </p>
+                </div>
+              </div>
             </div>
         {% endfor %}
       {% else %}

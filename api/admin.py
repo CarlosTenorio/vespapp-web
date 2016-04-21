@@ -9,9 +9,11 @@ class SightingAdmin(admin.ModelAdmin):
     ('Datos del usuario', {'fields': [('user', 'contact')]}), 
     ('Localización del avispamiento', {'fields': [('location', 'lat', 'lng')]}),
     ('Datos del avispamiento', {'fields': [('type','glosario_tipos'), 'free_text', 'foto_avispamiento', ('respuestas_preguntas')]}),
-    ('Estado del avispamiento', {'fields': [('public'), ('status', 'glosario_estados'), ('is_valid', 'moderator')]}),]
-    readonly_fields = ['id','created_at', 'foto_avispamiento', 'glosario_tipos', 'glosario_estados','respuestas_preguntas',]
-    list_filter = ('created_at','status','type', 'public', 'is_valid', 'source', 'location',)
+    ('Estado del avispamiento', {'fields': [('public'), ('status', 'glosario_estados'), ('is_valid', 'moderator')]}),
+    ('Comentarios de expertos', {'fields': ['comentarios_expertos']}),
+    ('Comentarios de usuarios', {'fields': ['comentarios_usuarios']}),]
+    readonly_fields = ['id','created_at', 'foto_avispamiento', 'glosario_tipos', 'glosario_estados','respuestas_preguntas', 'comentarios_expertos','comentarios_usuarios',]
+    list_filter = ('created_at','status','type', 'public', 'is_valid', 'source', 'location', )
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -46,12 +48,22 @@ class PictureAdmin(admin.ModelAdmin):
     readonly_fields = ['id', 'foto', 'created_at']
 
 
+class UserCommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'body', 'sighting')
+    list_filter = ('sighting', 'user',)
+
+
+class ExpertCommentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'body', 'sighting', 'is_valid')
+    list_filter = ('sighting', 'user', 'is_valid')
+
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(Sighting, SightingAdmin)
 admin.site.register(Picture, PictureAdmin)
-admin.site.register(UserComment)
-admin.site.register(ExpertComment)
+admin.site.register(UserComment, UserCommentAdmin)
+admin.site.register(ExpertComment, ExpertCommentAdmin)
 admin.site.register(SightingFAQ, SightingFAQAdmin)
 admin.site.register(Location)
 admin.site.register(Province)

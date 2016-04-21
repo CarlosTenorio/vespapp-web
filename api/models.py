@@ -158,6 +158,30 @@ class Sighting(models.Model):
 
     respuestas_preguntas.allow_tags = True
 
+    def comentarios_usuarios(self):
+        coments= self.user_comments.all().order_by('-created_at')
+        coms=''
+        if self.user_comments.count():
+            for w in coments:
+                coms= coms + '</br>' + '<p><b>%s a %s</b></p>'%(w.user, w.created_at) + w.body + '</br>'
+            return coms
+        else:
+            return 'No hay comentarios'
+
+    comentarios_usuarios.allow_tags = True
+
+    def comentarios_expertos(self):
+        coments= self.expert_comments.all().order_by('-created_at')
+        coms=''
+        if self.expert_comments.count():
+            for w in coments:
+                coms= coms + '</br>' + '<p><b>%s a %s</b></p>'%(w.user, w.created_at) + w.body + '</br>'
+            return coms
+        else:
+            return 'No hay comentarios'
+
+    comentarios_expertos.allow_tags = True
+
     class Meta:
         verbose_name = 'Avispamiento'
         verbose_name_plural = 'Avispamientos'
@@ -236,13 +260,9 @@ class SightingFAQ(models.Model):
         return self.title
 
 
-
-
-
-#REGISTRATION
 class UserProfile(models.Model):
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='user_profile')
     photo = models.ImageField(upload_to='profiles', blank=True, null=True)
     
     def foto_usuario(self):
