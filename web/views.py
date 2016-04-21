@@ -10,6 +10,7 @@ from django.views.generic.detail import DetailView
 from django.core.context_processors import csrf
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404  
+from django.db.models import Q
 
 import json
 
@@ -66,7 +67,11 @@ class SightingsView(ListView):
     paginate_by = 50  # Control de la paginacion
 
     def get_queryset(self, **kwargs):
-        return Sighting.objects.filter(public=True)
+        if self.request.user.is_authenticated():
+            user = User.objects.get(username=self.request.user.username)
+            return Sighting.objects.filter(Q(public=True) | Q(user=user))
+        else:
+            return Sighting.objects.filter(public=True)
 
 
 class SightingView(TemplateView):
