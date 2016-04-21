@@ -251,7 +251,7 @@ class UserSignupView(TemplateView):
                 # Al campo user le asignamos el objeto user_model
                 user_profile.user = user_model
                 # y le asignamos la photo (el campo, permite datos null)
-                print(photo)
+                # print(photo)
                 user_profile.photo = photo
                 # Por ultimo, guardamos tambien el objeto UserProfile
                 user_profile.save()
@@ -264,6 +264,13 @@ class UserSignupView(TemplateView):
                         # Redireccionar informando que la cuenta esta inactiva
                         # Lo dejo como ejercicio al lector :)
                         pass
+                #if he comes from new_sighting
+                if request.session['session_id']:
+                    sighting_id = request.session['session_id']
+                    s = Sighting.objects.get(id=sighting_id)   
+                    s.user = user
+                    s.save()
+
                 # Ahora, redireccionamos a la pagina home.html
                 # Pero lo hacemos con un redirect.
                 return redirect(reverse('home'))
@@ -293,6 +300,12 @@ class UserLoginView(TemplateView):
             if user is not None:
                 if user.is_active:
                     login(request, user)
+                    #if he comes from new_sighting
+                    if request.session['session_id']:
+                        sighting_id = request.session['session_id']
+                        s = Sighting.objects.get(id=sighting_id)   
+                        s.user = user
+                        s.save()
                     return redirect(reverse('home'))
                 else:
                     # Redireccionar informando que la cuenta esta inactiva

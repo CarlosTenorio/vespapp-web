@@ -48,14 +48,14 @@ function successUp(msg){
     type: "success",
     showCancelButton: true,
     cancelButtonText: "No, gracias",
-    confirmButtonColor: "#DD6B55",
-    confirmButtonText: "¡Registrarme!",
+    confirmButtonColor: "#55dd57",
+    confirmButtonText: "¡Registrarme! o Login",
     closeOnConfirm: false,
     closeOnCancel: false
   },
   function(isConfirm){
     if (isConfirm) {
-      window.location = '/signup/';
+      window.location = '/login/';
     }else {  
       swal({
         title: "Puedes registrarte en cuelaquier otro momento",
