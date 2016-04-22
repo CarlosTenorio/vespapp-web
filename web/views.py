@@ -287,7 +287,7 @@ class UserSignupView(TemplateView):
                     else:
                         pass
                 #if he comes from new_sighting
-                if request.session['session_id']:
+                if 'session_id' in request.session:
                     sighting_id = request.session['session_id']
                     s = Sighting.objects.get(id=sighting_id)   
                     s.user = user

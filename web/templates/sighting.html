@@ -88,6 +88,17 @@
       </div>  
 
       <div class="info-group position">
+        <span class="sighting-label">Resultado:</span>
+        {% if sighting.is_valid == True %}
+        <span class="label label-success">Positivo</span>
+        {% elif sighting.is_valid == False %}
+        <span class="label label-danger">Negativo</span>
+        {% else %}
+        <span class="label label-warning">Desconocido</span>
+        {% endif %} 
+      </div>  
+
+      <div class="info-group position">
         <span class="sighting-label">Fecha:</span>
         <span>{{ sighting.created_at }}</span>
       </div>  
@@ -148,9 +159,11 @@
         {% for x in sighting.user_comments.all %}
             <div class="well">
               <div class="row">
-                <div class="col-xs-12 col-md-1">
-                  <img class="img-rounded img-responsive" src="{{ x.user.user_profile.photo.url }}">
-                </div>
+                {% if x.user.user_profile.photo %}
+                  <div class="col-xs-12 col-md-1">
+                    <img class="img-rounded img-responsive" src="{{ x.user.user_profile.photo.url }}">
+                  </div>
+                {% endif %}
                 <div class="col-xs-12 col-md-9">
                   <span> <strong> {{ x.user.username }} </strong></span>
                   </br>
