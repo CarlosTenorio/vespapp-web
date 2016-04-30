@@ -56,6 +56,10 @@ class InfoView(ListView):
     model = SightingInfo
 
 
+class AboutView(TemplateView):
+    template_name = "about.html"
+
+
 class SightingExpertCommentsView(ListView):
     template_name = "sighting_expert_comments.html"
 

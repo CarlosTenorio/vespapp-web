@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from web.views import HomePageView
 from web.views import InfoView
+from web.views import AboutView
 from web.views import SightingExpertCommentsView
 from web.views import SightingView
 from web.views import SightingsView
@@ -37,5 +38,7 @@ urlpatterns = [
     url(r'^logout/$', UserLogoutView.logout_view, name='logout'),
 
     url(r'^user_profile/$', UserProfileView.edit_profile, name='user_profile'),
+
+    url(r'^about/$', AboutView.as_view(), name='about'),
 
 ]
