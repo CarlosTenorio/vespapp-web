@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from web.views import HomePageView
-from web.views import FAQView
+from web.views import InfoView
 from web.views import SightingExpertCommentsView
 from web.views import SightingView
 from web.views import SightingsView
@@ -18,7 +18,7 @@ from web.views import UserProfileView
 urlpatterns = [
     url(r'^$', HomePageView.as_view(), name='home'),
 
-    url(r'^faq/$', FAQView.as_view(), name='faq'),
+    url(r'^info/$', InfoView.as_view(), name='info'),
     url(r'^locations/$', LocationsPageView.as_view(), name='locations'),
     url(r'^new_sighting/$', NewSightingView.new_sighting, name='new_sighting'),
 

@@ -241,20 +241,20 @@ class UserComment(models.Model):
         return self.body
 
 
-class SightingFAQ(models.Model):
+class SightingInfo(models.Model):
     title = models.CharField(null=False, blank=False, max_length=128, verbose_name='Título')
     body = models.TextField(verbose_name='Explicación más detallada')
     quickBody = models.TextField(null=False, blank=False, default="Clic para más información", max_length=128, verbose_name='Breve explicación')
-    image = models.ImageField(upload_to="faq_images/", blank=True, null=True)
+    image = models.ImageField(upload_to="info_images/", blank=True, null=True)
     
-    def foto_faq(self):
+    def foto_info(self):
         return '<a href="%s"><img src="%s" width=250px heigth=250px/></a>'%(self.image.url, self.image.url)
 
-    foto_faq.allow_tags = True
+    foto_info.allow_tags = True
 
     class Meta:
-        verbose_name = 'FAQ'
-        verbose_name_plural = 'FAQ'
+        verbose_name = 'Info'
+        verbose_name_plural = 'Info'
 
     def __str__(self):
         return self.title

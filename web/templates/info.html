@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 
-{% block title %}FAQ{% endblock %}
+{% block title %}INFO{% endblock %}
 
 {% block description %}Preguntas más frecuentes{% endblock %}
 
@@ -14,33 +14,33 @@
 
 
  <!--  <div class="col-lg-12"> -->
-{% for faq in object_list %} 
+{% for info in object_list %} 
     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-      <div class="boxFaq ">
-        {% if faq.image %}          
-          <div id="f1_container" data-toggle="modal" data-target="#{{ faq.id }}">
+      <div class="boxInfo ">
+        {% if info.image %}          
+          <div id="f1_container" data-toggle="modal" data-target="#{{ info.id }}">
             <div id="f1_card"> 
               <div class="front face">
-                <img class="img-responsive imgFaq" src="{{ faq.image.url }}"/>
-                  <h4 class="titleFront">{{faq.title}}</h4>
+                <img class="img-responsive imgInfo" src="{{ info.image.url }}"/>
+                  <h4 class="titleFront">{{info.title}}</h4>
               </div>
               <div class="back face center">
-                <p class="fontTitle">{{faq.title}}</p>
-                <p>{{faq.quickBody}}</p>
+                <p class="fontTitle">{{info.title}}</p>
+                <p>{{info.quickBody}}</p>
               </div>
             </div>
           </div> 
           <!-- Modal -->
-          <div id="{{faq.id }}" class="modal fade" role="dialog">
+          <div id="{{info.id }}" class="modal fade" role="dialog">
             <div class="modal-dialog">
               <!-- Modal content-->
               <div class="modal-content">
                 <div class="modal-header modalTitle">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title modalFont">{{faq.title}}</h4>
+                  <h4 class="modal-title modalFont">{{info.title}}</h4>
                 </div>
                 <div class="modal-body">
-                    {{faq.body}}
+                    {{info.body}}
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -53,7 +53,7 @@
       </div>    
     </div>
 {% empty %}
-    <p>No hay FAQs disponibles</p>
+    <p>No hay información disponible</p>
 {% endfor %}
 
 <!-- </div> -->
