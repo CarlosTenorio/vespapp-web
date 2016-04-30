@@ -36,10 +36,10 @@ class UserProfileAdmin(admin.ModelAdmin):
     readonly_fields = ['foto_usuario',]
 
 
-class SightingFAQAdmin(admin.ModelAdmin):
+class SightingInfoAdmin(admin.ModelAdmin):
     list_display = ('title',)
-    fieldsets = [('FAQ', {'fields': ['title', 'quickBody', 'body', ('foto_faq', 'image')]}),]
-    readonly_fields = ['foto_faq',]
+    fieldsets = [('INFO', {'fields': ['title', 'quickBody', 'body', ('foto_info', 'image')]}),]
+    readonly_fields = ['foto_info',]
 
 
 class PictureAdmin(admin.ModelAdmin):
@@ -64,7 +64,7 @@ admin.site.register(Sighting, SightingAdmin)
 admin.site.register(Picture, PictureAdmin)
 admin.site.register(UserComment, UserCommentAdmin)
 admin.site.register(ExpertComment, ExpertCommentAdmin)
-admin.site.register(SightingFAQ, SightingFAQAdmin)
+admin.site.register(SightingInfo, SightingInfoAdmin)
 admin.site.register(Location)
 admin.site.register(Province)
 admin.site.register(UserProfile, UserProfileAdmin)

@@ -12,7 +12,7 @@
         </button>
         <a class="navbar-brand" href="{% url 'home' %}">
           <img src="{% static "img/avispa_logo.png" %}" width="45" height="45" alt="My image"/>
-          <span>Avispamiento</span>
+          <span>Vespapp</span>
         </a>
       </div>
 
@@ -20,9 +20,8 @@
       <div class="collapse navbar-collapse navbar-right" id="main-navbar">
         <ul class="nav navbar-nav">
           <li class="{% active 'home' %}"><a href="{% url 'home' %}">Home</a></li>
-          <li class="{% active 'sightings' %}"><a href="{% url 'sightings' %}">Avistamientos</a></li>
-          <li class="{% active 'faq' %}"><a href="{% url 'faq' %}">FAQ</a></li>
           <li class="{% active 'new_sighting' %}"><a href="{% url 'new_sighting' %}">Nuevo avistamiento</a></li>
+          <li class="{% active 'sightings' %}"><a href="{% url 'sightings' %}">Avistamientos</a></li>
 
           {% if user.is_authenticated %} 
           <li class="{% active 'user_profile' %}"><a href="{% url 'user_profile' %}">Mi perfil</a></li> 
@@ -31,6 +30,7 @@
           <li class="{% active 'login' %}"><a href="{% url 'login' %}">Iniciar sesión</a></li>      
           <li class="{% active 'signup' %}"><a href="{% url 'signup' %}">Registrarse</a></li>         
           {% endif %}
+          <li class="{% active 'info' %}"><a href="{% url 'info' %}">Infórmate</a></li>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

@@ -17,7 +17,7 @@ import json
 from api.models import Sighting
 from api.models import Location
 from api.models import Picture
-from api.models import SightingFAQ
+from api.models import SightingInfo
 from api.models import UserComment
 from api.models import Question
 from api.models import Answer
@@ -51,9 +51,9 @@ class HomePageView(TemplateView):
         return context
 
 
-class FAQView(ListView):
-    template_name = "faq.html"
-    model = SightingFAQ
+class InfoView(ListView):
+    template_name = "info.html"
+    model = SightingInfo
 
 
 class SightingExpertCommentsView(ListView):
