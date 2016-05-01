@@ -443,7 +443,7 @@ class ContactView(TemplateView):
                         
                 send_mail('Contacto Usuario', 'Enviado por: '+username+ ', con el correo: '+ email+ " y el mensaje: "+message, 'avispamiento1@gmail.com', ['avispamiento1@gmail.com'])
 
-                message='Nos pondremos en contacto lo antes posible'    
+                message='Te contestaremos lo antes posible'    
 
                 context = {'form': form, 'mensaje': message}
                 return render(request, 'contact.html', context)
