@@ -9,7 +9,7 @@ class SightingForm(forms.ModelForm):
     
     class Meta:
         model = Sighting
-        fields = ('type', 'free_text', 'location')
+        fields = ('type', 'free_text', 'location', 'lat', 'lng')
 
 
 class QuestionForm(forms.ModelForm):
@@ -144,5 +144,23 @@ class PasswordProfileForm(forms.Form):
 
 
 class PhotoProfileForm(forms.Form):
-
     photo = forms.ImageField(required=False)
+
+
+
+class ContactForm(forms.Form):
+
+    nameContact = forms.CharField(
+        min_length=4,
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    emailContact = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    phoneContact = forms.CharField(
+        required=False,
+        widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    messageContact = forms.CharField(
+        min_length=4,
+        widget=forms.TextInput(attrs={'class': 'form-control'}))

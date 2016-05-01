@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% load staticfiles %}
+{% block description %}Contacto por correo electrónico{% endblock %}
+{% block body %}
+
+<section id="sectionContact"> 
+  <span class="iconContact fa fa-envelope-o"> </span>
+  <form id="formContact1" method="post" action="" enctype="multipart/form-data">   
+      {% csrf_token %}
+      <div class="field name-box" >
+          <input type="text" id="nameContact" placeholder="¿Como te llamas?" name="nameContact"/>
+          <label for="nameContact">Nombre</label>
+      </div>
+      <div class="field email-box">
+          <input type="text" id="emailContact" placeholder="ejemplo@email.com" name="emailContact"/>
+          <label for="emailContact">Correo</label>
+      </div>
+      <div class="field phone-box">
+          <input type="text" id="phoneContact" placeholder="(Opcional)" name="phoneContact"/>
+          <label for="phoneContact">Móvil</label>
+      </div>
+      <div class="field msg-box">
+          <textarea id="messageContact" rows="4" placeholder="Escribe aquí tu mensaje..." name="messageContact"/></textarea>
+          <label for="messageContact">Mensaje</label>
+      </div>
+      <input class="button" type="submit" value="Enviar" />
+  </form>
+</section>
+
+<script>
+  {% if mensaje %}
+    successSendMessage('{{ mensaje|striptags }}');
+  {% endif %}
+  var error = "";
+  {% if form.nameContact.errors %}
+    error = 'Nombre : ' + '{{form.nameContact.errors|striptags}}';
+  {% endif %}
+  {% if form.emailContact.errors %}
+    error = error + '\nCorreo electrónico: ' + '{{form.emailContact.errors|striptags}}';
+  {% endif %}
+  {% if form.messageContact.errors %}
+    error = error + '\nMensaje: ' + '{{form.messageContact.errors|striptags}}';
+  {% endif %}
+  if(error){
+    errorForm(error);
+  }
+</script>
+
+{% endblock %}

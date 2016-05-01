@@ -8,6 +8,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.core.context_processors import csrf
+from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404  
 from django.db.models import Q
@@ -32,6 +33,7 @@ from web.forms import SignupUserForm
 from web.forms import UserProfileForm
 from web.forms import PasswordProfileForm
 from web.forms import PhotoProfileForm
+from web.forms import ContactForm
 
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -419,3 +421,35 @@ class UserProfileView(TemplateView):
             'user_profile': user_profile}    
 
         return render(request, 'user_profile.html', context)
+
+
+class ContactView(TemplateView):
+
+    def contact_view(request):
+
+        if request.method == 'POST':
+            form = ContactForm(request.POST)
+
+            print(request.POST)
+            print(form.is_valid())
+
+            if form.is_valid():
+
+                cleaned_data = form.cleaned_data
+                username = cleaned_data.get('nameContact')
+                email = cleaned_data.get('emailContact')
+                phone = cleaned_data.get('phoneContact')
+                message = cleaned_data.get('messageContact') 
+                        
+                send_mail('Contacto Usuario', 'Enviado por: '+username+ ', con el correo: '+ email+ " y el mensaje: "+message, 'avispamiento1@gmail.com', ['avispamiento1@gmail.com'])
+
+                message='Nos pondremos en contacto lo antes posible'    
+
+                context = {'form': form, 'mensaje': message}
+                return render(request, 'contact.html', context)
+        else:
+            form = ContactForm()
+  
+        context = {'form': form}
+
+        return render(request, 'contact.html', context)

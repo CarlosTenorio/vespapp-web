@@ -83,3 +83,15 @@ function successUp(msg){
     }    
   });
 }
+
+
+function successSendMessage(msg){
+  swal({
+      title: "¡Gracias por contactar con nostros!",
+      text: msg,
+      type: "success",
+      timer: 4000,
+      animation: "pop",
+      confirmButtonText: "Vale"
+  });
+}
