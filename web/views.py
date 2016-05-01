@@ -437,7 +437,7 @@ class ContactView(TemplateView):
                 phone = cleaned_data.get('phoneContact')
                 message = cleaned_data.get('messageContact') 
                         
-                send_mail('Contacto Usuario', 'Enviado por: '+username+ ', con el correo: '+ email+ " y el mensaje: "+message, 'avispamiento1@gmail.com', ['avispamiento1@gmail.com'])
+                send_mail('Contacto Usuario', 'Enviado por: '+username+ ', con el correo: '+ email+ ', el teléfono: '+ phone+ " y el mensaje: "+message, 'avispamiento1@gmail.com', ['avispamiento1@gmail.com'])
 
                 message='Nos pondremos en contacto lo antes posible'    
 
