@@ -9,7 +9,7 @@ class SightingForm(forms.ModelForm):
     
     class Meta:
         model = Sighting
-        fields = ('type', 'free_text', 'location')
+        fields = ('type', 'free_text', 'location', 'lat', 'lng')
 
 
 class QuestionForm(forms.ModelForm):
