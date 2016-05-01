@@ -14,6 +14,7 @@ from web.views import UserSignupView
 from web.views import UserLoginView
 from web.views import UserLogoutView
 from web.views import UserProfileView
+from web.views import ContactView
 
 from . import views
 
@@ -37,6 +38,7 @@ urlpatterns = [
     url(r'^signup/$', UserSignupView.signup_user_view, name='signup'),
     url(r'^login/$', UserLoginView.login_view, name='login'),
     url(r'^logout/$', UserLogoutView.logout_view, name='logout'),
+    url(r'^contact/$', ContactView.contact_view, name='contact'),
 
     url(r'^user_profile/$', UserProfileView.edit_profile, name='user_profile'),
 

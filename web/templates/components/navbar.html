@@ -30,7 +30,8 @@
           {% else %}  
           <li class="{% active 'login' %}"><a href="{% url 'login' %}">Iniciar sesión</a></li>      
           <li class="{% active 'signup' %}"><a href="{% url 'signup' %}">Registrarse</a></li>         
-          {% endif %}
+          {% endif %}             
+          <li class="{% active 'contact' %}"><a href="{% url 'contact' %}">Contacto</a></li>   
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
