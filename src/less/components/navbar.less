@@ -1,31 +1,33 @@
 .navbar-container {
   background-color: @brand-heading-color;
 }
-.navbar{
+
+.navbar {
   margin-bottom:0;
-.navbar-brand {
 
+  .navbar-brand {
+    width: auto;
+    display: inline-flex;	
+    padding-bottom: 0;
+    padding-top: 0;
 
-  width: auto;
-  display: inline-flex;	
-  padding-bottom: 0;
-  padding-top: 0;
+    img {
+    	width: auto;
+      height: auto;
+      max-height: 100%;
+    }
 
-  img {
-  	width: auto;
-    height: auto;
-    max-height: 100%;
+    span {
+    	line-height: 45px;
+    	margin-left: 10px;
+    }
   }
 
-  span {
-  	line-height: 45px;
-  	margin-left: 10px;
+  .container-fluid > .navbar-collapse, 
+  .container-fluid > .navbar-header {
+    margin-right: 0;
+    margin-left: 0; 
   }
-}
-.container-fluid > .navbar-collapse, .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
-    margin-right: 0px;
-    margin-left: 0px;
-}
 }
 
 

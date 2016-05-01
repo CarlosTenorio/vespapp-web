@@ -1,6 +1,7 @@
 from django import forms
 from api.models import Sighting
 from api.models import Answer
+from api.models import UserComment
 from django.contrib.auth.models import User
 
 
@@ -16,6 +17,13 @@ class QuestionForm(forms.ModelForm):
     class Meta:
         model = Answer
         fields = ('value',)
+
+
+class CommentSightingForm(forms.ModelForm):
+    
+    class Meta:
+        model = UserComment
+        fields = ('body',)
 
 
 class SignupUserForm(forms.Form):
@@ -136,7 +144,6 @@ class PasswordProfileForm(forms.Form):
 
 
 class PhotoProfileForm(forms.Form):
-
     photo = forms.ImageField(required=False)
 
 

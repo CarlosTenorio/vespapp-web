@@ -34,63 +34,59 @@ function initialize() {
   // Multiple Markers
   var markers = [
       {% for sighting in sightings_list %}
-        {% if sighting.public %}
-          ['{{ sighting.location }}', parseFloat('{{sighting.location.lat}}'.replace(',','.')), parseFloat('{{sighting.location.lng}}'.replace(',','.')), parseFloat('{{sighting.lat}}'.replace(',','.')), parseFloat('{{sighting.lng}}'.replace(',', '.'))],    
-        {% endif %} 
+          ['{{ sighting.location }}', parseFloat('{{sighting.location.lat}}'.replace(',','.')), parseFloat('{{sighting.location.lng}}'.replace(',','.')), parseFloat('{{sighting.lat}}'.replace(',','.')), parseFloat('{{sighting.lng}}'.replace(',', '.')), '{{ sighting.user.username }}'],    
       {% endfor %}
   ];
 
   // Info Window Content
   var infoWindowContent = [
       {% for sighting in sightings_list %}
-        {% if sighting.public %}
-            ['<div class="info_content_map">' +
-            {% if sighting.type == 1 %}
-            '<h3>Avistamiento avispa</h3>' +
-            {% elif sighting.type == 2 %}
-            '<h3>Avistamiento nido</h3>' +
-            {% else %}
-            '<h3>Avistamiento</h3>' +      
-            {% endif %}      
+        ['<div class="info_content_map">' +
+        {% if sighting.type == 1 %}
+        '<h3>Avistamiento avispa</h3>' +
+        {% elif sighting.type == 2 %}
+        '<h3>Avistamiento nido</h3>' +
+        {% else %}
+        '<h3>Avistamiento</h3>' +      
+        {% endif %}      
 
-            {% if sighting.source == "twitter" %}
-            '<i class="fa fa-twitter-square"></i><span class="sighting-type">Notificado por Twitter</span>' +
-            {% elif sighting.source == "telegram"%}
-            '<i class="fa fa-weixin"></i><span class="sighting-type">Notificado por Telegram</span>' +
-            {% elif sighting.source == "web"%}
-            '<i class="fa fa-envelope-square"></i><span class="sighting-type">Notificado por Web</span>' +  
-            {% elif sighting.source == "app"%}
-            '<i class="fa fa-mobile-phone"></i><span class="sighting-type">Notificado por App</span>' +  
-            {% endif %}
-            {% if sighting.type == 1 %}
-            '<i class="fa fa-bug"></i><span>Avispa</span>' +
-            {% elif sighting.type == 2 %}
-            '<i class="fa fa-fort-awesome"></i><span>Nido</span>' +
-            {% endif %}
-            {% if sighting.status == 0 %}
-            '<span class="label-status">Validación:</span><span class="label label-danger">Pendiente</span>' +
-            {% elif sighting.status == 1%}
-            '<span class="label-status">Validación:</span><span class="label label-warning">Procesando</span>' +
-            {% elif sighting.status == 2%}
-            '<span class="label-status">Validación:</span><span class="label label-success">Procesado</span>' +
-            {% endif %}    
-            '<div class="details {% if sighting.first_picture %}details-with-photo{% endif %}  ">' +
-            '<div class="image">' +
-            {% if sighting.first_picture %}
-            '<img src="{{ sighting.first_picture.file.url }}" class="img-responsive sighting-image"/>' +
-            {% endif %}  
-            '</div>' +
-            '<div class="text">' +
-            {% if sighting.user %}
-            '<p class="text-content"><b>Usuario:</b> {{sighting.user}}</p>' + 
-            {% else %}
-            '<p class="text-content"><b>Usuario:</b> Anónimo</p>' + 
-            {% endif %} 
-            '<p class="created-content"><b>Fecha:</b> {{sighting.created_at}}</p>' +
-
-
-            '<a href="{% url 'sighting_id' sighting.id %}" class="btn btn-sm btn-primary pull-right">Más información</a> '   +    '</div></div></div>'], 
+        {% if sighting.source == "twitter" %}
+        '<i class="fa fa-twitter-square"></i><span class="sighting-type">Notificado por Twitter</span>' +
+        {% elif sighting.source == "telegram"%}
+        '<i class="fa fa-weixin"></i><span class="sighting-type">Notificado por Telegram</span>' +
+        {% elif sighting.source == "web"%}
+        '<i class="fa fa-envelope-square"></i><span class="sighting-type">Notificado por Web</span>' +  
+        {% elif sighting.source == "app"%}
+        '<i class="fa fa-mobile-phone"></i><span class="sighting-type">Notificado por App</span>' +  
+        {% endif %}
+        {% if sighting.type == 1 %}
+        '<i class="fa fa-bug"></i><span>Avispa</span>' +
+        {% elif sighting.type == 2 %}
+        '<i class="fa fa-fort-awesome"></i><span>Nido</span>' +
+        {% endif %}
+        {% if sighting.status == 0 %}
+        '<span class="label-status">Estado:</span><span class="label label-danger">Pendiente</span>' +
+        {% elif sighting.status == 1%}
+        '<span class="label-status">Estado:</span><span class="label label-warning">Procesando</span>' +
+        {% elif sighting.status == 2%}
+        '<span class="label-status">Estado:</span><span class="label label-success">Procesado</span>' +
+        {% endif %}    
+        '<div class="details {% if sighting.first_picture %}details-with-photo{% endif %}  ">' +
+        '<div class="image">' +
+        {% if sighting.first_picture %}
+        '<img src="{{ sighting.first_picture.file.url }}" class="img-responsive sighting-image"/>' +
+        {% endif %}  
+        '</div>' +
+        '<div class="text">' +
+        {% if sighting.user %}
+        '<p class="text-content"><b>Usuario:</b> {{sighting.user}}</p>' + 
+        {% else %}
+        '<p class="text-content"><b>Usuario:</b> Anónimo</p>' + 
         {% endif %} 
+        '<p class="created-content"><b>Fecha:</b> {{sighting.created_at}}</p>' +
+
+
+        '<a href="{% url 'sighting_id' sighting.id %}" class="btn btn-sm btn-primary pull-right">Más información</a> '   +    '</div></div></div>'], 
       {% endfor %}
   ];
       
@@ -100,7 +96,6 @@ function initialize() {
 
   // Loop through our array of markers & place each one on the map  
   for( i = 0; i < markers.length; i++ ) {
-    console.log(markers[i]);
       var lat = markers[i][3];
       var lng = markers[i][4];
       if (!lat || !lng) {
@@ -123,12 +118,19 @@ function initialize() {
             }
           }
 
+          var icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+          {% if user.is_authenticated %}
+            if (markers[i][5] == "{{ user.username }}") {
+              icon = 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png';
+            }
+          {% endif %}
 
           bounds.extend(position);
           marker = new google.maps.Marker({
               position: position,
               map: map,
-              title: markers[i][0]
+              title: markers[i][0],
+              icon: icon
           });
           
           //Allow each marker to have an info window    

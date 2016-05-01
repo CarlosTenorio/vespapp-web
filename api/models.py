@@ -158,6 +158,30 @@ class Sighting(models.Model):
 
     respuestas_preguntas.allow_tags = True
 
+    def comentarios_usuarios(self):
+        coments= self.user_comments.all().order_by('-created_at')
+        coms=''
+        if self.user_comments.count():
+            for w in coments:
+                coms= coms + '</br>' + '<p><b>%s a %s</b></p>'%(w.user, w.created_at) + w.body + '</br>'
+            return coms
+        else:
+            return 'No hay comentarios'
+
+    comentarios_usuarios.allow_tags = True
+
+    def comentarios_expertos(self):
+        coments= self.expert_comments.all().order_by('-created_at')
+        coms=''
+        if self.expert_comments.count():
+            for w in coments:
+                coms= coms + '</br>' + '<p><b>%s a %s</b></p>'%(w.user, w.created_at) + w.body + '</br>'
+            return coms
+        else:
+            return 'No hay comentarios'
+
+    comentarios_expertos.allow_tags = True
+
     class Meta:
         verbose_name = 'Avispamiento'
         verbose_name_plural = 'Avispamientos'
@@ -206,8 +230,6 @@ class UserComment(models.Model):
     sighting = models.ForeignKey(Sighting, related_name="user_comments")
     body = models.CharField(null=False, blank=False, max_length=512, verbose_name='Comentario')
 
-    moderated = models.BooleanField(verbose_name="Moderado", default=False)
-
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Fecha de modificación')
 
@@ -219,32 +241,28 @@ class UserComment(models.Model):
         return self.body
 
 
-class SightingFAQ(models.Model):
+class SightingInfo(models.Model):
     title = models.CharField(null=False, blank=False, max_length=128, verbose_name='Título')
     body = models.TextField(verbose_name='Explicación más detallada')
     quickBody = models.TextField(null=False, blank=False, default="Clic para más información", max_length=128, verbose_name='Breve explicación')
-    image = models.ImageField(upload_to="faq_images/", blank=True, null=True)
+    image = models.ImageField(upload_to="info_images/", blank=True, null=True)
     
-    def foto_faq(self):
+    def foto_info(self):
         return '<a href="%s"><img src="%s" width=250px heigth=250px/></a>'%(self.image.url, self.image.url)
 
-    foto_faq.allow_tags = True
+    foto_info.allow_tags = True
 
     class Meta:
-        verbose_name = 'FAQ'
-        verbose_name_plural = 'FAQ'
+        verbose_name = 'Info'
+        verbose_name_plural = 'Info'
 
     def __str__(self):
         return self.title
 
 
-
-
-
-#REGISTRATION
 class UserProfile(models.Model):
 
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='user_profile')
     photo = models.ImageField(upload_to='profiles', blank=True, null=True)
     
     def foto_usuario(self):

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response 
+from django.template import RequestContext
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -10,13 +11,14 @@ from django.core.context_processors import csrf
 from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404  
+from django.db.models import Q
 
 import json
 
 from api.models import Sighting
 from api.models import Location
 from api.models import Picture
-from api.models import SightingFAQ
+from api.models import SightingInfo
 from api.models import UserComment
 from api.models import Question
 from api.models import Answer
@@ -24,6 +26,7 @@ from api.models import UserProfile
 
 from web.forms import SightingForm
 from web.forms import QuestionForm
+from web.forms import CommentSightingForm
 
 from web.forms import SightingForm
 from web.forms import SignupUserForm
@@ -50,9 +53,9 @@ class HomePageView(TemplateView):
         return context
 
 
-class FAQView(ListView):
-    template_name = "faq.html"
-    model = SightingFAQ
+class InfoView(ListView):
+    template_name = "info.html"
+    model = SightingInfo
 
 
 class SightingExpertCommentsView(ListView):
@@ -66,22 +69,42 @@ class SightingsView(ListView):
     paginate_by = 50  # Control de la paginacion
 
     def get_queryset(self, **kwargs):
-        return Sighting.objects.filter(public=True)
+        if self.request.user.is_authenticated():
+            user = User.objects.get(username=self.request.user.username)
+            return Sighting.objects.filter(Q(public=True) | Q(user=user))
+        else:
+            return Sighting.objects.filter(public=True)
 
 
-class SightingView(DetailView):
-    template_name = "sighting.html"
-    template_name_field = 'object'
-    model = Sighting
+class SightingView(TemplateView):
 
-    def get_object(self, queryset=None):
-        sighting_id = self.kwargs.get('sighting_id')
-        
+    def sighting_view(request, sighting_id):
+
+        if request.POST:
+            form_comment = CommentSightingForm(request.POST)
+            if form_comment.is_valid():   
+                comment_id = form_comment.save(commit=False)
+                sighting = Sighting.objects.get(id=int(sighting_id))
+                comment_id.sighting = sighting
+                user = User.objects.get(username=request.user.username)
+                comment_id.user = user
+                comment_id.save()
+
+                return HttpResponseRedirect('')                   
+        else:
+            form_comment = CommentSightingForm()
+
         try:
-            sighting = Sighting.objects.get(pk=sighting_id)
-            return sighting
+            context = {
+                'sighting': Sighting.objects.get(id=int(sighting_id)),
+                'form_comment': form_comment
+            }
         except Sighting.DoesNotExist:
-            return None
+            context = {
+                'sighting': None
+            }
+
+        return render_to_response('sighting.html', context=context, context_instance=RequestContext(request))
 
 
 class LocationsPageView(TemplateView):
@@ -101,7 +124,6 @@ class SightQuestionView(TemplateView):
                     
             sighting_id = request.session['session_id']
             question_order = request.session['question_order'] + 1 
-            print ("ORDER: " + str(question_order))
 
             request.session['question_order'] = question_order
 
@@ -127,8 +149,8 @@ class SightQuestionView(TemplateView):
                         url = reverse('sight_question')
                         return HttpResponseRedirect(url)
                     else:
-                        mensaje='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
-                        return render(request, 'home.html', {'mensaje': mensaje})      
+                        message='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
+                        return render(request, 'home.html', {'message': message})      
                 else:
                     #if click on next button but not select nothing
                     question_order = request.session['question_order'] - 1                         
@@ -145,10 +167,10 @@ class SightQuestionView(TemplateView):
                         'question': Question.objects.get(order=question_order, sighting_type=s.type),
                         'answer': Answer.objects.all()
                     }
-                    return render_to_response('sight_question.html', context=context)
+                    return render_to_response('sight_question.html', context=context, context_instance=RequestContext(request))
                 else:
-                    mensaje='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
-                    return render(request, 'home.html', {'mensaje': mensaje})
+                    message='Regístrate para conocer el estado de tu avispamiento, enviar comentarios y mucho más'    
+                    return render(request, 'home.html', {'message': message})
         else:
             raise Http404
 
@@ -187,14 +209,13 @@ class NewSightingView(TemplateView):
 
                 return HttpResponse(sighting_id.pk)
         else:
-
             form_sighting = SightingForm()
 
-            context = {
-                'locations': Location.objects.all()
-            }
+        context = {
+            'locations': Location.objects.all()
+        }
 
-            return render(request, 'new_sighting.html', context=context)
+        return render(request, 'new_sighting.html', context=context)
 
 
 class SightingCommentView(DetailView):
@@ -226,6 +247,10 @@ class SightingCommentsView(ListView):
 class UserSignupView(TemplateView):
 
     def signup_user_view(request):
+        # Si el usuario esta ya logueado, lo redireccionamos a home
+        if request.user.is_authenticated():
+            return redirect(reverse('home'))
+
         if request.method == 'POST':
             # Si el method es post, obtenemos los datos del formulario
             form = SignupUserForm(request.POST, request.FILES)
@@ -253,7 +278,6 @@ class UserSignupView(TemplateView):
                 # Al campo user le asignamos el objeto user_model
                 user_profile.user = user_model
                 # y le asignamos la photo (el campo, permite datos null)
-                # print(photo)
                 user_profile.photo = photo
                 # Por ultimo, guardamos tambien el objeto UserProfile
                 user_profile.save()
@@ -263,11 +287,9 @@ class UserSignupView(TemplateView):
                     if user.is_active:
                         login(request, user)
                     else:
-                        # Redireccionar informando que la cuenta esta inactiva
-                        # Lo dejo como ejercicio al lector :)
                         pass
                 #if he comes from new_sighting
-                if request.session['session_id']:
+                if 'session_id' in request.session:
                     sighting_id = request.session['session_id']
                     s = Sighting.objects.get(id=sighting_id)   
                     s.user = user
@@ -294,7 +316,7 @@ class UserLoginView(TemplateView):
         if request.user.is_authenticated():
             return redirect(reverse('home'))
 
-        mensaje = ''
+        message = ''
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -303,18 +325,16 @@ class UserLoginView(TemplateView):
                 if user.is_active:
                     login(request, user)
                     #if he comes from new_sighting
-                    if request.session['session_id']:
+                    if 'session_id' in request.session:
                         sighting_id = request.session['session_id']
                         s = Sighting.objects.get(id=sighting_id)   
                         s.user = user
                         s.save()
                     return redirect(reverse('home'))
                 else:
-                    # Redireccionar informando que la cuenta esta inactiva
-                    # Lo dejo como ejercicio al lector :)
                     pass
-            mensaje = 'Nombre de usuario o contraseña no válido'
-        return render(request, 'login.html', {'mensaje': mensaje})
+            message = 'Nombre de usuario o contraseña no válido'
+        return render(request, 'login.html', {'message': message})
 
 
 class UserLogoutView(TemplateView):
@@ -354,8 +374,6 @@ class UserProfileView(TemplateView):
                         if user.is_active:
                             login(request, user)
                         else:
-                            # Redireccionar informando que la cuenta esta inactiva
-                            # Lo dejo como ejercicio al lector :)
                             pass
 
                     return redirect(reverse('user_profile'))
@@ -374,7 +392,6 @@ class UserProfileView(TemplateView):
 
                     user = User.objects.get(username=request.user.username)
                     user_profile = UserProfile.objects.get(user=user)
-                    print(photo)
                     user_profile.photo = photo
                     user_profile.save()
 
@@ -422,7 +439,7 @@ class ContactView(TemplateView):
                         
                 send_mail('Contacto Usuario', 'Enviado por: '+username+ ', con el correo: '+ email+ " y el mensaje: "+message, 'avispamiento1@gmail.com', ['avispamiento1@gmail.com'])
 
-                message='Grácias, nos pondremos en contacto lo antes posible'    
+                message='Nos pondremos en contacto lo antes posible'    
 
                 context = {'form': form, 'mensaje': message}
                 return render(request, 'contact.html', context)

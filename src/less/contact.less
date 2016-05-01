@@ -1,3 +1,7 @@
+.iconContact{
+  font-size: 100px;
+  margin-bottom: 25px;
+}
 
 #sectionContact{
   background: white;
@@ -18,11 +22,12 @@
   margin-bottom: 15px;
 }
 #formContact1 .field label {
+  color: @font-color;
   text-transform: uppercase;
   position: absolute;
   top: 0;
   left: 0;
-  background: #313A3D;
+  background: @brand-secondary;
   width: 100%;
   padding: 18px 0;
   font-size: 1.45em;
@@ -57,7 +62,7 @@
   margin: 0;
   padding: 18px 0;
   padding-left: 19.5%;
-  color: #313A3D;
+  color: black;
   font-size: 1.4em;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -86,16 +91,16 @@
 #formContact1 .field textarea:focus + label,
 #formContact1 .field textarea.focused + label {
   width: 18%;
-  background: #FD9638;
-  color: #313A3D;
+  background: @brand-primary;
+  // color: @brand-secondary;
 }
 
 #formContact1 .field input[type="text"]:focus + label,
 #formContact1 .field input[type="text"].focused + label,
  {
   width: 18%;
-  background: #FD9638;
-  color: #313A3D;
+  background: @brand-primary;
+  // color: @brand-secondary;
 }
 
 #formContact1 .field input[type="text"].focused + label,
@@ -104,11 +109,11 @@
 }
 #formContact1 .field:hover label {
   width: 18%;
-  background: #313A3D;
+  background: @brand-secondary;
   color: white;
 }
 #formContact1 input[type="submit"] {
-  background: #FD9638;
+  background: @brand-primary;
   color: white;
   -webkit-appearance: none;
   border: none;
@@ -126,8 +131,8 @@
   transition: all 333ms ease-in-out;
 }
 #formContact1 input[type="submit"]:hover {
-  background: #313A3D;
-  color: #FD9638;
+  background: @brand-secondary;
+  color: @brand-primary;
 }
 #formContact1 input[type="submit"]:focus {
   outline: none;
