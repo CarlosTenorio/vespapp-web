@@ -34,17 +34,23 @@
             </label>
           </div>
 
-          <div class="col-xs-12 form-group location">
-            <select class="form-control" name="location">
-              <option value="">Selecciona población</option>
-              {% for location in locations %}
-                  <option value="{{location.id}}">{{location.name}}</option>
-              {% endfor %}
-            </select>
-          </div>
-
           <div class="col-xs-12">
             <textarea name="free_text" class="freetext" placeholder="Escribe aquí si deseas detallar la zona del avispamiento o si tienes algún dato que pueda sernos útil"></textarea>
+          </div>
+        </div>
+
+        <div class="col-xs-12 form-group location">
+          <select class="form-control" name="location">
+            <option value="">Selecciona población</option>
+            {% for location in locations %}
+                <option value="{{location.id}}">{{location.name}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="col-xs-12">
+          <div id="map_wrapper">
+            <div id="map_canvas" class="mapping"></div>
           </div>
         </div>
 
@@ -53,12 +59,62 @@
         </div>
         
       </form>
-
     </div>
   </div>
 </div>
 
 <script>
+  jQuery(function($) {
+      // Asynchronously Load the map API 
+      var script = document.createElement('script');
+      script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&callback=initialize";
+      document.body.appendChild(script);
+  });
+
+  var marker;
+  function initialize() {
+    var map;
+    var bounds = new google.maps.LatLngBounds();
+    var mapOptions = {
+        mapTypeId: 'roadmap',
+        center: {lat: 39.6953738, lng: 2.947359},
+        zoom: 8
+    };
+                    
+    // Display a map on the page
+    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    map.setTilt(45);
+
+    var position = new google.maps.LatLng(39.6953738, 2.947359);
+    marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        draggable: true,
+        animation: google.maps.Animation.DROP
+    });
+    marker.setMap(map);
+
+
+    $("select[name=location]").change(function() {
+        var index = $("select[name=location] option:selected").index() - 1;
+        var i = 0;
+        var lat, lng;
+        {% for location in locations %}
+            if (i == index) {
+                lat = parseFloat('{{location.lat}}'.replace(',','.'));
+                lng = parseFloat('{{location.lng}}'.replace(',','.'));
+            }
+            i += 1;
+        {% endfor %}
+        var position = new google.maps.LatLng(lat, lng);
+        marker.setPosition(position);  
+        map.panTo(position);  
+        map.setZoom(14);
+    });
+  }
+
+
+
   $(document).ready(function() { 
       Dropzone.autoDiscover = false;
 
@@ -112,6 +168,8 @@
         formData.append("type", $("input:radio[name=type]:checked").val()); 
         formData.append("location", $("select[name=location] option:selected").val()); 
         formData.append("free_text", $('textarea[name=free_text]').val());
+        formData.append("lat", marker.getPosition().lat());
+        formData.append("lng", marker.getPosition().lng());
 
       });
 
