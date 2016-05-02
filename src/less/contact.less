@@ -27,10 +27,11 @@
   position: absolute;
   top: 0;
   left: 0;
+  height: 100%;
   background: @brand-secondary;
   width: 100%;
   padding: 18px 0;
-  font-size: 1.45em;
+  font-size: 1.25em;
   letter-spacing: 0.075em;
   -webkit-transition: all 333ms ease-in-out;
   -moz-transition: all 333ms ease-in-out;
@@ -92,15 +93,12 @@
 #formContact .field textarea.focused + label {
   width: 18%;
   background: @brand-primary;
-  // color: @brand-secondary;
 }
 
 #formContact .field input[type="text"]:focus + label,
-#formContact .field input[type="text"].focused + label,
- {
+#formContact .field input[type="text"].focused + label {
   width: 18%;
   background: @brand-primary;
-  // color: @brand-secondary;
 }
 
 #formContact .field input[type="text"].focused + label,
@@ -112,43 +110,31 @@
   background: @brand-secondary;
   color: white;
 }
-// #formContact input[type="submit"] {
-//   background: @brand-primary;
-//   color: white;
-//   -webkit-appearance: none;
-//   border: none;
-//   text-transform: uppercase;
-//   position: relative;
-//   padding: 13px 50px;
-//   font-size: 1.4em;
-//   letter-spacing: 0.1em;
-//   font-family: 'Lato', sans-serif;
-//   font-weight: 300;
-//   -webkit-transition: all 333ms ease-in-out;
-//   -moz-transition: all 333ms ease-in-out;
-//   -o-transition: all 333ms ease-in-out;
-//   -ms-transition: all 333ms ease-in-out;
-//   transition: all 333ms ease-in-out;
-// }
-// #formContact input[type="submit"]:hover {
-//   background: @brand-secondary;
-//   color: @brand-primary;
-// }
-// #formContact input[type="submit"]:focus {
-//   outline: none;
-//   background: #cd6302;
-// }
 
-// #formContact input {
-//   font-family: "Titillium Web", sans-serif;
-//   font-size: 1.875rem;
-//   width: 100%;
-//   height: 2.125rem;
-//   line-height: 2.125rem;
-//   margin-top: 25px;
-//   border: none;
-//   border-bottom: 1px solid #aaaaaa;
-// }
+@media only screen and (max-width: 1200px) {
+    #formContact .field textarea:focus + label,
+    #formContact .field textarea.focused + label {
+      color: transparent;
+    }
+
+    #formContact .field input[type="text"]:focus + label,
+    #formContact .field input[type="text"].focused + label {
+      color: transparent;
+    }
+    #formContact .field:hover label {
+      color: transparent;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #formContact .field input[type="text"],
+    #formContact .field textarea {
+      color:transparent;
+    }
+}
+
+
+
 
 #formContact input[type="submit"] {
   width: 60%;

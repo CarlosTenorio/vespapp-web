@@ -1,11 +1,3 @@
-/*
-h2 {
-  text-align: left;
-  padding-bottom: 20px;
-  padding-top: 20px;
-  margin: 0;
-}
-*/
 
 .fontTitle{
   color: #FFFFFF;
@@ -20,10 +12,17 @@ h2 {
 
 .boxInfo{
   background-color: #fff;
-	/*background-color: @black-base;*/
-  height: 200px;
+  height: 400px;
   margin-bottom: 70px;
+}
 
+/* For md and down */
+@media only screen and (max-width: 400px) {
+    .boxInfo{
+      background-color: #fff;
+      height: 200px;
+      margin-bottom: 70px;
+    }
 }
 
 .boxInfo img {
@@ -89,4 +88,8 @@ h2 {
 
 .modalFont{
   color: white;
+}
+
+.modal-body {
+  text-align : justify;
 }
