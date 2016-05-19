@@ -62,6 +62,10 @@ class AboutView(TemplateView):
     template_name = "about.html"
 
 
+class TeamView(TemplateView):
+    template_name = "team.html"
+
+
 class SightingExpertCommentsView(ListView):
     template_name = "sighting_expert_comments.html"
 
