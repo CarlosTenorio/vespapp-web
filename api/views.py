@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from api.models import Sighting, Picture, Location, Question, Answer, SightingInfo
-from api.serializers import SightingSerializer, MySightingSerializer, PictureSerializer, LocationSerializer, ProvinceSerializer, QuestionSerializer, \
+from api.serializers import SightingSerializer, PictureSerializer, LocationSerializer, ProvinceSerializer, QuestionSerializer, \
     AnswerSerializer, MyQuestionSerializer, SightingInfoSerializer
 from api.models import Sighting, UserComment, ExpertComment
 from api.serializers import SightingSerializer, UserCommentSerializer, ExpertCommentSerializer
@@ -15,18 +15,6 @@ class SightingListCreateView(ListCreateAPIView):
 
     def get_queryset(self):
         return Sighting.objects.order_by('-created_at')
-
-    def get(self, request, *args, **kwargs):  
-        sightings = Sighting.objects.order_by('-created_at') 
-
-        for sighting in sightings:
-            if sighting.location:
-                location = Location.objects.get(name=sighting.location) 
-                sighting.hola = location
-
-        sighting_serializer = MySightingSerializer(sightings, many=True)
-
-        return Response(sighting_serializer.data)
 
 
 # One sighting
