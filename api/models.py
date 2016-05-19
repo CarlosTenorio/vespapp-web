@@ -94,7 +94,7 @@ class Sighting(models.Model):
     lat = models.FloatField(null=True, blank=True, verbose_name='Latitud')
     lng = models.FloatField(null=True, blank=True, verbose_name='Longitud')
 
-    location = models.ForeignKey(Location, on_delete=models.SET_NULL, related_name="sightings",
+    location = models.ForeignKey(Location, on_delete=models.SET_NULL, related_name="location",
                                  verbose_name='Localización', null=True, blank=True)
 
     status = models.IntegerField(null=False, blank=False, verbose_name="Estado", default=STATUS_PENDING)

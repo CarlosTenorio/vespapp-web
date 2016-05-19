@@ -2,21 +2,34 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateAPIView, Li
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models import Sighting, Picture, Location, Question, Answer
-from api.serializers import SightingSerializer, PictureSerializer, LocationSerializer, ProvinceSerializer, QuestionSerializer, \
-    AnswerSerializer, MyQuestionSerializer
+from api.models import Sighting, Picture, Location, Question, Answer, SightingInfo
+from api.serializers import SightingSerializer, MySightingSerializer, PictureSerializer, LocationSerializer, ProvinceSerializer, QuestionSerializer, \
+    AnswerSerializer, MyQuestionSerializer, SightingInfoSerializer
 from api.models import Sighting, UserComment, ExpertComment
 from api.serializers import SightingSerializer, UserCommentSerializer, ExpertCommentSerializer
 
 
-# Sightings
+# Sightings list
 class SightingListCreateView(ListCreateAPIView):
     serializer_class = SightingSerializer
 
     def get_queryset(self):
         return Sighting.objects.order_by('-created_at')
 
+    def get(self, request, *args, **kwargs):  
+        sightings = Sighting.objects.order_by('-created_at') 
 
+        for sighting in sightings:
+            if sighting.location:
+                location = Location.objects.get(name=sighting.location) 
+                sighting.hola = location
+
+        sighting_serializer = MySightingSerializer(sightings, many=True)
+
+        return Response(sighting_serializer.data)
+
+
+# One sighting
 class SightingRetrieveUpdateView(RetrieveUpdateAPIView):
     serializer_class = SightingSerializer
     queryset = Sighting.objects.all()
@@ -24,7 +37,7 @@ class SightingRetrieveUpdateView(RetrieveUpdateAPIView):
     lookup_url_kwarg = 'sighting_id'
 
 
-# Picture
+# Pictures of sighting
 class SightingPictureCreateView(ListCreateAPIView):
     serializer_class = PictureSerializer
 
@@ -35,6 +48,61 @@ class SightingPictureCreateView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         request.data['sighting'] = kwargs.get('sighting_id')
         return super().create(request, *args, **kwargs)
+
+
+# Questions&Answers
+class SightingQuestionsListView(ListAPIView):
+    serializer_class = QuestionSerializer
+
+    def get_queryset(self):
+        return self
+
+    def get(self, request, *args, **kwargs):
+        sighting_id = self.kwargs.get('sighting_id')
+        sighting = Sighting.objects.get(pk=sighting_id)
+
+        questions = Question.objects.filter(sighting_type=sighting.type)
+
+        for question in questions:
+            question_answers = sighting.answers.filter(question_id=question.id)
+            question.answers = question_answers
+
+        question_serializer = MyQuestionSerializer(questions, many=True)
+
+        return Response(question_serializer.data)
+
+
+# Locations list
+class LocationsList(ListAPIView):
+    serializer_class = LocationSerializer
+
+    def get_queryset(self):
+        return Location.objects.all()
+
+
+# Provinces list
+class ProvincesList(ListAPIView):
+    serializer_class = ProvinceSerializer
+
+    def get_queryset(self):
+        return Provinces.objects.all()
+
+
+# Info list
+class SightingInfoList(ListAPIView):
+    serializer_class = SightingInfoSerializer
+
+    def get_queryset(self):
+        return SightingInfo.objects.all()
+
+
+
+
+
+
+
+
+
 
 
 # Comments
@@ -63,39 +131,16 @@ class SightingExpertCommentsListView(ListCreateAPIView):
         return super().create(request, *args, **kwargs)
 
 
-# Locations
-class LocationsList(ListAPIView):
-    serializer_class = LocationSerializer
-
-    def get_queryset(self):
-        return Location.objects.all()
 
 
-# Provinces
-class ProvincesList(ListAPIView):
-    serializer_class = ProvinceSerializer
-
-    def get_queryset(self):
-        return Provinces.objects.all()
 
 
-# Questions&Answers
-class SightingQuestionsListView(APIView):
-    serializer_class = QuestionSerializer
 
-    def get(self, request, *args, **kwargs):
-        sighting_id = self.kwargs.get('sighting_id')
-        sighting = Sighting.objects.get(pk=sighting_id)
 
-        questions = Question.objects.filter(sighting_type=sighting.type)
 
-        for question in questions:
-            question_answers = sighting.answers.filter(question_id=question.id)
-            question.answers = question_answers
 
-        question_serializer = MyQuestionSerializer(questions, many=True)
 
-        return Response(question_serializer.data)
+
 
 
 class SightingAnswerRetrieveUpdate(RetrieveUpdateAPIView):
@@ -118,6 +163,7 @@ class SightingQuestionsCreateView(ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         request.data['sighting'] = kwargs.get('sighting_id')
         return super().create(request, *args, **kwargs)
+
 
 class SightingUserCommentView(ListCreateAPIView):
     serializer_class = UserCommentSerializer
