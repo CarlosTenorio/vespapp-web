@@ -13,6 +13,7 @@
     <ul>
       <li><h3>Sobre Vespapp</h3></li>
       <li><a href="{% url 'about' %}">Acerca de</a></li>
+      <li><a href="{% url 'team' %}">Equipo</a></li>
       <li><a href="{% url 'contact' %}">Contacto</a></li>
     </ul>
     <ul>
@@ -30,7 +31,13 @@
     <img src="{% static "img/logo3.png" %}" alt="Logo image">
   </div>
 
-  <p>Made with <span class="love">♥</span> for the people of the internet. </p>
+  <div class="mobile-app">
+    <a href="">
+      <img src="{% static "img/googleplay.png" %}" alt="Disponible en Google Play">
+    </a>
+  </div>
+
+  <p>Made with <span class="love">♥</span> for the bees of the world. </p>
 </footer>
 
 
