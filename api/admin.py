@@ -4,7 +4,7 @@ from api.models import *
 
 class SightingAdmin(admin.ModelAdmin):
 
-    list_display = ('user', 'location','created_at', 'id')
+    list_display = ('id', 'user', 'location','created_at')
     fieldsets = [('Información básica', {'fields': ['id',('created_at', 'source')]}), 
     ('Datos del usuario', {'fields': [('user', 'contact')]}), 
     ('Localización del avispamiento', {'fields': [('location', 'lat', 'lng')]}),
