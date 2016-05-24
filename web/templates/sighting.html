@@ -172,7 +172,7 @@
               </div>
               <div class="row">
                 <div class="col-xs-12">
-                  <p> {{ x.body }} </p>
+                  <p> {{ x.body|safe|linebreaks }} </p>
                 </div>
               </div>
             </div>
@@ -215,18 +215,6 @@ function initialize() {
   var markers = [
       ['{{ sighting.location }}', parseFloat('{{sighting.location.lat}}'.replace(',','.')), parseFloat('{{sighting.location.lng}}'.replace(',','.')), parseFloat('{{sighting.lat}}'.replace(',','.')), parseFloat('{{sighting.lng}}'.replace(',', '.'))],
   ];
-                      
-  // Info Window Content
-  var infoWindowContent = [
-      
-      ['<div class="info_content">' +
-      '<h3>{{sighting.reported_by.username}}</h3>' +
-      '<p>{{sighting.free_text}}</p>'  +    '</div>'],
-      
-  ];
-      
-  // Display multiple markers on a map
-  var infoWindow = new google.maps.InfoWindow(), marker, i;
   
   // Loop through our array of markers & place each one on the map  
   for( i = 0; i < markers.length; i++ ) {
@@ -244,14 +232,6 @@ function initialize() {
             map: map,
             title: markers[i][0]
         });
-        
-        // Allow each marker to have an info window    
-        google.maps.event.addListener(marker, 'click', (function(marker, i) {
-            return function() {
-                infoWindow.setContent(infoWindowContent[i][0]);
-                infoWindow.open(map, marker);
-            }
-        })(marker, i));
 
         // Automatically center the map fitting all markers on the screen
         map.fitBounds(bounds);

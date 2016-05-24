@@ -22,13 +22,6 @@ class SightingSerializer(serializers.ModelSerializer):
         model = Sighting
 
 
-class MySightingSerializer(serializers.ModelSerializer):
-    location = LocationSerializer()
-
-    class Meta:
-        model = Sighting
-
-
 class UserCommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserComment

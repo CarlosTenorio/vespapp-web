@@ -26,7 +26,7 @@
               </div>
               <div class="back face center">
                 <p class="fontTitle">{{info.title}}</p>
-                <p>{{info.quickBody}}</p>
+                <p>{{info.quickBody|linebreaks}}</p>
               </div>
             </div>
           </div> 
@@ -40,7 +40,7 @@
                   <h4 class="modal-title modalFont">{{info.title}}</h4>
                 </div>
                 <div class="modal-body">
-                    {{info.body}}
+                    {{info.body|linebreaks}}
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
