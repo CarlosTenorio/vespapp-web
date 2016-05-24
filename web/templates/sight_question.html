@@ -13,17 +13,35 @@
         	{% if question.question_type == 1  %} {# Check type question Radio #}
 				<h3 class="text-center">(Escoge solo una de estas opciones)</h3> {# Type Radio message #}	
 				<div class="text-center">
-					<div class="btn-group" data-toggle="buttons">
+					<div class="col-xs-12 btn-group" data-toggle="buttons">
 			{% else %}
 			    <h3 class="text-center">(Puedes escoger una o varias de estas opciones)</h3> {# Type Checkbox message #}	
 			{% endif %}	
 			{% for a in answer %}
 				{% if question.id == a.question.id %} {# Check foreign key of answer #}					
                 	{% if question.question_type == 1  %} {# Check type question Radio #}
-						<label class="btn questionRadio"> <!--class="questionRadio btn btn-primary" -->
+						<!--<label class="btn questionRadio">
 							<input type="radio" name="value" value="{{a.id}}">
                             <h4 class="span1">{{ a.value }}</h4> {# Answer #}
-						</label>
+						</label>-->
+						<div class="row">
+					        <div class="form-group">
+					            <div class="searchable-container">
+					                <div class="items col-xs-offset-1 col-sm-offset-3 col-xs-12 col-sm-7 col-md-7 col-lg-7 ">
+					                    <div class="info-block block-info clearfix">
+					                        <div class="square-box pull-left">
+					                        </div>	
+					                        <div data-toggle="buttons" class="btn-group bizmoduleselect">
+					                            <label class="btn btn-default answer questionRadio">
+				                                   <input type="radio" name="value" value="{{a.id}}">
+				                                    <h4>{{ a.value }}</h4> {# Answer #}
+					                            </label>
+				                            </div>
+					                    </div>
+				                    </div>
+				                </div>
+		                    </div>
+		                </div>
     				{% endif %}
                     {% if question.question_type == 2  %} {# Check type question Checkbox #}
 						<div class="row">
@@ -35,12 +53,8 @@
 					                        </div>	
 					                        <div data-toggle="buttons" class="btn-group bizmoduleselect">
 					                            <label class="btn btn-default answer">
-					                            <!--<div class="bizcontent">
-					                                	<div class="checkbox">-->
-						                                   <input type="checkbox" name="value" value="{{a.id}}">
-						                                    <h4>{{ a.value }}</h4> {# Answer #}
-						                            <!--</div>			                                
-					                                </div>-->
+				                                   <input type="checkbox" name="value" value="{{a.id}}">
+				                                    <h4>{{ a.value }}</h4> {# Answer #}
 					                            </label>
 				                            </div>
 					                    </div>
