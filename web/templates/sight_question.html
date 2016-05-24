@@ -20,10 +20,6 @@
 			{% for a in answer %}
 				{% if question.id == a.question.id %} {# Check foreign key of answer #}					
                 	{% if question.question_type == 1  %} {# Check type question Radio #}
-						<!--<label class="btn questionRadio">
-							<input type="radio" name="value" value="{{a.id}}">
-                            <h4 class="span1">{{ a.value }}</h4> {# Answer #}
-						</label>-->
 						<div class="row">
 					        <div class="form-group">
 					            <div class="searchable-container">
