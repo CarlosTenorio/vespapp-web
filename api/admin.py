@@ -38,8 +38,8 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 class SightingInfoAdmin(admin.ModelAdmin):
     list_display = ('title',)
-    fieldsets = [('INFO', {'fields': ['title', 'quickBody', 'body', ('foto_info', 'image')]}),]
-    readonly_fields = ['foto_info',]
+    fieldsets = [('INFO', {'fields': ['title', 'quickBody', 'body', ('foto_portada', 'imageCover'), ('foto_info', 'image')]}),]
+    readonly_fields = ['foto_portada', 'foto_info']
 
 
 class PictureAdmin(admin.ModelAdmin):

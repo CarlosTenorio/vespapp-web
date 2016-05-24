@@ -246,6 +246,12 @@ class SightingInfo(models.Model):
     body = models.TextField(verbose_name='Explicación más detallada')
     quickBody = models.TextField(null=False, blank=False, default="Clic para más información", max_length=128, verbose_name='Breve explicación')
     image = models.ImageField(upload_to="info_images/", blank=True, null=True)
+    imageCover = models.ImageField(upload_to="info_images/", blank=True, null=True)
+    
+    def foto_portada(self):
+        return '<a href="%s"><img src="%s" width=250px heigth=250px/></a>'%(self.imageCover.url, self.imageCover.url)
+
+    foto_portada.allow_tags = True
     
     def foto_info(self):
         return '<a href="%s"><img src="%s" width=250px heigth=250px/></a>'%(self.image.url, self.image.url)

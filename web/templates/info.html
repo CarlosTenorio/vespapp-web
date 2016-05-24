@@ -21,8 +21,8 @@
           <div id="f1_container" data-toggle="modal" data-target="#{{ info.id }}">
             <div id="f1_card"> 
               <div class="front face">
-                <img class="img-responsive imgInfo" src="{{ info.image.url }}"/>
-                  <h4 class="titleFront">{{info.title}}</h4>
+                <img class="img-responsive imgInfo" src="{{ info.imageCover.url }}"/>
+                <h4 class="titleFront">{{info.title}}</h4>
               </div>
               <div class="back face center">
                 <p class="fontTitle">{{info.title}}</p>
@@ -40,6 +40,7 @@
                   <h4 class="modal-title modalFont">{{info.title}}</h4>
                 </div>
                 <div class="modal-body">
+                    <img class="img-responsive imgInfo" src="{{ info.image.url }}"/>
                     {{info.body|linebreaks}}
                 </div>
                 <div class="modal-footer">
