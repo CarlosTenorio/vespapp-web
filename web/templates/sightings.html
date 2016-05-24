@@ -48,22 +48,22 @@ function initialize() {
         '<h3>Avistamiento nido</h3>' +
         {% else %}
         '<h3>Avistamiento</h3>' +      
-        {% endif %}      
+        {% endif %}   
 
-        {% if sighting.source == "twitter" %}
-        '<i class="fa fa-twitter-square"></i><span class="sighting-type">Notificado por Twitter</span>' +
-        {% elif sighting.source == "telegram"%}
-        '<i class="fa fa-weixin"></i><span class="sighting-type">Notificado por Telegram</span>' +
-        {% elif sighting.source == "web"%}
-        '<i class="fa fa-envelope-square"></i><span class="sighting-type">Notificado por Web</span>' +  
-        {% elif sighting.source == "app"%}
-        '<i class="fa fa-mobile-phone"></i><span class="sighting-type">Notificado por App</span>' +  
-        {% endif %}
         {% if sighting.type == 1 %}
         '<i class="fa fa-bug"></i><span>Avispa</span>' +
         {% elif sighting.type == 2 %}
         '<i class="fa fa-fort-awesome"></i><span>Nido</span>' +
+        {% endif %} 
+        
+        {% if sighting.is_valid == True %}
+        '<span class="label-status">Resultado:</span><span class="label label-success">Positivo</span>' +
+        {% elif sighting.is_valid == False %}
+        '<span class="label-status">Resultado:</span><span class="label label-danger">Negativo</span>' +
+        {% else %}
+        '<span class="label-status">Resultado:</span><span class="label label-warning">Desconocido</span>' +
         {% endif %}
+
         {% if sighting.status == 0 %}
         '<span class="label-status">Estado:</span><span class="label label-danger">Pendiente</span>' +
         {% elif sighting.status == 1%}
@@ -71,6 +71,7 @@ function initialize() {
         {% elif sighting.status == 2%}
         '<span class="label-status">Estado:</span><span class="label label-success">Procesado</span>' +
         {% endif %}    
+
         '<div class="details {% if sighting.first_picture %}details-with-photo{% endif %}  ">' +
         '<div class="image">' +
         {% if sighting.first_picture %}
@@ -165,7 +166,7 @@ function initialize() {
     </div>
     <div class="buttom404">
       <div class="seach_bar404">
-        <p>Puedes volver a Inicio clicando <span><a href="{% url 'home' %}">aquí</a></span></p>
+        <p>Puedes volver a Inicio haciendo clic <span><a href="{% url 'home' %}">aquí</a></span></p>
       </div>
     </div>
   </div>

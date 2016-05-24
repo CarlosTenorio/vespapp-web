@@ -1,14 +1,15 @@
 {% extends "layout.html" %}
 {% load staticfiles %}
+{% block title %}Acerca de{% endblock %}
 {% block description %}Contacto por correo electrónico{% endblock %}
 {% block body %}
 
 <section id="sectionContact"> 
   <span class="iconContact fa fa-envelope-o"> </span>
-  <form id="formContact1" method="post" action="" enctype="multipart/form-data">   
+  <form id="formContact" method="post" action="" enctype="multipart/form-data">   
       {% csrf_token %}
       <div class="field name-box" >
-          <input type="text" id="nameContact" placeholder="¿Como te llamas?" name="nameContact"/>
+          <input type="text" id="nameContact" placeholder="¿Cuál es tu nombre?" name="nameContact"/>
           <label for="nameContact">Nombre</label>
       </div>
       <div class="field email-box">

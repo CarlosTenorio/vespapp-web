@@ -87,7 +87,7 @@ function successUp(msg){
 
 function successSendMessage(msg){
   swal({
-      title: "¡Gracias por contactar con nostros!",
+      title: "¡Gracias por contactar con nosotros!",
       text: msg,
       type: "success",
       timer: 4000,

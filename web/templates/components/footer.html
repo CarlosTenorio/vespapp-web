@@ -5,30 +5,39 @@
   <div class="footer-links">
     <ul>
       <li><h3>Avispamientos</h3></li>
-      <li><a href="{% url 'new_sighting' %}">Sube tu avispamiento</a></li>
+      <li><a href="{% url 'new_sighting' %}">Añade tu avispamiento</a></li>
       <li><a href="{% url 'sightings' %}">Mapa de avispamientos</a></li>
-      <li><a href="">Infórmate</a></li>
-      <li><a href="{% url 'login' %}">Mapa de avispamientos</a></li>
+      <li><a href="{% url 'info' %}">Infórmate</a></li>
+      <li><a href="{% url 'signup' %}">Regístrate</a></li>
     </ul>
     <ul>
       <li><h3>Sobre Vespapp</h3></li>
-      <li><a href="">Acerca de</a></li>
-      <li><a href="">Contacto</a></li>
+      <li><a href="{% url 'about' %}">Acerca de</a></li>
+      <li><a href="{% url 'team' %}">Equipo</a></li>
+      <li><a href="{% url 'contact' %}">Contacto</a></li>
     </ul>
     <ul>
       <li><h3>Síguenos</h3></li>
-      <li><a href="https://twitter.com/avispamiento" target="_blank"><i class="fa fa-twitter"></i> Twitter</a></li>
+      <li><a href="https://twitter.com/vespapp" target="_blank"><i class="fa fa-twitter"></i> Twitter</a></li>
       <li><a href="https://github.com/CarlosTenorio/vespapp-web" target="_blank"><i class="fa fa-github"> GitHub</i></a></li>
     </ul>
   </div>
   <hr>
 
   <div class="footer-logo">
-    <img src="{% static "img/logo2.png" %}" alt="Logo image">
+    <img src="{% static "img/logo4.png" %}" alt="Logo image">
     <img src="{% static "img/logo1.png" %}" alt="Logo image">
+    <img src="{% static "img/logo2.png" %}" alt="Logo image">
+    <img src="{% static "img/logo3.png" %}" alt="Logo image">
   </div>
 
-  <p>Made with <span class="love">♥</span> for the people of the internet. </p>
+  <div class="mobile-app">
+    <a href="">
+      <img src="{% static "img/googleplay.png" %}" alt="Disponible en Google Play">
+    </a>
+  </div>
+
+  <p>Made with <span class="love">♥</span> for the bees of the world. </p>
 </footer>
 
 

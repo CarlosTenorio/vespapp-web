@@ -1,12 +1,12 @@
 {% extends "layout.html" %}
 
-{% block title %}Home{% endblock %}
+{% block title %}Inicio{% endblock %}
 {% block body %}
 <div class="container col-xs-12">
   <div class="row">
     <div class="text-center home-hero">
       <div class="home-title text-center">
-        <h1 class="hidden-xs hidden-sm">Lucha contra la avispa</h1>
+        <h1 class="hidden-xs hidden-sm">Lucha contra la avispa asiática</h1>
       </div>
       {% include "components/carousel.html" %}
       <div class="col-xs-12 camera-button-container text-center clearfix">
@@ -28,7 +28,7 @@
   </div>
   <div class="row">
     <div class="col-lg-4 col-lg-offset-4 text-center">
-      {% include "components/button-primary.html" with url=new_sighting text="Envía un avispamiento" %}
+      {% include "components/button-primary.html" with url=new_sighting text="Añade avispamiento" %}
     </div>
   </div>
 </div>

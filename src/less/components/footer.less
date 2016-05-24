@@ -1,60 +1,3 @@
-// @footer-font-color: #ffffff; // Appears 2 times
-// .footer-container {
-//   background-color: @brand-heading-color;
-// }
-// .footer-distributed {
-//   background-color: @brand-heading-color;
-//   margin-top: 45px;
-//   margin-bottom: 45px;
-//   text-align: left;
-
-//   .footer-left {
-//     p {
-//       color: #8f9296;
-//       font-size: 14px;
-//       margin: 0;
-//     }
-//     p.footer-links {
-//       line-height: 1.8;
-//     }
-//   }
-//   p.footer-links {
-//     color: @brand-bg-color;
-//     font-size:18px;
-//     font-weight: bold;
-//     padding: 0;
-//     a {
-//       color: inherit;
-//       display:inline-block;
-//       line-height: 1.8;
-//       text-decoration: none;
-//     }
-//   }
-//   .footer-right {
-//     float: right;
-//     max-width: 180px;
-//     a {
-//       background-color: @footer-font-color;
-//       border-radius: 2px;
-//       color: @brand-heading-color;
-//       display: inline-block;
-//       font-size: 20px;
-//       height: 35px;
-//       line-height: 35px;
-//       margin-left: 3px;
-//       text-align: center;
-//       width: 35px;
-
-//       &:hover {
-//         color: @footer-font-color;
-//         background-color: darken(@brand-heading-color,20%);
-//       }
-//     }
-//   }
-// }
-
-
-
 .footer {
   background: @brand-primary;
   padding: 0.7em 1.618em;
@@ -62,33 +5,26 @@
   bottom: 0;
   margin: 0;
 }
-.footer .footer-logo {
-  margin-bottom: 1em;
-  margin-top: 1em;
-  text-align: center;
-  
-  img {
-    margin-right: 20px;
-  }
-}
-.footer .footer-logo img {
-  height: 5em;
-}
+
 .footer .footer-links {
   margin-bottom: 1.5em;
   font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
   color: grey;
 }
+
 .footer .footer-links::after {
   clear: both;
   content: "";
   display: table;
 }
+
 @media screen and (min-width: 40em) {
   .footer .footer-links {
     margin-left: 25.58941%;
   }
 }
+
+
 .footer ul {
   margin-bottom: 0.5em;
   padding: 0;
@@ -116,6 +52,8 @@
     display: table;
   }
 }
+
+
 .footer li {
   line-height: 1.5em;
   list-style: none;
@@ -157,4 +95,29 @@
 .footer p .love {
   color: #ff6032;
   font-size: 1.3em;
+}
+
+
+.footer .footer-logo {
+  margin-bottom: 1em;
+  margin-top: 1em;
+  text-align: center;
+  
+  img {
+    margin-right: 20px;
+    margin-bottom: 30px;
+    max-width: 100%;
+    height: 5em;
+  }
+}
+.footer .mobile-app {
+  margin-top: 3em;
+  text-align: center;
+  
+  img {
+    margin-right: 20px;
+    margin-bottom: 30px;
+    max-width: 100%;
+    height: 2.5em;
+  }
 }

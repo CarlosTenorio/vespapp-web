@@ -71,11 +71,13 @@ vespapp/media/*
 
 vespapp/static/*
 !vespapp/static/.gitkeep
+vespapp/staticfiles/*
+!vespapp/staticfiles/.gitkeep
+
+
 # Node modules
 node_modules/
 web/static/
 
 
 bower_components/
-vespapp/staticfiles/css/
-vespapp/staticfiles/js/

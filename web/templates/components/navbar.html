@@ -19,9 +19,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-right" id="main-navbar">
         <ul class="nav navbar-nav">
-          <li class="{% active 'home' %}"><a href="{% url 'home' %}">Home</a></li>
-          <li class="{% active 'new_sighting' %}"><a href="{% url 'new_sighting' %}">Nuevo avistamiento</a></li>
-          <li class="{% active 'sightings' %}"><a href="{% url 'sightings' %}">Avistamientos</a></li>
+          <li class="{% active 'home' %}"><a href="{% url 'home' %}">Inicio</a></li>
+          <li class="{% active 'new_sighting' %}"><a href="{% url 'new_sighting' %}">Añade avispamiento</a></li>
+          <li class="{% active 'sightings' %}"><a href="{% url 'sightings' %}">Mapa</a></li>
 
           {% if user.is_authenticated %} 
           <li class="{% active 'user_profile' %}"><a href="{% url 'user_profile' %}">Mi perfil</a></li> 
@@ -34,6 +34,13 @@
           <li class="{% active 'contact' %}"><a href="{% url 'contact' %}">Contacto</a></li>  
         </ul>
       </div><!-- /.navbar-collapse -->
+
+      <div id="mobile-app">
+        <a href="">
+          <img src="{% static "img/googleplay.png" %}" alt="Disponible en Google Play">
+        </a>
+      </div>
+
     </div><!-- /.container-fluid -->
   </nav>
 </div>

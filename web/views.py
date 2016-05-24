@@ -1,17 +1,23 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response 
+from django.shortcuts import redirect
 from django.template import RequestContext
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse
+from django.http import Http404  
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.views.decorators.csrf import csrf_exempt
+from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.core.mail import send_mail
-from django.views.decorators.csrf import csrf_exempt
-from django.http import Http404  
 from django.db.models import Q
+
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import make_password
 
 import json
 
@@ -27,7 +33,6 @@ from api.models import UserProfile
 from web.forms import SightingForm
 from web.forms import QuestionForm
 from web.forms import CommentSightingForm
-
 from web.forms import SightingForm
 from web.forms import SignupUserForm
 from web.forms import UserProfileForm
@@ -35,13 +40,6 @@ from web.forms import PasswordProfileForm
 from web.forms import PhotoProfileForm
 from web.forms import ContactForm
 
-from django.contrib.auth.models import User
-from django.shortcuts import redirect
-
-from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-
-from django.contrib.auth.hashers import make_password
 
 
 class HomePageView(TemplateView):
@@ -53,13 +51,48 @@ class HomePageView(TemplateView):
         return context
 
 
-class InfoView(ListView):
-    template_name = "info.html"
-    model = SightingInfo
+class NewSightingView(TemplateView):
 
+    @csrf_exempt
+    def new_sighting(request):
 
-class SightingExpertCommentsView(ListView):
-    template_name = "sighting_expert_comments.html"
+        if request.POST:
+
+            form_sighting = SightingForm(request.POST)
+
+            if form_sighting.is_valid():
+                if request.FILES == None:
+                    raise Http404("No objects uploaded")
+
+                sighting_id = form_sighting.save(commit=False)
+                sighting_id.source = 'web'
+                if request.user.is_authenticated():
+                    sighting_id.contact = request.user.email
+                    user = User.objects.get(username=request.user.username)
+                    sighting_id.user = user
+                sighting_id.save()
+
+                uploaded_files = [request.FILES.get('file[%d]' % i)
+                    for i in range(0, len(request.FILES))]
+
+                for f in uploaded_files:
+                    picture_id = Picture()
+                    picture_id.sighting = sighting_id
+                    picture_id.file.save(f.name, f)
+                    picture_id.save()
+
+                request.session['session_id'] = sighting_id.id   
+                request.session['question_order'] = 0  
+
+                return HttpResponse(sighting_id.pk)
+        else:
+            form_sighting = SightingForm()
+
+        context = {
+            'locations': Location.objects.all()
+        }
+
+        return render(request, 'new_sighting.html', context=context)
 
 
 class SightingsView(ListView):
@@ -105,14 +138,6 @@ class SightingView(TemplateView):
             }
 
         return render_to_response('sighting.html', context=context, context_instance=RequestContext(request))
-
-
-class LocationsPageView(TemplateView):
-    template_name = "locations.html"
-
-
-class SightExpertCommentView(DetailView):
-    template_name = "sight_expert_comment.html"
 
 
 class SightQuestionView(TemplateView):
@@ -173,75 +198,6 @@ class SightQuestionView(TemplateView):
                     return render(request, 'home.html', {'message': message})
         else:
             raise Http404
-
-class NewSightingView(TemplateView):
-
-    @csrf_exempt
-    def new_sighting(request):
-
-        if request.POST:
-
-            form_sighting = SightingForm(request.POST)
-
-            if form_sighting.is_valid():
-                if request.FILES == None:
-                    raise Http404("No objects uploaded")
-
-                sighting_id = form_sighting.save(commit=False)
-                sighting_id.source = 'web'
-                if request.user.is_authenticated():
-                    sighting_id.contact = request.user.email
-                    user = User.objects.get(username=request.user.username)
-                    sighting_id.user = user
-                sighting_id.save()
-
-                uploaded_files = [request.FILES.get('file[%d]' % i)
-                    for i in range(0, len(request.FILES))]
-
-                for f in uploaded_files:
-                    picture_id = Picture()
-                    picture_id.sighting = sighting_id
-                    picture_id.file.save(f.name, f)
-                    picture_id.save()
-
-                request.session['session_id'] = sighting_id.id   
-                request.session['question_order'] = 0  
-
-                return HttpResponse(sighting_id.pk)
-        else:
-            form_sighting = SightingForm()
-
-        context = {
-            'locations': Location.objects.all()
-        }
-
-        return render(request, 'new_sighting.html', context=context)
-
-
-class SightingCommentView(DetailView):
-    template_name = "sighting_comment.html"
-    template_name_field = 'object'
-    model = UserComment
-
-    def get_object(self, queryset=None):
-        sighting_id = self.kwargs.get('sighting_id')
-        comment_id = self.kwargs.get('comment_id')
-
-        comment = UserComment.objects.get(pk=comment_id)
-
-        if str(comment.sighting.id) != str(sighting_id):
-            return None
-
-        return comment
-
-
-class SightingCommentsView(ListView):
-    template_name = "sighting.html"
-    model = UserComment  # Defino el modelo que utilizo
-    context_object_name = "user_comment_list"  # Defino la lista donde se cargan los objetos del modelo
-
-    def get_queryset(self, **kwargs):
-        return UserComment.objects.all()
 
 
 class UserSignupView(TemplateView):
@@ -419,6 +375,11 @@ class UserProfileView(TemplateView):
         return render(request, 'user_profile.html', context)
 
 
+class InfoView(ListView):
+    template_name = "info.html"
+    model = SightingInfo
+
+
 class ContactView(TemplateView):
 
     def contact_view(request):
@@ -439,7 +400,7 @@ class ContactView(TemplateView):
                         
                 send_mail('Contacto Usuario', 'Enviado por: '+username+ ', con el correo: '+ email+ ', el teléfono: '+ phone+ " y el mensaje: "+message, 'avispamiento1@gmail.com', ['avispamiento1@gmail.com'])
 
-                message='Nos pondremos en contacto lo antes posible'    
+                message='Te contestaremos lo antes posible'    
 
                 context = {'form': form, 'mensaje': message}
                 return render(request, 'contact.html', context)
@@ -449,3 +410,11 @@ class ContactView(TemplateView):
         context = {'form': form}
 
         return render(request, 'contact.html', context)
+
+
+class AboutView(TemplateView):
+    template_name = "about.html"
+
+
+class TeamView(TemplateView):
+    template_name = "team.html"

@@ -2,6 +2,16 @@ from rest_framework import serializers
 from api.models import Sighting, Picture, UserComment, ExpertComment, Question, Answer, Location, Province, SightingInfo
 
 
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+
+
+class ProvinceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Province
+
+
 class PictureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Picture
@@ -40,16 +50,6 @@ class MyQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-
-
-class LocationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Location
-
-
-class ProvinceSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Province
 
 
 class SightingInfoSerializer(serializers.ModelSerializer):

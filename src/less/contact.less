@@ -5,32 +5,33 @@
 
 #sectionContact{
   background: white;
-  margin: 0px auto 120px;
+  margin: 0px auto 25px;
   text-align: center;
-  padding: 50px 0 110px;
+  padding: 50px 0 10px;
   width: 80%;
   max-width: 1100px;
 }
 
-#formContact1 {
+#formContact {
   width: 58.33333%;
   margin: 0 auto;
 }
-#formContact1 .field {
+#formContact .field {
   width: 100%;
   position: relative;
   margin-bottom: 15px;
 }
-#formContact1 .field label {
+#formContact .field label {
   color: @font-color;
   text-transform: uppercase;
   position: absolute;
   top: 0;
   left: 0;
+  height: 100%;
   background: @brand-secondary;
   width: 100%;
   padding: 18px 0;
-  font-size: 1.45em;
+  font-size: 1.25em;
   letter-spacing: 0.075em;
   -webkit-transition: all 333ms ease-in-out;
   -moz-transition: all 333ms ease-in-out;
@@ -38,7 +39,7 @@
   -ms-transition: all 333ms ease-in-out;
   transition: all 333ms ease-in-out;
 }
-#formContact1 .field label + span {
+#formContact .field label + span {
   font-family: 'SSStandard';
   opacity: 0;
   color: white;
@@ -54,8 +55,8 @@
   -ms-transition: all 333ms ease-in-out;
   transition: all 333ms ease-in-out;
 }
-#formContact1 .field input[type="text"],
-#formContact1 .field textarea {
+#formContact .field input[type="text"],
+#formContact .field textarea {
   border: none;
   background: #E8E9EA;
   width: 100%;
@@ -67,8 +68,8 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
-#formContact1 .field input[type="text"]#messageContact,
-#formContact1 .field textarea#messageContact {
+#formContact .field input[type="text"]#messageContact,
+#formContact .field textarea#messageContact {
   height: 70px;
   resize: none;
   -webkit-transition: all 333ms ease-in-out;
@@ -77,64 +78,78 @@
   -ms-transition: all 333ms ease-in-out;
   transition: all 333ms ease-in-out;
 }
-#formContact1 .field input[type="text"]:focus, #formContact .field input[type="text"].focused,
-#formContact1 .field textarea:focus,
-#formContact1 .field textarea.focused {
+#formContact .field input[type="text"]:focus, #formContact .field input[type="text"].focused,
+#formContact .field textarea:focus,
+#formContact .field textarea.focused {
   outline: none;
 }
-#formContact1 .field input[type="text"]:focus#messageContact, #formContact .field input[type="text"].focused#messageContact,
-#formContact1 .field textarea:focus#messageContact,
-#formContact1 .field textarea.focused#messageContact {
+#formContact .field input[type="text"]:focus#messageContact, #formContact .field input[type="text"].focused#messageContact,
+#formContact .field textarea:focus#messageContact,
+#formContact .field textarea.focused#messageContact {
   height: 200px;
 }
 
-#formContact1 .field textarea:focus + label,
-#formContact1 .field textarea.focused + label {
+#formContact .field textarea:focus + label,
+#formContact .field textarea.focused + label {
   width: 18%;
   background: @brand-primary;
-  // color: @brand-secondary;
 }
 
-#formContact1 .field input[type="text"]:focus + label,
-#formContact1 .field input[type="text"].focused + label,
- {
+#formContact .field input[type="text"]:focus + label,
+#formContact .field input[type="text"].focused + label {
   width: 18%;
   background: @brand-primary;
-  // color: @brand-secondary;
 }
 
-#formContact1 .field input[type="text"].focused + label,
-#formContact1 .field textarea.focused + label {
+#formContact .field input[type="text"].focused + label,
+#formContact .field textarea.focused + label {
   color: white;
 }
-#formContact1 .field:hover label {
+#formContact .field:hover label {
   width: 18%;
   background: @brand-secondary;
   color: white;
 }
-#formContact1 input[type="submit"] {
-  background: @brand-primary;
-  color: white;
-  -webkit-appearance: none;
+
+@media only screen and (max-width: 1200px) {
+    #formContact .field textarea:focus + label,
+    #formContact .field textarea.focused + label {
+      color: transparent;
+    }
+
+    #formContact .field input[type="text"]:focus + label,
+    #formContact .field input[type="text"].focused + label {
+      color: transparent;
+    }
+    #formContact .field:hover label {
+      color: transparent;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    #formContact .field input[type="text"],
+    #formContact .field textarea {
+      color:transparent;
+    }
+}
+
+
+
+
+#formContact input[type="submit"] {
+  width: 60%;
+  padding: 0.25 1.25rem;
+  height: 3.4rem;
+  line-height: 2.125rem;
+  font-weight: 600;
   border: none;
+  border-radius: 1rem;
+  background-color: #F78102;
+  color: #ffffff;
+  transition: all .5s;
   text-transform: uppercase;
-  position: relative;
-  padding: 13px 50px;
-  font-size: 1.4em;
-  letter-spacing: 0.1em;
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
-  -webkit-transition: all 333ms ease-in-out;
-  -moz-transition: all 333ms ease-in-out;
-  -o-transition: all 333ms ease-in-out;
-  -ms-transition: all 333ms ease-in-out;
-  transition: all 333ms ease-in-out;
+  margin-top: 30px;
 }
-#formContact1 input[type="submit"]:hover {
-  background: @brand-secondary;
-  color: @brand-primary;
-}
-#formContact1 input[type="submit"]:focus {
-  outline: none;
-  background: #cd6302;
+#formContact input[type="submit"]:hover {
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
