@@ -62,7 +62,7 @@ function successUp(msg){
     confirmButtonColor: "#55dd57",
     confirmButtonText: "¡Registrarme! o Login",
     closeOnConfirm: false,
-    closeOnCancel: false
+    closeOnCancel: false,
   },
   function(isConfirm){
     if (isConfirm) {
