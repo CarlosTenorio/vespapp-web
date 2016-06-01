@@ -176,8 +176,8 @@ LOGOUT_URL = '/accounts/logout/'
 
 #Email
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'avispamiento1@gmail.com'
-EMAIL_HOST_PASSWORD = 'htPePf9cDaaL6my4mWBuzsW36yBk4otVyPoh'
+EMAIL_HOST_USER = '***'
+EMAIL_HOST_PASSWORD = '***'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
