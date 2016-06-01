@@ -1,5 +1,5 @@
 web: &web
-  image: vespapp/vespapp-web
+  build: .
   environment:
     - "DB_HOST=db"
     - "DB_PORT=5432"
