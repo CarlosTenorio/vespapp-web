@@ -1,17 +1,20 @@
-
-
 body.stop-scrolling {
-  height: auto;
-  overflow: visible;
+	height: auto;
+	overflow: visible;
 }
 
 .sweet-overlay {
-  position: fixed;
+	position: fixed;
 }
 
-
 .sweet-alert {
-  position: relative;
-  overflow: visible;
-  top: -1000px;
+	position: relative;
+ 	overflow: hidden;
+  //top: -300px;
+}
+
+@media screen and (min-width: 500px) {	
+	.sweet-alert {
+		position: fixed;
+	}
 }
