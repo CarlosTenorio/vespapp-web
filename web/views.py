@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.core.mail import send_mail
+from django.conf import settings
 from django.db.models import Q
 
 from django.contrib.auth.models import User
@@ -398,7 +399,12 @@ class ContactView(TemplateView):
                 phone = cleaned_data.get('phoneContact')
                 message = cleaned_data.get('messageContact') 
                         
-                send_mail('Contacto Usuario', 'Enviado por: '+username+ ', con el correo: '+ email+ ', el teléfono: '+ phone+ " y el mensaje: "+message, 'avispamiento1@gmail.com', ['avispamiento1@gmail.com'])
+                send_mail('Contacto Usuario', 
+                    'Enviado por: ' + username + 
+                    '\n\nCorreo: ' + email + 
+                    '\n\nNúmero de teléfono: ' + phone +
+                    '\n\nMensaje: ' + message, 
+                    settings.EMAIL_HOST_USER, [settings.EMAIL_HOST_USER])
 
                 message='Te contestaremos lo antes posible'    
 
